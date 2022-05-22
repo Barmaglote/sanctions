@@ -1,0 +1,67 @@
+{
+    "data": [
+        {"key":"K0","label":"War Arrangers","data":"War Arrangers","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "0-0","label": "Security council members","data": "Security council members","icon": "pi pi-fw pi-cog"},
+            {"key": "0-1","label": "Ministry of Defense military staff","data": "Ministry of Defense military staff","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K1","label":"Propagandists","data":"Propagandists","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "1-0","label": "Federal media","data": "Federal media","icon": "pi pi-fw pi-cog"},
+            {"key": "1-1","label": "Chief editors and management of regional TV channels","data": "Chief editors and management of regional TV channels","icon": "pi pi-fw pi-cog"}
+        ]},        
+        {"key":"K2","label":"Corrupt Officials","data":"Corrupt Officials","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "2-0","label": "ACF investigations subjects","data": "ACF investigations subjects","icon": "pi pi-fw pi-cog"},
+            {"key": "2-1","label": "Regional investigations subjects","data": "Regional investigations subjects","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K3","label":"Putin’s Public Supporters","data":"Putin’s Public Supporters","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "3-0","label": "Presidential proxies in elections","data": "Presidential proxies in elections","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K4","label":"Senior Federal Officials","data":"Senior Federal Officials","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "4-0","label": "Executive branch and presidential administration employees","data": "Executive branch and presidential administration employees","icon": "pi pi-fw pi-cog"}
+        ]},        
+        {"key":"K5","label":"Members of Parliament and Senate","data":"Members of Parliament and Senate","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "5-0","label": "State Duma","data": "State Duma","icon": "pi pi-fw pi-cog"},
+            {"key": "5-1","label": "Federation Council","data": "Federation Council","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K6","label":"Region Heads","data":"Region Heads","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "6-0","label": "Governors","data": "Governors","icon": "pi pi-fw pi-cog"}
+        ]},                        
+        {"key":"K7","label":"Key Local Government Officials","data":"Key Local Government Officials","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "7-0","label": "Vice-Governors","data": "Vice-Governors","icon": "pi pi-fw pi-cog"},
+            {"key": "7-1","label": "Speakers of the regional legislative assemblies","data": "Speakers of the regional legislative assemblies","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K8","label":"State Bankers","data":"State Bankers","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "8-0","label": "Central Bank employees, board members","data": "Central Bank employees, board members","icon": "pi pi-fw pi-cog"},
+            {"key": "8-1","label": "Heads of public funds","data": "Heads of public funds","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K9","label":"‘United Russia’ party Functionaries","data":"‘United Russia’ party Functionaries","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "9-0","label": "Federal and regional party leaders","data": "Federal and regional party leaders","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K10","label":"Key ‘siloviki’ (security forces) figure","data":"Key ‘siloviki’ (security forces) figure","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "10-0","label": "Ministry of Internal Affairs","data": "Ministry of Internal Affairs","icon": "pi pi-fw pi-cog"},
+            {"key": "10-1","label": "Federal Security Services","data": "Federal Security Services","icon": "pi pi-fw pi-cog"},
+            {"key": "10-2","label": "National Guard of Russia","data": "National Guard of Russia","icon": "pi pi-fw pi-cog"},
+            {"key": "10-3","label": "Investigative Committee of Russia","data": "Investigative Committee of Russia","icon": "pi pi-fw pi-cog"},
+            {"key": "10-4","label": "Prosecutor’s Office","data": "Prosecutor’s Office","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K11","label":"Organizers of political repressions","data":"Organizers of political repressions","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "11-0","label": "Judges, prosecutors, state investigators","data": "Judges, prosecutors, state investigators","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K12","label":"Election fraud organizers","data":"Election fraud organizers","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "12-0","label": "Heads of the Central Election Commission and local election commissions","data": "Heads of the Central Election Commission and local election commissions","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K13","label":"Sellout opinion leaders","data":"Sellout opinion leaders","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "13-0","label": "Celebrities, influencers and bloggers","data": "Celebrities, influencers and bloggers","icon": "pi pi-fw pi-cog"},
+            {"key": "13-1","label": "Public supporters of Putin","data": "Public supporters of Putin","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K14","label":"Warmongers","data":"Warmongers","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "14-0","label": "Educators","data": "Educators","icon": "pi pi-fw pi-cog"},
+            {"key": "14-1","label": "Artists","data": "Artists","icon": "pi pi-fw pi-cog"},
+            {"key": "14-2","label": "Scholars","data": "Scholars","icon": "pi pi-fw pi-cog"},
+            {"key": "14-3","label": "Athletes","data": "Athletes","icon": "pi pi-fw pi-cog"},
+            {"key": "14-4","label": "Ideologists of war","data": "Ideologists of war","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"key":"K15","label":"Top Management of State Owned Companies","data":"Top Management of State Owned Companies","icon":"pi pi-fw pi-inbox","children": [
+            {"key": "15-0","label": "Managers and their deputies, board members and boards of directors","data": "Managers and their deputies, board members and boards of directors","icon": "pi pi-fw pi-cog"}
+        ]}
+    ]
+} 
