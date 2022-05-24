@@ -1,7 +1,7 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">        
     <div class="col-3 md:col-3">
-      <div class="card px-3 py-3">
+      <div class="tags-card">
           <TagSelector></TagSelector>
       </div>
     </div>                        
@@ -30,5 +30,12 @@
 <style>
 .surface-ground {
   display: flex;  
+}
+
+.tags-card {	
+    position: fixed;
+    padding: 1em !important;
+    width: inherit;
+    padding: 0 1.5em 0 0 !important;
 }
 </style>

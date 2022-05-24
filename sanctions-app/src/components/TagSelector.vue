@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <Tree :value="nodes" selectionMode="checkbox" v-model:selectionKeys="selectedKeys" @nodeSelect="onNodeSelect" @nodeUnselect="onNodeUnselect"></Tree>
-    </div>
+    <Tree :value="nodes" selectionMode="checkbox" v-model:selectionKeys="selectedKeys" @nodeSelect="onNodeSelect" @nodeUnselect="onNodeUnselect"></Tree>
 </template>
 
 <script>

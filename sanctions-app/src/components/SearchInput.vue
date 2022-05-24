@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-inputgroup">    
     <InputText placeholder="Search" type="text" @change="search" v-model="text"></InputText>
   </div>
 </template>

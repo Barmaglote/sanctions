@@ -1,12 +1,12 @@
 <template>
- <div class="card px-1 py-1">
+ <div class="card">
     <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #header>
                 <div class="grid grid-nogutter">
                     <div class="col-6" style="text-align: left">
                         <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
                     </div>
-                    <div class="col-6" style="text-align: right">
+                    <div class="col-6" style="text-align: right">					
                         <DataViewLayoutOptions v-model="layout" />
                     </div>
                 </div>
@@ -74,7 +74,7 @@
         return {
 			personsStore: null,
 			tagsStore: null,
-            layout: 'grid',
+            layout: 'list',
             sortKey: null,
             sortOrder: null,
             sortField: null,
@@ -158,6 +158,10 @@
 
 
 <style lang="scss" scoped>
+.p-dataview-layout-options {
+	box-shadow: none;
+}
+
 .p-dropdown {
     width: 14rem;
     font-weight: normal;
