@@ -14,18 +14,16 @@
 
 			<template #list="slotProps">
 				<div class="col-12">
-					<div class="person-list-item">
+					<div class="element-list-item">
 						<img src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
-						<div class="person-list-detail">
-							<div class="person-name">{{slotProps.data.titleeng}}</div>
-							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
-							<div class="person-description">{{slotProps.data.description}}</div>
+						<div class="element-list-detail">
+							<div class="element-name">{{slotProps.data.titleeng}}</div>
+							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
+							<div class="element-description">{{slotProps.data.description}}</div>
 							<Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
-							<i class="pi pi-tag person-category-icon"></i><span class="person-category">{{getTagNames(slotProps.data.tag)}}</span>
+							<i class="pi pi-tag element-category-icon"></i><span class="element-category">{{getTagNames(slotProps.data.tag)}}</span>
 						</div>
-						<div class="person-list-action">
-							<span class="person-gender">{{slotProps.data.gender}} <IconGender :gender="slotProps.data.gender"/></span>
-							<span class="person-badge">{{slotProps.data.dob}}</span>
+						<div class="element-list-action">
 						</div>
 					</div>
 				</div>
@@ -33,23 +31,22 @@
 
 			<template #grid="slotProps">
 				<div class="col-12 md:col-4">
-					<div class="person-grid-item card">
-						<div class="person-grid-item-top">
+					<div class="element-grid-item card">
+						<div class="element-grid-item-top">
 							<div>
-								<i class="pi pi-tag person-category-icon"></i>
-								<span class="person-category">{{getTagNames(slotProps.data.tag)}}</span>
+								<i class="pi pi-tag element-category-icon"></i>
+								<span class="element-category">{{getTagNames(slotProps.data.tag)}}</span>
 							</div>
-							<span class="person-badge">{{slotProps.data.dob}}</span>
+							<span class="element-badge">{{slotProps.data.dob}}</span>
 						</div>
-						<div class="person-grid-item-content">
+						<div class="element-grid-item-content">
 							<img src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
-							<div class="person-name">{{slotProps.data.titleeng}}</div>
-							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
-							<div class="person-description">{{slotProps.data.description}}</div>
+							<div class="element-name">{{slotProps.data.titleeng}}</div>
+							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
+							<div class="element-description">{{slotProps.data.description}}</div>
 							<Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
 						</div>
-						<div class="person-grid-item-bottom">
-							<span class="person-gender">{{slotProps.data.gender}} <IconGender :gender="slotProps.data.gender"/></span>
+						<div class="element-grid-item-bottom">
 						</div>
 					</div>
 				</div>
@@ -64,15 +61,15 @@
   import Dropdown from 'primevue/dropdown';
   import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
   import IconGender from "./icons/IconGender.vue";
-  import { usePersonsStore } from './../stores/persons';
+  import { useOrganizationsStore } from './../stores/organizations';
   import { useTagsStore } from './../stores/tags';
 
   export default {
-	name: "Persons",
+	name: "Organizations",
 	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender }, 
     data() {
         return {
-			personsStore: null,
+			organizationsStore: null,
 			tagsStore: null,
             layout: 'list',
             sortKey: null,
@@ -91,7 +88,7 @@
       }
     },	
     created() {
-		this.personsStore = usePersonsStore();
+		this.organizationsStore = useOrganizationsStore();
 		this.tagsStore = useTagsStore();
     },
     methods: {
@@ -134,15 +131,17 @@
     computed: {
       filtered() {
 
-        if (!this.search && this.tagsStore.selected.length == 0) {
-          return this.personsStore.persons;
+		if (!this.search && this.tagsStore.selected.length == 0) {
+          return this.organizationsStore.organizations;
         };
 
-        let filtered = JSON.parse(JSON.stringify(this.personsStore.persons));
+		console.log(this.organizationsStore.organizations);
+
+        let filtered = JSON.parse(JSON.stringify(this.organizationsStore.organizations));
 		
 		if (this.search) {
         	let filterVal = this.search.trim().toLowerCase().split(/\s+/)
-        	let filterBy = [ 'titlerus', 'titleeng' ]			
+        	let filterBy = [ 'titlerus', 'titleeng' ]
 			filtered = filtered.filter(item => filterBy.some(prop => filterVal.some(val => item[prop].toLowerCase().includes(val))));
 		}
 	
@@ -167,31 +166,31 @@
     font-weight: normal;
 }
 
-.person-name {
+.element-name {
 	font-size: 1.5rem;
 	font-weight: 700;
 }
 
-.person-name-rus {
+.element-name-rus {
 	font-size: 1.1rem;
 	font-weight: 400;
 }
 
-.person-description {
+.element-description {
 	margin: 0 0 1rem 0;
 }
 
-.person-category-icon {
+.element-category-icon {
 	vertical-align: middle;
 	margin-right: .5rem;
 }
 
-.person-category {
+.element-category {
 	font-weight: 600;
 	vertical-align: middle;
 }
 
-::v-deep(.person-list-item) {
+::v-deep(.element-list-item) {
 	display: flex;
 	align-items: center;
 	padding: 1rem;
@@ -203,7 +202,7 @@
 		margin-right: 2rem;
 	}
 
-	.person-list-detail {
+	.element-list-detail {
 		flex: 1 1 0;
 	}
 
@@ -211,14 +210,14 @@
 		margin: 0 0 .5rem 0;
 	}
 
-	.person-gender {
+	.element-gender {
 		font-size: 1.5rem;
 		font-weight: 600;
 		margin-bottom: .5rem;
 		align-self: flex-end;
 	}
 
-	.person-list-action {
+	.element-list-action {
 		display: flex;
 		flex-direction: column;
 	}
@@ -228,12 +227,12 @@
 	}
 }
 
-::v-deep(.person-grid-item) {
+::v-deep(.element-grid-item) {
 	margin: .5rem;
 	border: 1px solid var(--surface-border);
 
-	.person-grid-item-top,
-	.person-grid-item-bottom {
+	.element-grid-item-top,
+	.element-grid-item-bottom {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -244,18 +243,18 @@
 		margin: 2rem 0;
 	}
 
-	.person-grid-item-content {
+	.element-grid-item-content {
 		text-align: center;
 	}
 
-	.person-gender {
+	.element-gender {
 		font-size: 1.5rem;
 		font-weight: 600;
 	}
 }
 
 @media screen and (max-width: 576px) {
-	.person-list-item {
+	.element-list-item {
 		flex-direction: column;
 		align-items: center;
 
@@ -263,20 +262,20 @@
 			margin: 2rem 0;
 		}
 
-		.person-list-detail {
+		.element-list-detail {
 			text-align: center;
 		}
 
-		.person-gender {
+		.element-gender {
 			align-self: center;
 		}
 
-		.person-list-action {
+		.element-list-action {
 			display: flex;
 			flex-direction: column;
 		}
 
-		.person-list-action {
+		.element-list-action {
 			margin-top: 2rem;
 			flex-direction: row;
 			justify-content: space-between;

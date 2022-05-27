@@ -1,0 +1,75 @@
+{
+    "data": [
+        {
+           "label":"Sanctions",
+           "icon":"pi pi-fw pi-file",
+           "items":[
+              {
+                 "label":"Persons",
+                 "icon":"pi pi-fw pi-file",
+                 "to": "/sanctions/persons/list"
+              },
+              {
+                "label":"Organizations",
+                 "icon":"pi pi-fw pi-file",
+                 "to": "/sanctions/organizations/list"
+              }
+           ]
+        },
+        {
+           "label":"Help Ukraine",
+           "icon":"pi pi-fw pi-file",
+           "items":[
+              {
+                 "label":"Charity",
+                 "icon":"pi pi-fw pi-file",
+                 "to": "/help/ukraine/charity"
+              },
+              {
+                 "label":"Volunteers",
+                 "icon":"pi pi-fw pi-file",
+                 "to": "/help/ukraine/volunteers"
+              }
+           ]
+        },
+        {
+           "label":"Free Russia",
+           "icon":"pi pi-fw pi-file",
+           "items":[
+            {
+               "label":"Charity",
+               "icon":"pi pi-fw pi-file",
+               "to": "/help/ukraine/charity"
+            },
+            {
+               "label":"Volunteers",
+               "icon":"pi pi-fw pi-file",
+               "to": "/help/ukraine/volunteers"
+            }
+         ]
+        },
+        {
+           "label":"Media",
+           "icon":"pi pi-fw pi-file",
+           "items":[
+            {
+               "label":"Youtube",
+               "icon":"pi pi-fw pi-file",
+               "to": "/media/youtube"
+            },
+            {
+               "label":"Newspapers",
+               "icon":"pi pi-fw pi-file",
+               "to": "/media/newspapers"
+            },
+            {
+               "label":"Telegram",
+               "icon":"pi pi-fw pi-file",
+               "to": "/media/Telegram"
+            }            
+            ]
+        }
+     ]      
+}
+
+

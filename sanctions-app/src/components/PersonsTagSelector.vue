@@ -5,6 +5,7 @@
 <script>
 import { useTagsStore } from './../stores/tags';
 import Tree from 'primevue/tree';
+import TagService from './../service/TagService';
 
 export default {
     data() {
@@ -12,6 +13,7 @@ export default {
             selectedKeys: null, 
             nodes: null,
             tagsStore: null,
+            tagService: null,
         }
     },
     created() {

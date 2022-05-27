@@ -1,6 +1,6 @@
 export default class TagService {
-    getTagNodes() {
-        return fetch('data/tags.json').then(res => res.json())
+    getTagNodes(entity) {
+        return fetch(`/data/sanctions/${entity}-tags.json`).then(res => res.json())
                 .then(d => d.data);
     }
 }
