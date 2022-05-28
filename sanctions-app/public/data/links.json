@@ -1,0 +1,17 @@
+{
+    "data": [
+        {"id":"10001","country":"ukraine", "type": "charity","titlerus":"Administration of president Putin", "titleeng":"Administration of president Putin", "description":"Corruption. Management of antidemocratic reforms. Agression against Ukraine. Political political persecution of the opposition","tag":["0-0"],"rating":5},
+        {"id":"10002","country":"ukraine", "type": "charity","titlerus":"Political Party 'United Russia'", "titleeng":"Political Party 'United Russia'", "description":"Corruption. Antipeoples reforms and laws. Agression against Ukraine","tag":["1-0"],"rating":4},
+        {"id":"10003","country":"ukraine", "type": "charity","titlerus":"Political Party 'Communist party of Russia'", "titleeng":"Political Party 'Communist party of Russia'", "description":"Corruption. Antipeoples reforms and laws. Agression against Ukraine. Stalins. Political repression in Soviet times.","tag":["1-0"],"rating":5},
+        {"id":"10004","country":"ukraine", "type": "charity","titlerus":"First channel", "titleeng":"First channel", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
+        {"id":"10005","country":"ukraine", "type": "charity","titlerus":"Russia Today", "titleeng":"Russia Today", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
+        {"id":"10006","country":"ukraine", "type": "charity","titlerus":"NTV Channel", "titleeng":"NTV Channel", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
+        {"id":"10007","country":"ukraine", "type": "charity","titlerus":"TV 'Russia'", "titleeng":"TV 'Russia'", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
+        {"id":"10008","country":"ukraine", "type": "charity","titlerus":"VTB Bank", "titleeng":"VTB Bank", "description":"Funding Putin's regime. Corruption","tag":["4-4"],"rating":5},
+        {"id":"10009","country":"ukraine", "type": "charity","titlerus":"Sber (Sberbank)", "titleeng":"Sber (Sberbank)", "description":"Funding Putin's regime. Corruption","tag":["4-4"],"rating":5},
+        {"id":"10010","country":"ukraine", "type": "charity","titlerus":"Roskomnadzor", "titleeng":"Roskomnadzor", "description":"Censorship","tag":["0-0"],"rating":5},
+        {"id":"10011","country":"ukraine", "type": "charity","titlerus":"General prosecutor office", "titleeng":"General prosecutor office", "description":"Corruption. Political repression.","tag":["0-0"],"rating":5},
+        {"id":"10012","country":"ukraine", "type": "charity","titlerus":"Moscow mayor's administration", "titleeng":"Moscow mayor's administration", "description":"Corruption. Political repression. Illegal power retention.","tag":["0-1"],"rating":5},
+        {"id":"10013","country":"ukraine", "type": "charity","titlerus":"State Duma", "titleeng":"State Duma", "description":"Illegal power retention. Antipeoples laws.","tag":["0-1"],"rating":5}
+    ]
+}

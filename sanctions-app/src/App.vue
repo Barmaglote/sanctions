@@ -28,8 +28,6 @@ export default defineComponent({
   name: 'App',
   data() {
     return {
-      personsStore: null,
-      personsService: null,
       menuStore: null,
       menuService: null
     }

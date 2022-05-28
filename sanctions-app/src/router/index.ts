@@ -25,6 +25,12 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },            
+    {
+      path: '/help/:country/:type',
+      name: 'help',
+      component: () => import('../views/LinksView.vue'),
+      props: (route) => ({ search: route.query.search })
     }
   ]
 })

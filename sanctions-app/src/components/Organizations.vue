@@ -135,8 +135,6 @@
           return this.organizationsStore.organizations;
         };
 
-		console.log(this.organizationsStore.organizations);
-
         let filtered = JSON.parse(JSON.stringify(this.organizationsStore.organizations));
 		
 		if (this.search) {

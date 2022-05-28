@@ -39,12 +39,12 @@
             {
                "label":"Charity",
                "icon":"pi pi-fw pi-file",
-               "to": "/help/ukraine/charity"
+               "to": "/help/russia/charity"
             },
             {
                "label":"Volunteers",
                "icon":"pi pi-fw pi-file",
-               "to": "/help/ukraine/volunteers"
+               "to": "/help/russia/volunteers"
             }
          ]
         },
