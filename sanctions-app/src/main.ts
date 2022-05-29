@@ -7,8 +7,11 @@ import Ripple from 'primevue/ripple';
 import { createPinia } from 'pinia';
 
 import 'primevue/resources/themes/tailwind-light/theme.css';
+
 import 'primevue/resources/primevue.min.css';
 import '/node_modules/primeflex/primeflex.css';
+
+import "primeflex/primeflex.css";
 import 'primeicons/primeicons.css';  
 import './assets/base.css';
 import './assets/overrides.css';

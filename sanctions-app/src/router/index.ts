@@ -31,6 +31,12 @@ const router = createRouter({
       name: 'help',
       component: () => import('../views/LinksView.vue'),
       props: (route) => ({ search: route.query.search })
+    },            
+    {
+      path: '/media/:type',
+      name: 'media',
+      component: () => import('../views/MediaView.vue'),
+      props: (route) => ({ search: route.query.search })
     }
   ]
 })

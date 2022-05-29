@@ -3,8 +3,7 @@
 		<Menubar :model="items">
 			<template #start>
          <div class="title-container">
-				  <img alt="logo" src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" height="40" class="mr-2">
-          <h3>#StopWar</h3>
+				  <img alt="logo" src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" height="40" class="mr-2 logo" @click="home">
         </div>
 			</template>
 			<template #end>
@@ -42,6 +41,11 @@ export default defineComponent({
    this.menuStore = new useMenuStore();  
    this.menuService = new MenuService();    
    this.menuService.getMenu().then(data => this.menuStore.setMenu(data));
+  },
+  methods:{
+    home(){
+      this.$router.push({ path: "/" });
+    }
   }
 });
 </script>
@@ -53,7 +57,11 @@ body {
 }
 
 .menu-bar{
-  position: sticky;
+  position: sticky;  
+}
+
+.logo {
+  cursor: pointer;
 }
 
 .title-container{

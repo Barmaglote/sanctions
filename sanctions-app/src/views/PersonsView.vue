@@ -55,7 +55,6 @@
 
 .tags-card {	
     position: fixed;
-    padding: 1em !important;
     width: inherit;
     padding: 0 1.5em 0 0 !important;
 }

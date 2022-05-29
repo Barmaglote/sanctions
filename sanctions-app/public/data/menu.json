@@ -65,7 +65,7 @@
             {
                "label":"Telegram",
                "icon":"pi pi-fw pi-file",
-               "to": "/media/Telegram"
+               "to": "/media/telegram"
             }            
             ]
         }

@@ -5,9 +5,10 @@
 				<div class="col-12 md:col-4 display-grid">
 					<div class="element-grid-item">
 						<div class="element-grid-item-content">
-							<img v-if="slotProps.data.foto" :src="`/fotos/links/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
+							<img v-if="slotProps.data.foto" :src="`/fotos/media/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
 							<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
 							<div class="element-name">{{slotProps.data.titleeng}}</div>
+							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="element-description">{{slotProps.data.description}}</div>
 							<div class="element-link"><a :href="`${slotProps.data.link}`" target="_blank">{{slotProps.data.link}}</a></div>
 						</div>
@@ -47,15 +48,13 @@
     },
     computed: {
       filtered() {
-
-		this.country = this.$route.params.country;
 		this.type = this.$route.params.type;
 
         if (!this.search) {
-          return this.linksStore.links.filter(x => x.country == this.country && x.type == this.type);
+          return this.linksStore.links.filter(x => x.type == this.type);
         };
 
-        let filtered = JSON.parse(JSON.stringify(this.linksStore.links)).filter(x => x.country == this.country && x.type == this.type);
+        let filtered = JSON.parse(JSON.stringify(this.linksStore.links)).filter(x => x.type == this.type);
 		
 		if (this.search) {
         	let filterVal = this.search.trim().toLowerCase().split(/\s+/)
@@ -75,6 +74,7 @@
 	max-width: 13em;
 	max-height: 5em;
 }
+
 .display-grid{
 	display: grid;
 }
@@ -161,12 +161,12 @@
 	}
 
 	img {
+		/*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);*/
 		margin: 2rem 0;
 	}
 
 	.element-grid-item-content {
 		text-align: center;
-		padding: 2em
 	}
 
 	.element-gender {

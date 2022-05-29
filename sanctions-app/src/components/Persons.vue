@@ -15,7 +15,8 @@
 			<template #list="slotProps">
 				<div class="col-12">
 					<div class="person-list-item">
-						<img src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+						<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
+						<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
 						<div class="person-list-detail">
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
 							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
@@ -32,7 +33,7 @@
 			</template>
 
 			<template #grid="slotProps">
-				<div class="col-12 md:col-4">
+				<div class="col-12 md:col-4 display-grid">
 					<div class="person-grid-item card">
 						<div class="person-grid-item-top">
 							<div>
@@ -42,7 +43,8 @@
 							<span class="person-badge">{{slotProps.data.dob}}</span>
 						</div>
 						<div class="person-grid-item-content">
-							<img src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+							<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
+							<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
 							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="person-description">{{slotProps.data.description}}</div>
@@ -158,6 +160,15 @@
 
 
 <style lang="scss" scoped>
+.photo-grid {
+	width: 8em;
+	height: 100%;
+}
+
+.display-grid{
+	display: grid;
+}
+
 .p-dataview-layout-options {
 	box-shadow: none;
 }
@@ -189,6 +200,17 @@
 .person-category {
 	font-weight: 600;
 	vertical-align: middle;
+}
+
+.card{
+	box-shadow: none;
+	border-radius: 0.375rem;
+	border: 1px solid #e5e7eb;
+}
+
+::v-deep(.p-dataview .p-dataview-header){
+	border: none;
+	background: none;
 }
 
 ::v-deep(.person-list-item) {
