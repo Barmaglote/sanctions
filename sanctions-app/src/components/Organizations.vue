@@ -160,7 +160,9 @@
 .photo-grid {
 	width: 8em;
 	height: 100%;
+	box-shadow: none !important;
 }
+
 .display-grid{	
 	display: grid;
 }
