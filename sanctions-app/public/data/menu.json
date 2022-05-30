@@ -17,36 +17,9 @@
            ]
         },
         {
-           "label":"Help Ukraine",
+           "label":"Charity",
            "icon":"pi pi-fw pi-file",
-           "items":[
-              {
-                 "label":"Charity",
-                 "icon":"pi pi-fw pi-file",
-                 "to": "/help/ukraine/charity"
-              },
-              {
-                 "label":"Volunteers",
-                 "icon":"pi pi-fw pi-file",
-                 "to": "/help/ukraine/volunteers"
-              }
-           ]
-        },
-        {
-           "label":"Free Russia",
-           "icon":"pi pi-fw pi-file",
-           "items":[
-            {
-               "label":"Charity",
-               "icon":"pi pi-fw pi-file",
-               "to": "/help/russia/charity"
-            },
-            {
-               "label":"Volunteers",
-               "icon":"pi pi-fw pi-file",
-               "to": "/help/russia/volunteers"
-            }
-         ]
+           "to": "/charity"
         },
         {
            "label":"Media",

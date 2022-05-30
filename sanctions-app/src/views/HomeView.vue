@@ -10,9 +10,6 @@
             <Button label="Organizations" type="button" class="p-button-outlined" @click="$router.push('/sanctions/organizations/list')"></Button>
         </section>
     </div>
-    <div class="col-12 md:col-6 overflow-hidden">
-        <img src="/images/pexels-markus-spiske-11622841.jpg" alt="Image" class="md:ml-auto block md:h-full mainbackground" style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)">
-    </div>
 </div>
 </template>
 
@@ -37,6 +34,7 @@ export default defineComponent({
 .surface-section{
   position: fixed;
   width: 100%;
+  height: 100%;
 }
 
 .mainbackground{

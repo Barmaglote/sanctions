@@ -16,17 +16,13 @@
 				<div class="col-12">
 					<div class="person-list-item">
 						<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
-						<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+						<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-list photo-default" />
 						<div class="person-list-detail">
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
 							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="person-description">{{slotProps.data.description}}</div>
 							<Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
 							<i class="pi pi-tag person-category-icon"></i><span class="person-category">{{getTagNames(slotProps.data.tag)}}</span>
-						</div>
-						<div class="person-list-action">
-							<span class="person-gender">{{slotProps.data.gender}} <IconGender :gender="slotProps.data.gender"/></span>
-							<span class="person-badge">{{slotProps.data.dob}}</span>
 						</div>
 					</div>
 				</div>
@@ -44,14 +40,11 @@
 						</div>
 						<div class="person-grid-item-content">
 							<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
-							<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+							<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-grid photo-default" />
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
 							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="person-description">{{slotProps.data.description}}</div>
 							<Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
-						</div>
-						<div class="person-grid-item-bottom">
-							<span class="person-gender">{{slotProps.data.gender}} <IconGender :gender="slotProps.data.gender"/></span>
 						</div>
 					</div>
 				</div>
@@ -161,8 +154,15 @@
 
 <style lang="scss" scoped>
 .photo-grid {
-	width: 8em;
+	max-width: 15em;
 	height: 100%;
+	box-shadow: none !important;
+}
+
+.photo-list{
+	max-width: 10em;
+	height: 100%;
+	box-shadow: none !important;	
 }
 
 .display-grid{

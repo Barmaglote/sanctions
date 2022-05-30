@@ -48,14 +48,12 @@
     computed: {
       filtered() {
 
-		this.country = this.$route.params.country;
-		this.type = this.$route.params.type;
 
         if (!this.search) {
-          return this.linksStore.links.filter(x => x.country == this.country && x.type == this.type);
+          return this.linksStore.links.filter(x => x.type == 'charity');
         };
 
-        let filtered = JSON.parse(JSON.stringify(this.linksStore.links)).filter(x => x.country == this.country && x.type == this.type);
+        let filtered = JSON.parse(JSON.stringify(this.linksStore.links)).filter(x => x.type == 'charity');
 		
 		if (this.search) {
         	let filterVal = this.search.trim().toLowerCase().split(/\s+/)

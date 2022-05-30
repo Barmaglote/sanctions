@@ -16,7 +16,7 @@
 				<div class="col-12">
 					<div class="element-list-item">
 						<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/organizations/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
-						<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+						<img v-else src="/fotos/firma.png" :alt="slotProps.data.titleeng" class="photo-list photo-default"/>
 						<div class="element-list-detail">
 							<div class="element-name">{{slotProps.data.titleeng}}</div>
 							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
@@ -42,7 +42,7 @@
 						</div>
 						<div class="element-grid-item-content">
 						<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/organizations/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
-						<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
+						<img v-else src="/fotos/firma.png" :alt="slotProps.data.titleeng" class="photo-grid photo-default"/>
 							<div class="element-name">{{slotProps.data.titleeng}}</div>
 							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="element-description">{{slotProps.data.description}}</div>
@@ -158,7 +158,13 @@
 
 <style lang="scss" scoped>
 .photo-grid {
-	width: 8em;
+	max-width: 15em;
+	height: 100%;
+	box-shadow: none !important;
+}
+
+.photo-list{
+	max-width: 12em;
 	height: 100%;
 	box-shadow: none !important;
 }

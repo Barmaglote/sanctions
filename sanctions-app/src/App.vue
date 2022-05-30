@@ -3,7 +3,7 @@
 		<Menubar :model="items">
 			<template #start>
          <div class="title-container">
-				  <img alt="logo" src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" height="40" class="mr-2 logo" @click="home">
+				  <img alt="logo" src="/fotos/logo.png" height="40" class="mr-2 logo" @click="home">
         </div>
 			</template>
 			<template #end>
@@ -58,6 +58,12 @@ body {
 
 .menu-bar{
   position: sticky;  
+ 
+}
+
+.p-menubar{
+   border: none !important;
+   border-radius: 0 !important;
 }
 
 .logo {

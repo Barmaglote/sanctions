@@ -27,8 +27,8 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },            
     {
-      path: '/help/:country/:type',
-      name: 'help',
+      path: '/charity',
+      name: 'charity',
       component: () => import('../views/LinksView.vue'),
       props: (route) => ({ search: route.query.search })
     },            

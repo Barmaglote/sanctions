@@ -6,7 +6,7 @@ import { loadFonts } from './plugins/webfontloader';
 import Ripple from 'primevue/ripple';
 import { createPinia } from 'pinia';
 
-import 'primevue/resources/themes/tailwind-light/theme.css';
+import 'primevue/resources/themes/vela-orange/theme.css';
 
 import 'primevue/resources/primevue.min.css';
 import '/node_modules/primeflex/primeflex.css';
