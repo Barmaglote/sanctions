@@ -8,7 +8,7 @@
         {"id":"10006","titlerus":"NTV Channel", "titleeng":"NTV Channel", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
         {"id":"10007","titlerus":"TV 'Russia'", "titleeng":"TV 'Russia'", "description":"Propaganda of fascism. Media support of war in Ukraine","tag":["4-4"],"rating":5},
         {"id":"10008","titlerus":"VTB Bank", "titleeng":"VTB Bank", "description":"Funding Putin's regime. Corruption","tag":["4-4"],"rating":5,"foto":"vtbbank.png"},
-        {"id":"10009","titlerus":"Sber (Sberbank)", "titleeng":"Sber (Sberbank)", "description":"Funding Putin's regime. Corruption","tag":["4-4"],"rating":5},
+        {"id":"10009","titlerus":"Sber (Sberbank)", "titleeng":"Sber (Sberbank)", "description":"Funding Putin's regime. Corruption","tag":["4-4"],"rating":5, "foto":"sber.png"},
         {"id":"10010","titlerus":"Roskomnadzor", "titleeng":"Roskomnadzor", "description":"Censorship","tag":["0-0"],"rating":5,"foto":"rkn.png"},
         {"id":"10011","titlerus":"General prosecutor office", "titleeng":"General prosecutor office", "description":"Corruption. Political repression.","tag":["0-0"],"rating":5},
         {"id":"10012","titlerus":"Moscow mayor's administration", "titleeng":"Moscow mayor's administration", "description":"Corruption. Political repression. Illegal power retention.","tag":["0-1"],"rating":5},

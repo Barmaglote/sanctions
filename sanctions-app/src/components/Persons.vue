@@ -254,11 +254,13 @@
 	margin: .5rem;
 	border: 1px solid var(--surface-border);
 
+
 	.person-grid-item-top,
 	.person-grid-item-bottom {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		height: 5em;
 	}
 
 	img {

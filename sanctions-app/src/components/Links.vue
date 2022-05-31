@@ -2,7 +2,7 @@
  <div class="">
     <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #grid="slotProps">
-				<div class="col-12 md:col-4 display-grid">
+				<div class="col-12 md:col-4 display-grid p-3">
 					<div class="element-grid-item">
 						<div class="element-grid-item-content">
 							<img v-if="slotProps.data.foto" :src="`/fotos/links/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
@@ -149,7 +149,9 @@
 
 ::v-deep(.element-grid-item) {
 	margin: .5rem;
-	/*border: 1px solid var(--surface-border);*/
+	border: 1px solid rgba(0, 0, 0, 0.23);
+	border-radius: 0.375rem;
+
 
 	.element-grid-item-top,
 	.element-grid-item-bottom {

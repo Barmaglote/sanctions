@@ -2,46 +2,46 @@
     "data": [
         {
            "label":"Sanctions",
-           "icon":"pi pi-fw pi-file",
+           "icon":"pi pi-fw pi-circle", 
            "items":[
               {
                  "label":"Persons",
-                 "icon":"pi pi-fw pi-file",
+                 "icon":"pi pi-fw pi-caret-right",
                  "to": "/sanctions/persons/list"
               },
               {
                 "label":"Organizations",
-                 "icon":"pi pi-fw pi-file",
+                 "icon":"pi pi-fw pi-caret-right",
                  "to": "/sanctions/organizations/list"
               }
            ]
         },
         {
-           "label":"Charity",
-           "icon":"pi pi-fw pi-file",
-           "to": "/charity"
-        },
-        {
            "label":"Media",
-           "icon":"pi pi-fw pi-file",
+           "icon":"pi pi-fw pi-circle",
            "items":[
             {
                "label":"Youtube",
-               "icon":"pi pi-fw pi-file",
+               "icon":"pi pi-fw pi-caret-right",
                "to": "/media/youtube"
             },
             {
                "label":"Newspapers",
-               "icon":"pi pi-fw pi-file",
+               "icon":"pi pi-fw pi-caret-right",
                "to": "/media/newspapers"
             },
             {
                "label":"Telegram",
-               "icon":"pi pi-fw pi-file",
+               "icon":"pi pi-fw pi-caret-right",
                "to": "/media/telegram"
             }            
             ]
-        }
+        },
+        {
+         "label":"Charity",
+         "icon":"pi pi-fw pi-circle",
+         "to": "/charity"
+         }        
      ]      
 }
 

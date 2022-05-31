@@ -1,6 +1,6 @@
 <template>
-  <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">          
-    <div class="col-12 md:col-12">
+  <div class="surface-ground">          
+    <div class="col-12 md:col-12 p-0">
           <Media :search="search"></Media>
     </div>                            
   </div>              
