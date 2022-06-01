@@ -1,11 +1,11 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">        
-    <div class="col-3 md:col-3">
+    <div class="lg:col-3 md:col-3">
       <div class="tags-card">
           <OrganizationsTagSelector></OrganizationsTagSelector>
       </div>
     </div>                        
-    <div class="col-9 md:col-9">
+    <div class="lg:col-9 md:col-9">
           <Organizations :items="items" :search="search"></Organizations>
     </div>                            
   </div>              

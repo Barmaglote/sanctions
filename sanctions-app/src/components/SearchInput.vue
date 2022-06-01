@@ -1,6 +1,6 @@
 <template>
   <div class="vue-inputgroup">
-    <Button label="Clear" class="p-button p-button-text vuew-mx-2" icon="pi pi-trash" v-if="$route.query.search" @click="clear"><i class="pi pi-trash"></i></Button>
+    <Button label="Clear" class="p-button p-button-text vuew-mx-1" icon="pi pi-trash" v-if="$route.query.search" @click="clear"><i class="pi pi-trash"></i></Button>
     <InputText placeholder="Search" type="text" @change="search" v-model="text"></InputText>        
   </div>
 

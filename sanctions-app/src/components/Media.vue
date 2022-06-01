@@ -112,6 +112,10 @@
 	vertical-align: middle;
 }
 
+.element-link a{
+	overflow-wrap:anywhere;
+}
+
 ::v-deep(.element-list-item) {
 	display: flex;
 	align-items: center;

@@ -3,10 +3,10 @@
     <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #header>
                 <div class="grid grid-nogutter">
-                    <div class="col-6" style="text-align: left">
+                    <div class="lg:col-6" style="text-align: left">
                         <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
                     </div>
-                    <div class="col-6" style="text-align: right">					
+                    <div class="lg:col-6 view-selector" style="text-align: right;">
                         <DataViewLayoutOptions v-model="layout" />
                     </div>
                 </div>
@@ -178,6 +178,13 @@
     font-weight: normal;
 }
 
+@media screen and (max-width: 600px) {
+	.p-dropdown {
+	    width: 100%;
+	    font-weight: normal;
+	}	
+}
+
 .person-name {
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -211,6 +218,13 @@
 ::v-deep(.p-dataview .p-dataview-header){
 	border: none;
 	background: none;
+}
+
+.p-dataview-header .grid {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 ::v-deep(.person-list-item) {

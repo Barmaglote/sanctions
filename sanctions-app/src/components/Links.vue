@@ -81,6 +81,10 @@
 	box-shadow: none;
 }
 
+.element-grid-item a{
+	overflow-wrap: anywhere;
+}
+
 .p-dropdown {
     width: 14rem;
     font-weight: normal;
