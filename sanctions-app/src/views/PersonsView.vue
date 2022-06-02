@@ -5,7 +5,7 @@
           <PersonsTagSelector></PersonsTagSelector>
       </div>
     </div>                        
-    <div class="lg:col-9 md:col-9">
+    <div class="lg:col-9 md:col-9 col-12">
           <Persons :items="items" :search="search"></Persons>
     </div>                            
   </div>              
@@ -58,4 +58,11 @@
     width: inherit;
     padding: 0 1.5em 0 0 !important;
 }
+
+@media screen and (max-width: 576px) {
+.tags-card {	
+    display: none;
+  }
+}
+
 </style>

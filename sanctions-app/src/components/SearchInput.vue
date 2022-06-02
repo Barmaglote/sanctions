@@ -54,4 +54,8 @@
 .vuew-mx-2{
   margin: 0 0.8em;
 }
+
+.p-inputtext{
+  width: 100%;
+}
 </style>

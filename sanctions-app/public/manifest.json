@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "name": "Sanctions",
+ "short_name": "Sanctions", 
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -37,5 +38,9 @@
    "type": "image\/png",
    "density": "4.0"
   }
- ]
+ ],
+"start_url": ".",
+ "display": "standalone",
+ "theme_color": "#ffd54f",
+ "background_color": "#17212f" 
 }

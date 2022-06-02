@@ -213,6 +213,7 @@
 	box-shadow: none;
 	border-radius: 0.375rem;
 	border: 1px solid #e5e7eb;
+	padding: 1rem;
 }
 
 ::v-deep(.p-dataview .p-dataview-header){

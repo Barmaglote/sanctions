@@ -22,12 +22,19 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 	<meta name="theme-color" content="#ffffff">	
+	<meta name="description" content="Interactive list of people proposed by ACF.international to be bup put sanctions on." />
+	<meta name="keywords" content="Sanctions, Navalny, Corruption, Putin, Opposition, Ukraine, War" />	
     <title>Stop the war in Ukraine!</title>
 </head>
 
 <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js');
+		}
+	  </script>
 </body>
 
 </html>
