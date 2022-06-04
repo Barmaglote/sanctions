@@ -6,7 +6,7 @@
       </div>
     </div>                        
     <div class="lg:col-9 md:col-9 col-12">
-          <Persons :items="items" :search="search"></Persons>
+          <Persons :search="search"></Persons>
     </div>                            
   </div>              
 </template>
@@ -30,7 +30,7 @@
             personsService: null,
         }
     },
-    created() {
+    mounted() {
 		  this.usePersonsStore = usePersonsStore();
       this.personsService = new PersonsService();   
       this.personsService.getPersons().then(data => this.usePersonsStore.setPersons(data));

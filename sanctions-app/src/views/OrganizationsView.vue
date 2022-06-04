@@ -6,7 +6,7 @@
       </div>
     </div>                        
     <div class="lg:col-9 md:col-9 col-12">
-          <Organizations :items="items" :search="search"></Organizations>
+          <Organizations :search="search"></Organizations>
     </div>                            
   </div>              
 </template>

@@ -11,7 +11,6 @@ export default {
     data() {
         return {
             selectedKeys: null, 
-            nodes: null,
             tagsStore: null,
             tagService: null,
         }

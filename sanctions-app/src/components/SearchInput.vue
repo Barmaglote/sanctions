@@ -26,7 +26,7 @@
       this.path = computed(() =>route.path);
     },
     components: {
-      InputText
+      InputText, Button
     },
     methods: {
       search() {

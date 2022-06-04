@@ -37,6 +37,11 @@ const router = createRouter({
       name: 'media',
       component: () => import('../views/MediaView.vue'),
       props: (route) => ({ search: route.query.search })
+    },            
+    {
+      path: '/navalny',
+      name: 'navalny',
+      component: () => import('../views/NavalnyView.vue')
     }
   ]
 })
