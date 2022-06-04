@@ -10,7 +10,7 @@ import TagService from './../service/TagService';
 export default {
     data() {
         return {
-            selectedKeys: null, 
+            selectedKeys: null,
             tagsStore: null,
             tagService: null,
         }
