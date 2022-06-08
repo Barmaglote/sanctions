@@ -90,6 +90,7 @@ export async function Login(req, res) {
 
     if (!login || !password) {
         Send(res, 500, { "status": "failed" });
+
     }    
 
     let user = users.find(x => x => x.login.toLowerCase().trim() == login.toLowerCase().trim() && x.confirmed);
@@ -98,6 +99,7 @@ export async function Login(req, res) {
         Send(res, 500, { "status": "failed" });
     }
 
+    try {
        if (await bcrypt.compare(password, user.password)) {
         let payload = { "login": user.login };
         const access_token = GenerateAccessToken(payload);
