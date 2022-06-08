@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  metro-app:
+    image: redis-db:latest
+    build:
+      context: .
+    ports: 
+      - "6379:6379"
+    environment:
+      ENV: DEV

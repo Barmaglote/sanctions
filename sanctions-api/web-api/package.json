@@ -1,0 +1,24 @@
+{
+  "name": "sanctions-api",
+  "version": "1.0.0",
+  "description": "API for Sanctions",
+  "main": "app.js",
+  "scripts": {
+    "monitor": "nodemon server.js",
+    "test": "test"
+  },
+  "keywords": [
+    "Sanction"
+  ],
+  "author": "Evgeniy Danilchenko",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.16"
+  }
+}
