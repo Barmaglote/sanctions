@@ -1,13 +1,20 @@
 import { Send } from './../helpers/response.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
 import { refreshTokenRepository } from '../repository/refreshTokensRepository.js';
+import User from './../models/users/model.js';
+
+let _db = null;
 
 var users = [];
 
-export function Users(req, res) {
-    Send(res, 200, users);
+export function SetDB(db) {
+    _db = db;
+}
+
+export async function Users(req, res) {
+    let allUsers = await User.find();
+    Send(res, 200, allUsers);
 };
 
 export async function Register(req, res) {
@@ -18,16 +25,27 @@ export async function Register(req, res) {
         return;
     }
 
-    if (users.some(x => x.login.toLowerCase().trim() == login.toLowerCase().trim())) {
-        Send(res, 500, { "status": "failed" });
+    console.log(login);
+    const exists = await User.exists({login: login.toLowerCase().trim()}); 
+    
+    if (exists) {
+        Send(res, 500, { "status": "failed", "message": `Users ${login} already exists`});
         return;
     }
-
+    
     try {
         const hashPassword = await bcrypt.hash(password, 10);
         const confirmation = await bcrypt.hash(login, 10);
-        let user = { login, password: hashPassword, confirmed: true, confirmation };
-        users.push(user);
+
+        const user = await User.create({ 
+            login, 
+            password: hashPassword, 
+            confirmed: true, //TODO: fix, when e-mail service is done 
+            confirmation
+        });
+        await user.save();
+        console.log("User is saved");
+
         SendConfirmation(login, confirmation);
         Send(res, 200, { "status": "success" });    
     } catch {

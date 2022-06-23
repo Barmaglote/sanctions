@@ -1,14 +1,16 @@
 import dotenv from 'dotenv';
-import express from 'express';
 dotenv.config();
+import express from 'express';
 const app = express();
 
-import routesAPIUsers from './routes/api/users.js';
+import { getDB } from './models/db.js';
+var mongodb = getDB(process.env.MONGO_URI);
 
+import { getRoutesAPIUsers } from './routes/api/users.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.js';
 
-app.use(express.json())
-app.use('/api/users', routesAPIUsers);
+app.use(express.json());
+app.use('/api/users', getRoutesAPIUsers(mongodb));
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(process.env.PORT);
