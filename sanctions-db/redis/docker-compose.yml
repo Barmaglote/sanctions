@@ -1,8 +1,9 @@
 version: '3'
 
 services:
-  metro-app:
+  sanctions-app:
     image: redis-db:latest
+    container_name: redis-db
     build:
       context: .
     ports: 
