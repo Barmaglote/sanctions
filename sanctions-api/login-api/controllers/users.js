@@ -25,7 +25,6 @@ export async function Register(req, res) {
         return;
     }
 
-    console.log(login);
     const exists = await User.exists({login: login.toLowerCase().trim()}); 
     
     if (exists) {
@@ -38,7 +37,7 @@ export async function Register(req, res) {
         const confirmation = await bcrypt.hash(login, 10);
 
         const user = await User.create({ 
-            login, 
+            login: login.toLowerCase().trim(), 
             password: hashPassword, 
             confirmed: true, //TODO: fix, when e-mail service is done 
             confirmation
@@ -108,13 +107,14 @@ export async function Login(req, res) {
 
     if (!login || !password) {
         Send(res, 500, { "status": "failed" });
+        return;    
+    }
 
-    }    
+    let user = await User.findOne({login:login.toLowerCase().trim(), confirmed: true}).exec();
 
-    let user = users.find(x => x => x.login.toLowerCase().trim() == login.toLowerCase().trim() && x.confirmed);
-
-    if (!user) {
+    if (!user || !user.password) {
         Send(res, 500, { "status": "failed" });
+        return;
     }
 
     try {
@@ -142,6 +142,7 @@ export async function Token(req, res) {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
         Send(res, 401, { "status": "failed" });
+        return;
     }
 
     let token = null;
@@ -152,19 +153,23 @@ export async function Token(req, res) {
         .return.all();        
     } catch (error) {
         Send(res, 401, { "status": "failed" });
+        return;
     }
 
     if (!token || !token[0]) {
         Send(res, 403, { "status": "failed" });
+        return;
     } 
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) {
             Send(res, 403, { "status": "failed" });
+            return;
         }
 
         const access_token = GenerateAccessToken({ login: user.login });
         Send(res, 200, { "status": "success", "accessToken": access_token });
+        return;
     });
 };
 
@@ -179,23 +184,28 @@ export async function Logout(req, res) {
 
         if (!token || !token[0]) {
             Send(res, 500, { "status": "failed" });
+            return;
         }
     } catch(error) {
         console.log(error);
         Send(res, 500, { "status": "failed" });
+        return;
     }
 
 
     if (!token[0].entityId) {
         Send(res, 500, { "status": "failed" });
+        return;
     }
     
     try {
         await refreshTokenRepository.remove(token[0].entityId);
         Send(res, 200, { "status": "success" });
+        return;
     } catch (error) {
         console.log(error);
         Send(res, 500, { "status": "failed" });        
+        return;
     }  
 };
 

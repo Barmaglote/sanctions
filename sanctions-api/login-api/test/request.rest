@@ -1,4 +1,4 @@
-### Get all users
+### Get all users / Will close this api in the future, it is only for testing mongodb
 GET http://localhost:4000/api/users
 
 ### Get persons
@@ -6,35 +6,32 @@ GET http://localhost:5000/api/persons
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImV2Z2VuaXkuZGFuaWxjaGVua29AZ21haWwuY29tIiwiaWF0IjoxNjU0NTMzNzk3LCJleHAiOjE2NTQ1MzM4MzJ9.-6oBwTECFB6gHp-10PJN3A8OMhB5wJCfpuq5hmR_zXw
 
 ### Register user
-POST http://localhost:4000/api/users
+POST http://localhost:4000/api/auth
 Content-Type: application/json
-
 {
-    "login": "alla.danilchenko@gmail.com",
+    "login": "alla2.danilchenko@gmail.com",
     "password": "654654"
 }
 
 ### login as evgeniy.danilchenko@gmail.com
-POST http://localhost:4000/api/users/login
+POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 
 {
-    "login": "evgeniy.danilchenko@gmail.com",
+    "login": "alla2.danilchenko@gmail.com",
     "password": "654654"
 }
 
 ### Refresh token
-POST http://localhost:4000/api/users/token
+POST http://localhost:4000/api/auth/token
 Content-Type: application/json
-
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImV2Z2VuaXkuZGFuaWxjaGVua29AZ21haWwuY29tIiwiaWF0IjoxNjU0NjY4NjU0fQ.Uv9qA0ByzCDbnuJ9LYbKmCn2-Vfh50S7mrGywRVGJ5k"    
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFsbGEyLmRhbmlsY2hlbmtvQGdtYWlsLmNvbSIsImlhdCI6MTY1ODQ5NjMyM30.pVj2_UDbCZITvoFdNul4Q8Fq99TNzDi-2lpCNhj53W0"    
 }
 
 ### Refresh token
-DELETE http://localhost:4000/api/users/logout
+DELETE http://localhost:4000/api/auth/logout
 Content-Type: application/json
-
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImV2Z2VuaXkuZGFuaWxjaGVua29AZ21haWwuY29tIiwiaWF0IjoxNjU0NjY4NjU0fQ.Uv9qA0ByzCDbnuJ9LYbKmCn2-Vfh50S7mrGywRVGJ5k"    
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFsbGEuZGFuaWxjaGVua29AZ21haWwuY29tIiwiaWF0IjoxNjU4NDk2MDg4fQ.xOXiZ6j7jh7CM2IhrwOS6wLQz8B2WMDnvXR_U3QfCuM"    
 }
