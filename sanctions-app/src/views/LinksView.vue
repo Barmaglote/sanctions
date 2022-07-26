@@ -9,7 +9,7 @@
 <script>
   import Links from "./../components/Links.vue";
   import { useLinksStore } from './../stores/links';
-  import LinksService from './../service/LinksService';
+  import LinksService from './../service/WebAPI/LinksService';
 
   export default {
     name: "LinksView",

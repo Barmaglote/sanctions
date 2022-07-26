@@ -4,8 +4,8 @@ var router = express.Router();
 import { Users, Register, Login, Logout, Token, SetDB } from "../../controllers/users.js";
 
 router.get("/", Users);
-router.post("/", Register);
-router.post("/login", Login);
+router.post("/signup", Register);
+router.post("/signin", Login);
 router.delete("/logout", Logout);
 router.post("/token", Token);
 

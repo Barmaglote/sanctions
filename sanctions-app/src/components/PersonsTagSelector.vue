@@ -5,7 +5,7 @@
 <script>
 import { useTagsStore } from './../stores/tags';
 import Tree from 'primevue/tree';
-import TagService from './../service/TagService';
+import TagService from './../service/WebAPI/TagService';
 
 export default {
     data() {

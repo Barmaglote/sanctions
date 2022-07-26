@@ -7,7 +7,10 @@
         </div>
 			</template>
 			<template #end>
-				<SearchInput></SearchInput>
+        <div class="menu-end-container">
+        <UserMenuItem></UserMenuItem>
+				<SearchInput></SearchInput>                
+        </div>
 			</template>
 		</Menubar>
 	</div>
@@ -20,8 +23,9 @@ import { defineComponent } from 'vue'
 import SearchInput from './components/SearchInput.vue'
 import Menubar from 'primevue/menubar';
 import { useMenuStore } from './stores/menu';
-import MenuService from './service/MenuService';
+import MenuService from './service/WebAPI/MenuService';
 import ScrollTop from 'primevue/scrolltop';
+import UserMenuItem from './components/UserMenuItem.vue';
 
 export default defineComponent({
   name: 'App',
@@ -36,7 +40,7 @@ export default defineComponent({
         return this.menuStore?.menu;
      }
   }, 
-  components: {SearchInput, Menubar, ScrollTop},
+  components: {SearchInput, Menubar, ScrollTop, UserMenuItem},
   mounted() {
    this.menuStore = new useMenuStore();  
    this.menuService = new MenuService();    
@@ -76,5 +80,9 @@ body {
   font-weight: 700;
   padding-right: 1em;
   padding-left: 1em;
+}
+
+.menu-end-container {
+  display: flex;
 }
 </style>

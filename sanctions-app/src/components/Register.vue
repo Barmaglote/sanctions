@@ -1,0 +1,3 @@
+<template>
+    Poka pustota
+</template>

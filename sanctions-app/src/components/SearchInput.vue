@@ -33,7 +33,6 @@
         let text = this.text;
         this.text = '';
         let path = this.path == '' || this.path == null || this.path == '/' ? '/sanctions/persons/list' : this.path;
-        console.log(path);
         this.$router.push({ path: path, query: { search: text } }); 
       },
       clear(){

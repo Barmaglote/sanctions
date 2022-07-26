@@ -9,7 +9,7 @@
 <script>
   import Media from "./../components/Media.vue";
   import { useLinksStore } from './../stores/links';
-  import LinksService from './../service/LinksService';
+  import LinksService from './../service/WebAPI/LinksService';
 
   export default {
     name: "MediaView",

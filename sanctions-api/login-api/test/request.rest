@@ -6,7 +6,7 @@ GET http://localhost:5000/api/persons
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImV2Z2VuaXkuZGFuaWxjaGVua29AZ21haWwuY29tIiwiaWF0IjoxNjU0NTMzNzk3LCJleHAiOjE2NTQ1MzM4MzJ9.-6oBwTECFB6gHp-10PJN3A8OMhB5wJCfpuq5hmR_zXw
 
 ### Register user
-POST http://localhost:4000/api/auth
+POST http://localhost:4000/api/auth/signup
 Content-Type: application/json
 {
     "login": "alla2.danilchenko@gmail.com",
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### login as evgeniy.danilchenko@gmail.com
-POST http://localhost:4000/api/auth/login
+POST http://localhost:4000/api/auth/signin
 Content-Type: application/json
 
 {

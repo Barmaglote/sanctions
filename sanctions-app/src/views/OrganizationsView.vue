@@ -16,8 +16,8 @@
   import OrganizationsTagSelector from "./../components/OrganizationsTagSelector.vue";
   import { useOrganizationsStore } from './../stores/organizations';
   import { useTagsStore } from './../stores/tags';
-  import TagService from './../service/TagService';  
-  import OrganizationsService from './../service/OrganizationsService';  
+  import TagService from './../service/WebAPI/TagService';  
+  import OrganizationsService from './../service/WebAPI/OrganizationsService';  
 
   export default {
     name: "OrganizationsView",
