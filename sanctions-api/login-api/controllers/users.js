@@ -18,15 +18,15 @@ export async function Users(req, res) {
 };
 
 export async function Register(req, res) {
-    const { login, password } = req.body;
+    const { login, username, password } = req.body;
 
-    if (!login || !password) {
+    if (!login || !password || !username) {
         Send(res, 500, { "status": "failed" });
         return;
     }
 
     const exists = await User.exists({login: login.toLowerCase().trim()}); 
-    
+
     if (exists) {
         Send(res, 500, { "status": "failed", "message": `Users ${login} already exists`});
         return;
@@ -37,16 +37,18 @@ export async function Register(req, res) {
         const confirmation = await bcrypt.hash(login, 10);
 
         const user = await User.create({ 
-            login: login.toLowerCase().trim(), 
+            login: login.toLowerCase().trim(),
+            username: username, 
             password: hashPassword, 
             confirmed: true, //TODO: fix, when e-mail service is done 
             confirmation
         });
+
         await user.save();
         console.log("User is saved");
 
         SendConfirmation(login, confirmation);
-        Send(res, 200, { "status": "success" });    
+        Send(res, 200, { "status": "success", login: login, username: username });    
     } catch {
         Send(res, 500, { "status": "failed" });
     }    
@@ -119,16 +121,17 @@ export async function Login(req, res) {
 
     try {
        if (await bcrypt.compare(password, user.password)) {
-        let payload = { "login": user.login };
+        let payload = { "login": user.login, "username": user.username };
         const access_token = GenerateAccessToken(payload);
         const refresh_token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
         const refreshToken = refreshTokenRepository.createEntity();
         refreshToken.refreshToken = refresh_token;
         refreshToken.login = user.login;
+        refreshToken.username = user.username;
         const id = await refreshTokenRepository.save(refreshToken);
         await refreshTokenRepository.expire(id, process.env.REFRESH_TOKEN_EXPIRES_IN)
 
-        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token });
+        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, login: user.login, username: user.username });
        } else {
         Send(res, 500, { "status": "failed" });
        }

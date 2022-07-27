@@ -7,11 +7,11 @@ export default class AuthService {
     return loginAxiosInstance
       .post('auth/signin', {
         login: user.login,
-        password: user.password
+        password: user.password // TODO: cypher!
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem(localStorageKey, JSON.stringify({login: user.login, ...JSON.stringify(response.data)}));
+          localStorage.setItem(localStorageKey, JSON.stringify({login: user.login, ...JSON.stringify(response.data)})); // TODO: take login from response
         }
         return {login: user.login, ...response.data};
       });
@@ -21,8 +21,9 @@ export default class AuthService {
   }
   register(user) {
     return loginAxiosInstance.post('auth/signup', {
+      username: user.username,
       login: user.login,
-      password: user.password
+      password: user.password // TODO: cypher!
     });
   }
 }

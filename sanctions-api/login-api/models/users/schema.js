@@ -12,6 +12,11 @@ export const userSchema = new mongoose.Schema({
             message: props => `${props.value} is not correct email` 
         }
     },
+    username: {
+        type: String,
+        required: true,
+        maxlength: 25
+    },
     password: {
         type: String,
         required: true

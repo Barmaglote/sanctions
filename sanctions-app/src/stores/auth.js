@@ -42,7 +42,18 @@ export const useAuthStore = defineStore("auth", {
             authService.logout();
             this.state.user = null;
             this.state.status.loggedIn = false;
-        }
+        },
+        register(user) {
+            return authService.register(user).then(
+              user => {
+                  this.state.status.loggedIn = false;
+                  this.state.user = null;
+                  return Promise.resolve(user);
+            }, 
+              error => {
+                  return Promise.reject(error);
+            })
+          },        
     },
     getters: {
         getUser: (state) => {

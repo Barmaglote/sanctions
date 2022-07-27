@@ -4,7 +4,7 @@
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
             <form name="form" @submit.prevent="handleLogin(!v$.$invalid)">
                 <div class="form-group">
-                    <label for="login" :class="{'p-error':v$.login.$invalid && loading}">User name</label>
+                    <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
                     <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
                 </div>
                 <div class="form-group">
@@ -32,6 +32,9 @@
                         <span>Login</span>                    
                     </Button>
                 </div>
+                <div class="form-group pt-0 text-center"> 
+                    <a href="/register" :to="register">New user</a>
+                </div>                
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger" role="alert">Status: {{message}}</div>
                 </div>
@@ -96,7 +99,7 @@ export default {
         }
 
         if (this.login && this.password) {            
-            this.authStore.login(new User(this.login, this.password)).then((result) => {
+            this.authStore.login(new User(this.login, null, this.password)).then((result) => {
               this.$router.push('/profile');
             }, 
             error => {

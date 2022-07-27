@@ -29,7 +29,7 @@ export default {
     loginItems(){
       return [
 				{
-					label: this.loggedIn ? this.currentUser.login : 'Anonymous',
+					label: this.loggedIn ? this.currentUser.username : 'Anonymous',
 					icon: 'pi pi-user',
 					command: () => {
 						this.$router.push('/profile')
@@ -45,7 +45,17 @@ export default {
             };
             this.$router.push('/login');
 					}
-				}
+				}, 
+				{
+					label:  'Register',
+					icon: 'pi pi-user-plus',
+					command: () => {
+            if (this.loggedIn) {
+              this.authStore.logout();              
+            };
+            this.$router.push('/register');
+					}
+				}, 
 			]      
      }
   }

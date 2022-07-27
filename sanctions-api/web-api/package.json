@@ -2,7 +2,7 @@
   "name": "sanctions-api",
   "version": "1.0.0",
   "description": "API for Sanctions",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "monitor": "nodemon server.js",
     "test": "test"
