@@ -118,7 +118,7 @@ body {
   margin-bottom: 30px;
   background-color: #080808;
   border-radius: 5px;
-  padding: 60px 20px;
+  padding: 40px 15px;
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.15), 0 15px 90px 30px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;

@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <SplitButton icon="pi pi-user" class="mx-2 bg-primary border-round" :model="loginItems"></SplitButton>  
+  <SplitButton icon="pi pi-user" class="mx-2 bg-primary border-round" :model="loginItems" @click="goToProfile"></SplitButton>  
 </template>
 
 <script>
@@ -14,6 +14,11 @@ export default {
   created() {
     this.authStore = useAuthStore();
   },    
+  methods: {
+    goToProfile(){
+      this.$router.push('/profile');
+    }
+  },
   data() {
     return {
         authStore: null

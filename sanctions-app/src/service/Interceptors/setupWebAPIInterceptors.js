@@ -1,6 +1,5 @@
-import axiosLoginInstance from "./../LoginAPI/LoginAPI.js";
-import axiosLoginInstance from "./../LoginAPI/LoginAPI.js";
 import TokenService from "./token.service";
+
 const setup = (store) => {
   axiosInstance.interceptors.request.use(
     (config) => {

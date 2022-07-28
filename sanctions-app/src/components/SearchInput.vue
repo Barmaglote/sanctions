@@ -32,7 +32,7 @@
       search() {
         let text = this.text;
         this.text = '';
-        let path = this.path == '' || this.path == null || this.path == '/' ? '/sanctions/persons/list' : this.path;
+        let path = this.path !== '/sanctions/organizations/list' ? '/sanctions/persons/list' : this.path;
         this.$router.push({ path: path, query: { search: text } }); 
       },
       clear(){

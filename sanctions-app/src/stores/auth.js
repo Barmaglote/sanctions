@@ -1,4 +1,4 @@
-import AuthService from "../service/LoginAPI/AuthService";
+import AuthService from "../service/LoginAPI/auth.service";
 const localStorageKey = 'barmaglote.sanctions.user'; // TODO: Move to .env
 let user = null; 
 try {

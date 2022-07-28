@@ -1,7 +1,8 @@
 <template>
   <div class="card card-container">
-    You have logged in as <strong>{{currentUser?.login}}</strong>
-    <div class="mt-3">    
+    <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
+    You have logged in as <strong style="font-weight: 700;">{{currentUser?.username}}</strong>
+    <div class="mt-3 text-center">    
       <Button label="Logout" icon="pi pi-sign-out" iconPos="right" @click="logout"></Button>
     </div>    
   </div>
@@ -57,5 +58,15 @@ export default {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
 </style>
 

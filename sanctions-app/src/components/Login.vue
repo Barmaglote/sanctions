@@ -29,10 +29,10 @@
                 <div class="form-group pt-3"> 
                     <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span>Login</span>                    
+                        <span class="text-center" style="width: 100%;">Sign Up</span>                    
                     </Button>
                 </div>
-                <div class="form-group pt-0 text-center"> 
+                <div class="form-group pt-1 text-center"> 
                     <a href="/register" :to="register">New user</a>
                 </div>                
                 <div class="form-group">

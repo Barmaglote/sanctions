@@ -1,6 +1,5 @@
-import loginAxiosInstance from './LoginAPI.js';
-
-const localStorageKey = 'barmaglote.sanctions.user'; // TODO: Move to .env
+import loginAxiosInstance from './login.api.js';
+import TokenService from './token.service.js';
 
 export default class AuthService {
   login(user) {
@@ -11,13 +10,13 @@ export default class AuthService {
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem(localStorageKey, JSON.stringify({login: user.login, ...JSON.stringify(response.data)})); // TODO: take login from response
+          TokenService.setUser(response.data);
         }
         return {login: user.login, ...response.data};
       });
   }
   logout() {
-    localStorage.removeItem(localStorageKey);
+    TokenService.removeUser();
   }
   register(user) {
     return loginAxiosInstance.post('auth/signup', {
