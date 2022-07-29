@@ -24,5 +24,8 @@ export default class AuthService {
       login: user.login,
       password: user.password // TODO: cypher!
     });
-  }
+  }  
+  refreshtoken() {
+    return loginAxiosInstance.post('auth/refresh-token', TokenService.getLocalRefreshToken());
+  }   
 }

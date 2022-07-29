@@ -1,11 +1,14 @@
-import TokenService from "./token.service";
+import webAxiosInstance from './../WebAPI/web.api';
+import loginAxiosInstance from './../LoginAPI/login.api';
+import authHeader from './../auth-header';
+import TokenService from './../LoginAPI/token.service';
 
-const setup = (store) => {
-  axiosInstance.interceptors.request.use(
+const setupInterceptors = () => {
+  webAxiosInstance.interceptors.request.use(
     (config) => {
-      const token = TokenService.getLocalAccessToken();
+      const token = authHeader();
       if (token) {
-        config.headers["x-access-token"] = token; // for Node.js Express back-end
+        config.headers = {...config.headers, ...token};
       }
       return config;
     },
@@ -13,32 +16,40 @@ const setup = (store) => {
       return Promise.reject(error);
     }
   );
-  axiosInstance.interceptors.response.use(
+  webAxiosInstance.interceptors.response.use(
     (res) => {
       return res;
     },
     async (err) => {
+
         const originalConfig = err.config;
-        if (originalConfig.url === "/auth/signin" || err.response) {
-            return Promise.reject(err);
+        if (originalConfig.url !== "/auth/signin" && err.response) {
+
+          // Access Token was expired
+          if (err.response.status === 401 && !originalConfig._retry) {            
+  
+            originalConfig._retry = true;
+            try {
+                const rs = await loginAxiosInstance.post("/auth/refresh-token", {
+                refreshToken: TokenService.getLocalRefreshToken(),
+              });
+   
+              const { status, accessToken } = rs.data;
+
+              if (status) {
+                TokenService.updateLocalAccessToken(accessToken);
+              }
+              
+              return webAxiosInstance(originalConfig);  
+            } catch (_error) {
+              return Promise.reject(_error);
+            }
+          }            
+        } else {
+          return Promise.reject(err);
         }
 
-        // Access Token was expired
-        if (err.response.status === 401 && !originalConfig._retry) {
-          originalConfig._retry = true;
-          try {
-            const rs = await axiosInstance.post("/auth/refreshtoken", {
-              refreshToken: TokenService.getLocalRefreshToken(),
-            });
-            const { accessToken } = rs.data;
-            store.dispatch('auth/refreshToken', accessToken);
-            TokenService.updateLocalAccessToken(accessToken);
-            return axiosInstance(originalConfig);
-          } catch (_error) {
-            return Promise.reject(_error);
-          }
-        }
     }
   );
 };
-export default setup;
+export default setupInterceptors;

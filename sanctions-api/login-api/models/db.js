@@ -12,10 +12,10 @@ mongoose.connection.on('disconnected', () => {
     console.log('Mongoose disconnected');
 });
 
-export function getDB(url) {
+export function connectDB(url) {
     try {
-        mongoose.connect(url);    
-        return mongoose;
+        console.log("Connecting to DB");
+        mongoose.connect(url); 
     } catch (error) {
         console.log("Unable to connect");
         console.log(error);

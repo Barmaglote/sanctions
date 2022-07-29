@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 
 var controllers = require("../../controllers/links.js");
-router.get("/", controllers.Links);
+var authenticateToken = require('./authentication');
+
+router.get("/", authenticateToken, controllers.Links);
 
 module.exports = router;

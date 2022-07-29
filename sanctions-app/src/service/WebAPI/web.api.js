@@ -1,11 +1,8 @@
-import authHeader from './../auth-header';
-
 import axios from "axios";
-const instance = axios.create({
+const webAxiosInstance = axios.create({
   baseURL: "http://localhost:5000/api/",
   headers: {
-    "Content-Type": "application/json",
-    ...authHeader()
+    "Content-Type": "application/json"
   },
 });
-export default instance;
+export default webAxiosInstance;
