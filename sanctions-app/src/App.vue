@@ -26,6 +26,8 @@ import { useMenuStore } from './stores/menu';
 import MenuService from './service/WebAPI/MenuService';
 import ScrollTop from 'primevue/scrolltop';
 import UserMenuItem from './components/UserMenuItem.vue';
+import EventBus from './common/EventBus';
+import { useAuthStore } from './stores/auth.js';
 
 export default defineComponent({
   name: 'App',
@@ -43,13 +45,25 @@ export default defineComponent({
   components: {SearchInput, Menubar, ScrollTop, UserMenuItem},
   mounted() {
    this.menuStore = new useMenuStore();  
+   this.useAuthStore = new useAuthStore();
    this.menuService = new MenuService();    
    this.menuService.getMenu().then(data => this.menuStore.setMenu(data));
+
+   EventBus.on("logout", () => {
+    this.logout();
+   });
   },
   methods:{
     home(){
       this.$router.push({ path: "/" });
+    },
+    logout(){
+      this.useAuthStore.logout();
+      this.$router.push({ path: "/login" });
     }
+  },
+  beforeDestroy(){
+    EventBus.remove("logout");
   }
 });
 </script>

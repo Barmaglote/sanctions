@@ -1,7 +1,8 @@
+import webAxiosInstance from './web.api';
+
 export default class PersonsService {
-	getPersons() {
-		return fetch('/data/sanctions/persons.json?cache=' + Date.now()).then(res => res.json()).then(d => d.data);
+    getPersons() {
+        return webAxiosInstance.get('/persons?cache=' + Date.now()).then(d => d.data);
     }
 }
-
-    
+  

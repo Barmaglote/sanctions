@@ -10,6 +10,7 @@
   import Links from "./../components/Links.vue";
   import { useLinksStore } from './../stores/links';
   import LinksService from '../service/WebAPI/links.service';
+  import EventBus from './../common/EventBus.js';
 
   export default {
     name: "LinksView",
@@ -23,7 +24,14 @@
     created() {
 		  this.useLinksStore = useLinksStore();
       this.linksService = new LinksService();   
-      this.linksService.getLinks().then(data => this.useLinksStore.setLinks(data));
+      this.linksService.getLinks().then(
+          data => { this.useLinksStore.setLinks(data) },
+          error => {
+            if (error.response && error.response.status === 403 ) {
+              EventBus.dispatch("logout");
+            }
+          }
+      );
     },
     props: {
       search: {

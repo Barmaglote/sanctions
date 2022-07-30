@@ -17,7 +17,7 @@
   import { useOrganizationsStore } from './../stores/organizations';
   import { useTagsStore } from './../stores/tags';
   import TagService from './../service/WebAPI/TagService';  
-  import OrganizationsService from './../service/WebAPI/OrganizationsService';  
+  import OrganizationsService from '../service/WebAPI/organizations.service';  
 
   export default {
     name: "OrganizationsView",

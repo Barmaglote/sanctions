@@ -1,0 +1,18 @@
+[
+    {		
+        "type": "charity",
+        "titlerus": "Federal Ministry of the Interior and Community",
+        "titleeng": "Federal Ministry of the Interior and Community",
+        "description": "The official digital point of contact of the German Government for Ukrainian refugee",
+        "link": "https://www.germany4ukraine.de/",
+        "foto": "www.germany4ukraine.de.png"
+    },
+    {
+        "type": "charity",
+        "titlerus": "Aktion Deutschland Hilft",
+        "titleeng": "Aktion Deutschland Hilft",
+        "description": "German Relief Organisations work together to provide fast help for people in need: this is Aktion Deutschland Hilft",
+        "link": "https://www.aktion-deutschland-hilft.de/",
+        "foto": "aktion-deutschlanf-hilft.png"
+    }
+]

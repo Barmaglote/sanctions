@@ -1,7 +1,7 @@
 const JSONResponse = require('../helpers/response');
-const OrganizationsModel = require('../models/persons/model.js');
+const OrganizationsModel = require('../models/organizations/model.js');
 
-module.exports.Persons = (req, res) => {
+module.exports.Organizations = (req, res) => {
     OrganizationsModel.find({}, function(err, result){
         if (err) {
             JSONResponse.Send(res, 500, null);

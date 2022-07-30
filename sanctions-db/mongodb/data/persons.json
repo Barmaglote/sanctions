@@ -1,5 +1,4 @@
-{
-    "data": [
+ [
         {"id":"10001","titlerus":"Ахмадов Чингиз Явусович", "titleeng":"Akhmadov Chingiz Yavusovich", "dob":"", "gender":"male","description":"Director, STATE BUDGETARY INSTITUTION 'CHECHEN STATE TV AND RADIO COMPANY 'GROZNY'. Involved in Russian propaganda of the war against Ukraine.","tag":["1-1"],"rating":1},
             {"id":"10002","titlerus":"Альдиева Белла Тамерлановна", "titleeng":"Aldieva Bella Tamerlanovna", "dob":"", "gender":"female","description":"Acting Director, STATE AUTONOMOUS INSTITUTION OF THE REPUBLIC OF INGUSHETIA 'NATIONAL TV AND RADIO COMPANY 'INGUSHETIA'. Involved in Russian propaganda of the war against Ukraine. Head of department of state property management, NATIONAL TV AND RADIO COMPANY 'INGUSHETIA'. Involved in Russian propaganda of the war against Ukraine.","tag":["1-1"],"rating":1,"foto":"aldievat.png"},
             {"id":"10003","titlerus":"Аминов Ильшат Юнусович", "titleeng":"Aminov Ilshat Yunusovych", "dob":"", "gender":"male","description":"JOINT STOCK COMPANY 'TV RADIO COMPANY 'NOVIY VEK'. Involved in Russian propaganda of the war against Ukraine.","tag":["1-1"],"rating":3,"foto":"aminovi.png"},
@@ -5822,4 +5821,3 @@
             {"id":"15820","titlerus":"Зюганов Геннадий Андреевич", "titleeng":"Zyuganov Gennady Andreevich", "dob":"26.06.1944", "gender":"male","description":"Member of the State Duma of the Russian Federation. This state body is responsible for political and legal support of the aggressive war against Ukraine.","tag":["K5", "5-0"],"rating":3}
                               
     ]
-}
