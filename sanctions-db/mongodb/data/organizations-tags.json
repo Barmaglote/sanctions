@@ -1,0 +1,29 @@
+ [
+        {"area": "organizations", "key":"K0","label":"State institutions","data":"State institutions","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "0-0","label": "Federal  authorities","data": "Federal authorities","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "0-1","label": "Local authorities","data": "Local authorities","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"area": "organizations", "key":"K1","label":"Political and Public organizations","data":"Political and Public organizations","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "1-0","label": "Political parties","data": "Political parties","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "1-1","label": "Public organizations","data": "Public organizations","icon": "pi pi-fw pi-cog"}
+        ]},        
+        {"area": "organizations", "key":"K2","label":"Special forces and Army","data":"Special forces and Army","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "2-0","label": "Military organizations","data": "Military organizations","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "2-1","label": "Special forces","data": "Special forces","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"area": "organizations", "key":"K3","label":"Law makers","data":"Law makers","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "3-0","label": "Federal","data": "Federal","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "3-1","label": "Local","data": "Local","icon": "pi pi-fw pi-cog"}
+        ]},
+        {"area": "organizations", "key":"K4","label":"Commercial companies","data":"Commercial companies","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "4-0","label": "Banks and Financial institutions","data": "Banks and Financial institutions","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "4-1","label": "Industrial companies","data": "Industrial companies","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "4-2","label": "State owned companies","data": "State owned companies","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "4-3","label": "Consulting","data": "Consulting","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "4-4","label": "Media","data": "Media","icon": "pi pi-fw pi-cog"}            
+        ]},        
+        {"area": "organizations", "key":"K5","label":"Non-profit organizations","data":"Non-profit organizations","icon":"pi pi-fw pi-inbox","children": [
+            {"area": "organizations", "key": "5-0","label": "Funds","data": "Funds","icon": "pi pi-fw pi-cog"},
+            {"area": "organizations", "key": "5-1","label": "Institutes","data": "Institutes","icon": "pi pi-fw pi-cog"}
+        ]}
+    ]

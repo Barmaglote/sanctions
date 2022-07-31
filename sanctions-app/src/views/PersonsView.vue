@@ -16,8 +16,8 @@
   import PersonsTagSelector from "./../components/PersonsTagSelector.vue";
   import { usePersonsStore } from './../stores/persons';
   import { useTagsStore } from './../stores/tags';
-  import PersonsService from './../service/WebAPI/PersonsService';
-  import TagService from './../service/WebAPI/TagService';
+  import PersonsService from '../service/WebAPI/persons.service';
+  import TagService from '../service/WebAPI/tags.service';
 
   export default {
     name: "PersonsView",
