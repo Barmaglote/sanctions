@@ -5,7 +5,7 @@
 				<div class="col-12 md:col-4 display-grid p-2">
 					<div class="element-grid-item">
 						<div class="element-grid-item-content p-3">
-							<img v-if="slotProps.data.foto" :src="`/fotos/media/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
+							<img v-if="slotProps.data.foto" :src="`${staticfiles}/fotos/media/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
 							<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
 							<div class="element-name">{{slotProps.data.titleeng}}</div>
 							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
@@ -47,6 +47,9 @@
 		this.linksStore = useLinksStore();
     },
     computed: {
+	  staticfiles() {
+		return process.env.WEB_STATIC_FILES;
+	  },
       filtered() {
 		this.type = this.$route.params.type;
 

@@ -9,7 +9,9 @@ export default defineConfig({
     vue(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin),
   ],
-  define: { 'process.env': {} },
+  define: { 'process.env': {
+    "WEB_STATIC_FILES": "http://localhost:5000/static"
+  } },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

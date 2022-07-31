@@ -12,6 +12,7 @@ let connectDB = require('./models/db.js');
 connectDB(process.env.MONGO_URI);
 
 app.use(express.json());
+app.use('/static', express.static('public'))
 app.use(cors(corsOptionsDelegate));
 app.use('/api/persons', routesAPIPersons);
 app.use('/api/links', routesAPILinks);

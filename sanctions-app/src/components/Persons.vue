@@ -15,7 +15,7 @@
 			<template #list="slotProps">
 				<div class="col-12">
 					<div class="person-list-item">
-						<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
+						<img v-if="slotProps.data.foto" :src="`${staticfiles}/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
 						<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-list photo-default" />
 						<div class="person-list-detail">
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
@@ -39,7 +39,7 @@
 							<span class="person-badge">{{slotProps.data.dob}}</span>
 						</div>
 						<div class="person-grid-item-content">
-							<img v-if="slotProps.data.foto" :src="`/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
+							<img v-if="slotProps.data.foto" :src="`${staticfiles}/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
 							<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-grid photo-default" />
 							<div class="person-name">{{slotProps.data.titleeng}}</div>
 							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
@@ -127,6 +127,9 @@
 		}
     },
     computed: {
+	  staticfiles() {
+		return process.env.WEB_STATIC_FILES;
+	  },
       filtered() {
 
         if (!this.search && this.tagsStore.selected.length == 0) {
