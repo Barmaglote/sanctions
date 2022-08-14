@@ -21,6 +21,10 @@ export const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    salt: {
+        type: String,
+        required: true
+    },    
     confirmed: Boolean, 
     confirmation: String,
     createdAt: {

@@ -2,6 +2,8 @@ import { Send } from './../helpers/response.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from './../models/users/model.js';
+import crypto from 'node:crypto';
+import { ChangePasswordTokenRepository } from '../repository/redis/ChangePasswordTokenRepository.js';
 
 export async function Register(req, res) {
     const { login, username, password } = req.body;
@@ -19,19 +21,21 @@ export async function Register(req, res) {
     }
 
     try {
-        const hashPassword = await bcrypt.hash(password, 10);
-        const confirmation = await bcrypt.hash(login, 10);
+        const salt = await bcrypt.genSalt(); 
+        const hashPassword = await bcrypt.hash(password, salt);
+        const confirmation = crypto.randomBytes(128).toString('base64');
 
         const user = await User.create({ 
             login: login.toLowerCase().trim(),
             username: username, 
-            password: hashPassword, 
+            password: hashPassword,
+            salt: salt, 
             confirmed: true, //TODO: fix, when e-mail service is done 
             confirmation
         });
 
         await user.save();
-        console.log("User is saved");
+        loggerlogin.info("User " + user.login + " is registred");
 
         SendConfirmation(login, confirmation);
         Send(res, 200, { "status": "success", login: login, username: username });    
@@ -42,11 +46,47 @@ export async function Register(req, res) {
     return;
 };
 
+export async function RestorePassword(req, res) {
+    const { password, token } = req.body;
+        
+    if (!password || !token) {
+        Send(res, 500, { "status": "failed" });
+        return;
+    }
+    
+    let changetoken = await ChangePasswordTokenRepository.search().where('token').is.equalTo(token).return.first();
+
+    if (!changetoken) {
+        Send(res, 500, { "status": "failed" });
+        return;        
+    }
+
+    let user = await User.findOne({login:changetoken.login.toLowerCase().trim(), confirmed: true}).exec();
+
+    if (!user) {
+        Send(res, 500, { "status": "failed" });
+        return;
+    }
+    
+    try {
+        const salt = await bcrypt.genSalt(); 
+        const hashPassword = await bcrypt.hash(password, salt);
+        user.password = hashPassword;
+        user.confirmation = crypto.randomBytes(128).toString('hex');         
+        user.save();
+        SendChangePasswordRequest(user.login, user.confirmation);
+        Send(res, 200, { "status": "success" });
+     } catch {
+        Send(res, 500, { "status": "failed" });
+     }    
+};
+
+
 export async function ChangePassword(req, res) {
     const { login, oldpassword, password } = req.body;
         
     if (!login || !password || !oldpassword) {
-        JSONResponse.Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed" });
         return;
     }
     
@@ -59,9 +99,10 @@ export async function ChangePassword(req, res) {
     
     try {
         if (await bcrypt.compare(oldpassword, user.password)) {            
-            const hashPassword = await bcrypt.hash(password, 10);
+            const salt = await bcrypt.genSalt(); 
+            const hashPassword = await bcrypt.hash(password, salt);
             user.password = hashPassword;
-            user.confirmation = await bcrypt.hash("65465465sdasdaswvcxv", 10); // TODO: Make it correct way            
+            user.confirmation = crypto.randomBytes(128).toString('base64');         
             user.save();
             SendChangePasswordRequest(user.login, user.confirmation);
             Send(res, 200, { "status": "success" });
@@ -73,11 +114,11 @@ export async function ChangePassword(req, res) {
      }    
 };
 
-export async function RestorePassword(req, res) {
+export async function RequestRestorePassword(req, res) {
     const { login } = req.body;
 
     if (!login ) {
-        JSONResponse.Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed" });
         return;
     }
 
@@ -89,12 +130,23 @@ export async function RestorePassword(req, res) {
     }
     
     try {        
-        let changeCode = await bcrypt.hash("666666666666", 10); // TODO: generate code
-        SendChangePasswordRequest(login, changeCode);
+        let changeCode = crypto.randomBytes(128).toString('hex');
+        let previoustoken = await ChangePasswordTokenRepository.search().where('login').is.equalTo(login).return.all();
+        if (previoustoken && previoustoken.length > 0) {
+            ChangePasswordTokenRepository.remove(previoustoken[0].entityId);
+        }
+        
+        let token = await ChangePasswordTokenRepository.createAndSave({token: changeCode, login: login});
+        if (token) {
+            console.log(token.token);
+            ChangePasswordTokenRepository.expire(token.entityId, 10*60*1000); // 10 mins
+            SendChangePasswordRequest(login, changeCode);
+        }
+        
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
-     }    
+     }
 
      return;
 };

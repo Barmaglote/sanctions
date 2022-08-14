@@ -2,20 +2,53 @@
     <div class="p-col-12">
         <div class="card card-container">
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
-            <form name="form" @submit.prevent="handleLogin(!v$.$invalid)">
+            <form name="form" @submit.prevent="handlePasswordChange(!v$.$invalid)">
                 <div class="form-group">
-                    <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
-                    <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
-                </div>
+                    <label for="newpassword" :class="{'p-error':v$.newpassword.$invalid && submitted}">New password</label>
+                    <Password id="newpassword" v-model="v$.newpassword.$model" :class="{'p-invalid': v$.newpassword.$invalid && submitted}" toggleMask>
+                        <template #header>
+                            <h6>Pick a password</h6>
+                        </template>
+                        <template #footer="sp">
+                            {{sp.level}}
+                            <Divider />
+                            <p class="mt-2">Suggestions</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>At least one lowercase</li>
+                                <li>At least one uppercase</li>
+                                <li>At least one numeric</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
+                        </template>
+                    </Password>
+                </div>           
+                <div class="form-group">
+                    <label for="newpasswordconfirmation" :class="{'p-error': v$.newpasswordconfirmation.$invalid && submitted || newpassword != newpasswordconfirmation }">New password (confirm)</label>
+                    <Password id="newpasswordconfirmation" v-model="v$.newpasswordconfirmation.$model" :class="{'p-invalid':v$.newpasswordconfirmation.$invalid && submitted && newpassword != newpasswordconfirmation}" toggleMask>
+                        <template #header>
+                            <h6>Pick a password</h6>
+                        </template>
+                        <template #footer="sp">
+                            {{sp.level}}
+                            <Divider />
+                            <p class="mt-2">Suggestions</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>At least one lowercase</li>
+                                <li>At least one uppercase</li>
+                                <li>At least one numeric</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
+                        </template>
+                    </Password>
+                </div>    
                 <div class="form-group pt-3"> 
                     <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span class="text-center" style="width: 100%;">Restore</span>                    
+                        <span class="text-center" style="width: 100%;">Change</span>                    
                     </Button>
                 </div>
                 <div class="form-group pt-1 text-center"> 
-                    <a href="/login" :to="login" class="px-1">Sign in</a>
-                    <a href="/register" :to="register" class="px-1">New user</a>
+                    <a href="/register" :to="register">New user</a>
                 </div>                
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger" role="alert">Status: {{message}}</div>
@@ -30,20 +63,21 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Password from 'primevue/password';
 import User from '../models/user';
-import Divider from 'primevue/divider';
 import { email, required } from 'vuelidate/lib/validators';
 import { useVuelidate } from "@vuelidate/core";
 import { useAuthStore } from './../stores/auth';
 
 export default {
-  name: 'Login',
+  name: 'Restore',
   setup: () => ({ 
         v$: useVuelidate()
     }),
   components: { InputText, Password, Button }, 
   data() {
     return {
-        login: '',
+        token: '',
+        newpassword: '',
+        newpasswordconfirmation: '',
         loading: false,
         message: '',
         authStore: null
@@ -51,9 +85,11 @@ export default {
     },
   validations() {
       return {
-          login: {
-              required,
-              email
+          newpassword: {
+              required
+          },
+          newpasswordconfirmation: {
+              required
           }
       }
   },  
@@ -64,12 +100,11 @@ export default {
   },
   created() {
     this.authStore = useAuthStore();
-    if (this.loggedIn) {
-      this.$router.push('/profile');
-    }
+    this.token = this.$route.query.token; 
+    console.log(this.$route.query.token)
   },
   methods: {
-    handleLogin(isFormValid) {
+    handlePasswordChange(isFormValid) {
         this.loading = true;
 
         if (!isFormValid) {
@@ -77,16 +112,16 @@ export default {
             return;
         }
 
-        if (this.login) {            
-            this.authStore.restore(this.login).then((result) => {
-              this.loading = false;
-              this.$toast.add({severity:'success', summary: 'Password restore', detail:'Link to restore password was sent to your e-mail', life: 3000});
-              this.$router.push('/profile');
-            },
+        if (this.newpassword && this.token) {        
+            this.authStore.restore(this.newpassword, this.token).then((result) => {
+              this.$router.push('/login');
+            }, 
             error => {
               this.loading = false;
               this.message = (error.response && error.response.data.status) || error.message || error.toString();
             });
+        } else {
+            this.loading = false;
         }
     }
   }

@@ -79,10 +79,15 @@ const router = createRouter({
       component: () => import('../views/PasswordChanged.vue')
     },
     {
+      path: '/requestrestore',
+      name: 'requestrestore',
+      component: () => import('./../views/RequestRestore.vue')
+    },
+    {
       path: '/restore',
       name: 'restore',
-      component: () => import('../views/Restore.vue')
-    }    
+      component: () => import('./../views/Restore.vue')
+    }      
   ]
 })
 

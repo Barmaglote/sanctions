@@ -33,9 +33,13 @@ export default class AuthService {
       password: user.password // TODO: cypher!
     });
   }  
-  restore(login) {
-    return loginAxiosInstance.post('auth/restore', {login: login});
+  requestrestore(login) {
+    return loginAxiosInstance.post('auth/requestrestore', {login});
   }    
+  restore(password, token) {
+    console.log({password, token});
+    return loginAxiosInstance.post('auth/restore', {password, token});
+  }      
   refreshtoken() {
     return loginAxiosInstance.post('auth/refresh-token', TokenService.getLocalRefreshToken());
   }   

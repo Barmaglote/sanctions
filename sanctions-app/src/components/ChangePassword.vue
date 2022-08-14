@@ -143,7 +143,6 @@ export default {
 
         if (this.login && this.password) {            
             this.authStore.changePassword(new User(this.login, null, this.newpassword), this.password).then((result) => {
-                console.log("111");
               this.$router.push('/passwordchanged');
             }, 
             error => {

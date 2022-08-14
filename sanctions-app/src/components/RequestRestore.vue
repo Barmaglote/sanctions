@@ -7,34 +7,15 @@
                     <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
                     <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
                 </div>
-                <div class="form-group">
-                    <label for="password" :class="{'p-error':v$.password.$invalid && submitted}">Password</label>
-                    <Password id="password" v-model="v$.password.$model" :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask>
-                        <template #header>
-                            <h6>Pick a password</h6>
-                        </template>
-                        <template #footer="sp">
-                            {{sp.level}}
-                            <Divider />
-                            <p class="mt-2">Suggestions</p>
-                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                                <li>At least one lowercase</li>
-                                <li>At least one uppercase</li>
-                                <li>At least one numeric</li>
-                                <li>Minimum 8 characters</li>
-                            </ul>
-                        </template>
-                    </Password>
-                </div>
                 <div class="form-group pt-3"> 
                     <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span class="text-center" style="width: 100%;">Sign Up</span>                    
+                        <span class="text-center" style="width: 100%;">Restore</span>                    
                     </Button>
                 </div>
                 <div class="form-group pt-1 text-center"> 
+                    <a href="/login" :to="login" class="px-1">Sign in</a>
                     <a href="/register" :to="register" class="px-1">New user</a>
-                    <a href="/requestrestore" :to="restore" class="px-1">Forget password</a>
                 </div>                
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger" role="alert">Status: {{message}}</div>
@@ -55,7 +36,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { useAuthStore } from './../stores/auth';
 
 export default {
-  name: 'Login',
+  name: 'RequestRestore',
   setup: () => ({ 
         v$: useVuelidate()
     }),
@@ -63,7 +44,6 @@ export default {
   data() {
     return {
         login: '',
-        password: '',
         loading: false,
         message: '',
         authStore: null
@@ -74,9 +54,6 @@ export default {
           login: {
               required,
               email
-          },
-          password: {
-              required
           }
       }
   },  
@@ -100,10 +77,12 @@ export default {
             return;
         }
 
-        if (this.login && this.password) {            
-            this.authStore.login(new User(this.login, null, this.password)).then((result) => {
+        if (this.login) {            
+            this.authStore.requestrestore(this.login).then((result) => {
+              this.loading = false;
+              this.$toast.add({severity:'success', summary: 'Password restore', detail:'Link to restore password is sent to your e-mail', life: 3000});
               this.$router.push('/profile');
-            }, 
+            },
             error => {
               this.loading = false;
               this.message = (error.response && error.response.data.status) || error.message || error.toString();
