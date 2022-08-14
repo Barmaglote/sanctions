@@ -53,7 +53,29 @@ export const useAuthStore = defineStore("auth", {
               error => {
                   return Promise.reject(error);
             })
-          },        
+          },
+        changePassword(user, password) {
+            return authService.changePassword(user, password).then(
+              user => {
+                  this.state.status.loggedIn = false;
+                  this.state.user = null;
+                  return Promise.resolve(user);
+            }, 
+              error => {
+                  return Promise.reject(error);
+            })
+          },   
+        restore(username) {
+          return authService.restore(username).then(
+            data => {
+                this.state.status.loggedIn = false;
+                this.state.user = null;
+                return Promise.resolve(username);
+          }, 
+            error => {
+                return Promise.reject(error);
+          })
+        },                       
     },
     getters: {
         getUser: (state) => {

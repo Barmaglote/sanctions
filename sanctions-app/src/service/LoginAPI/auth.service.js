@@ -15,6 +15,14 @@ export default class AuthService {
         return {login: user.login, ...response.data};
       });
   }
+  changePassword(user,password) {
+    return loginAxiosInstance
+      .post('auth/changepassword', {
+        login: user.login,
+        password: user.password,
+        oldpassword: password
+      });
+  }  
   logout() {
     TokenService.removeUser();
   }
@@ -25,6 +33,9 @@ export default class AuthService {
       password: user.password // TODO: cypher!
     });
   }  
+  restore(login) {
+    return loginAxiosInstance.post('auth/restore', {login: login});
+  }    
   refreshtoken() {
     return loginAxiosInstance.post('auth/refresh-token', TokenService.getLocalRefreshToken());
   }   

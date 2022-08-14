@@ -16,6 +16,7 @@
 	</div>
   <router-view></router-view>
   <ScrollTop :threshold="100" />
+  <Toast />
 </template>
 
 <script lang="ts">
@@ -28,6 +29,8 @@ import ScrollTop from 'primevue/scrolltop';
 import UserMenuItem from './components/UserMenuItem.vue';
 import EventBus from './common/EventBus';
 import { useAuthStore } from './stores/auth.js';
+import Toast from 'primevue/toast';
+
 
 export default defineComponent({
   name: 'App',
@@ -42,7 +45,7 @@ export default defineComponent({
         return this.menuStore?.menu;
      }
   }, 
-  components: {SearchInput, Menubar, ScrollTop, UserMenuItem},
+  components: {SearchInput, Menubar, ScrollTop, UserMenuItem, Toast},
   mounted() {
    this.menuStore = new useMenuStore();  
    this.useAuthStore = new useAuthStore();

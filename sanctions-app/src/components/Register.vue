@@ -128,6 +128,7 @@ export default {
 
         if (this.login && this.password && this.username && this.password == this.confirmation) {            
             this.authStore.register(new User(this.login, this.username, this.password)).then((result) => {
+              this.$toast.add({severity:'success', summary: 'New user', detail:'You have been registered', life: 3000});
               this.$router.push('/registered');
             },
             error => {

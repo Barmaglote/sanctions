@@ -2,13 +2,13 @@
     <div class="p-col-12">
         <div class="card card-container">
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
-            <form name="form" @submit.prevent="handleLogin(!v$.$invalid)">
+            <form name="form" @submit.prevent="handlePasswordChange(!v$.$invalid)">
                 <div class="form-group">
                     <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
                     <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
                 </div>
                 <div class="form-group">
-                    <label for="password" :class="{'p-error':v$.password.$invalid && submitted}">Password</label>
+                    <label for="password" :class="{'p-error':v$.password.$invalid && submitted}">Current password</label>
                     <Password id="password" v-model="v$.password.$model" :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask>
                         <template #header>
                             <h6>Pick a password</h6>
@@ -26,15 +26,52 @@
                         </template>
                     </Password>
                 </div>
+                <div class="form-group">
+                    <label for="newpassword" :class="{'p-error':v$.newpassword.$invalid && submitted}">New password</label>
+                    <Password id="newpassword" v-model="v$.newpassword.$model" :class="{'p-invalid': v$.newpassword.$invalid && submitted}" toggleMask>
+                        <template #header>
+                            <h6>Pick a password</h6>
+                        </template>
+                        <template #footer="sp">
+                            {{sp.level}}
+                            <Divider />
+                            <p class="mt-2">Suggestions</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>At least one lowercase</li>
+                                <li>At least one uppercase</li>
+                                <li>At least one numeric</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
+                        </template>
+                    </Password>
+                </div>           
+                <div class="form-group">
+                    <label for="newpasswordconfirmation" :class="{'p-error': v$.newpasswordconfirmation.$invalid && submitted || newpassword != newpasswordconfirmation }">New password (confirm)</label>
+                    <Password id="newpasswordconfirmation" v-model="v$.newpasswordconfirmation.$model" :class="{'p-invalid':v$.newpasswordconfirmation.$invalid && submitted && newpassword != newpasswordconfirmation}" toggleMask>
+                        <template #header>
+                            <h6>Pick a password</h6>
+                        </template>
+                        <template #footer="sp">
+                            {{sp.level}}
+                            <Divider />
+                            <p class="mt-2">Suggestions</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>At least one lowercase</li>
+                                <li>At least one uppercase</li>
+                                <li>At least one numeric</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
+                        </template>
+                    </Password>
+                </div>    
                 <div class="form-group pt-3"> 
                     <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span class="text-center" style="width: 100%;">Sign Up</span>                    
+                        <span class="text-center" style="width: 100%;">Change</span>                    
                     </Button>
                 </div>
                 <div class="form-group pt-1 text-center"> 
-                    <a href="/register" :to="register" class="px-1">New user</a>
-                    <a href="/restore" :to="restore" class="px-1">Forget password</a>
+                    <a href="/register" :to="register">New user</a>
                 </div>                
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger" role="alert">Status: {{message}}</div>
@@ -49,13 +86,12 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Password from 'primevue/password';
 import User from '../models/user';
-import Divider from 'primevue/divider';
 import { email, required } from 'vuelidate/lib/validators';
 import { useVuelidate } from "@vuelidate/core";
 import { useAuthStore } from './../stores/auth';
 
 export default {
-  name: 'Login',
+  name: 'ChangePassword',
   setup: () => ({ 
         v$: useVuelidate()
     }),
@@ -64,6 +100,8 @@ export default {
     return {
         login: '',
         password: '',
+        newpassword: '',
+        newpasswordconfirmation: '',
         loading: false,
         message: '',
         authStore: null
@@ -77,6 +115,12 @@ export default {
           },
           password: {
               required
+          },
+          newpassword: {
+              required
+          },
+          newpasswordconfirmation: {
+              required
           }
       }
   },  
@@ -87,12 +131,9 @@ export default {
   },
   created() {
     this.authStore = useAuthStore();
-    if (this.loggedIn) {
-      this.$router.push('/profile');
-    }
   },
   methods: {
-    handleLogin(isFormValid) {
+    handlePasswordChange(isFormValid) {
         this.loading = true;
 
         if (!isFormValid) {
@@ -101,8 +142,9 @@ export default {
         }
 
         if (this.login && this.password) {            
-            this.authStore.login(new User(this.login, null, this.password)).then((result) => {
-              this.$router.push('/profile');
+            this.authStore.changePassword(new User(this.login, null, this.newpassword), this.password).then((result) => {
+                console.log("111");
+              this.$router.push('/passwordchanged');
             }, 
             error => {
               this.loading = false;

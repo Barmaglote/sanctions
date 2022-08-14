@@ -32,7 +32,7 @@ export default {
       return this.authStore.state.user;
     },    
     loginItems(){
-      return [
+      let items = [
 				{
 					label: this.loggedIn ? this.currentUser.username : 'Anonymous',
 					icon: 'pi pi-user',
@@ -60,8 +60,21 @@ export default {
             };
             this.$router.push('/register');
 					}
-				}, 
-			]      
+				}     
+			];
+
+      if (this.loggedIn) { 
+        items.push(
+				{
+					label:  'Change password',
+					icon: 'pi pi-user-edit',
+					command: () => {
+            this.$router.push('/changepassword');
+					}
+				});    
+      }
+
+      return items;
      }
   }
 }

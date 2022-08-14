@@ -6,6 +6,7 @@ import { loadFonts } from './plugins/webfontloader';
 import Ripple from 'primevue/ripple';
 import { createPinia } from 'pinia';
 import setupInterceptors from './service/Interceptors/setupWebAPIInterceptors.js';
+import ToastService from 'primevue/toastservice';
 
 import 'primevue/resources/themes/vela-orange/theme.css';
 
@@ -22,6 +23,7 @@ loadFonts();
 setupInterceptors();
 
 createApp(App)
+  .use(ToastService)
   .use(router)
   .use(PrimeVue, {ripple: true})
   .use(createPinia())
