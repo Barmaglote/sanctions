@@ -6,9 +6,6 @@ const allowed = ['organizations', 'persons']
 module.exports.Tags = (req, res) => {
     const { area } = req.query;
 
-    console.log("area: ", area);
-    console.log("area: ", req);
-
     if (allowed.indexOf(area) < 0) {
         JSONResponse.Send(res, 500, null);
     }
