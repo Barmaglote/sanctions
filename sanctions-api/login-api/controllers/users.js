@@ -68,7 +68,7 @@ export async function ConfirmPasswordChange(req, res) {
         user.newpassword = null;
         user.save();
         
-        SendPasswordChangedNotification(login);
+        CreateChangePasswordToken(login, SendPasswordChangedNotification);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
@@ -81,8 +81,8 @@ export async function RestorePassword(req, res) {
     const { password, token } = req.body;
     let { login } = req.body;
         
-    if (!password || !token) {
-        Send(res, 500, { "status": "failed" });
+    if (!password || !token || !login) {
+        Send(res, 500, { "status": "failed", "message": "Bad request" });
         return;
     }
     
@@ -90,14 +90,15 @@ export async function RestorePassword(req, res) {
 
     login = ToLowerAndTrim(login);
     if (!changetoken || changetoken.login != login) {
-        Send(res, 500, { "status": "failed" });
+        // TODO: Make too many attemps control
+        Send(res, 500, { "status": "failed", "message": "Token is expired" });
         return;        
     }
 
     let user = await User.findOne({login}).exec();
 
     if (!user) {
-        Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed", "message": "User is missing" });
         return;
     }
     
@@ -107,18 +108,13 @@ export async function RestorePassword(req, res) {
         user.newpassword = hashPassword;
         user.save();
         
-        DeleteChangePasswordTokensByLogin(login);
-
-        const token = crypto.randomBytes(128).toString('base64');
-        ChangePasswordTokenRepository.createAndSave({login, token});
-
-        //loggerlogin.info("User " + login + " restored password, needs confirmation");
-        
-        SendChangePasswordRequest(login, token);
+        CreateChangePasswordToken(login, SendChangePasswordRequest);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
      }    
+
+     return;
 };
 
 export async function ChangePassword(req, res) {      
@@ -148,22 +144,21 @@ export async function ChangePassword(req, res) {
 
         if (!isPasswordEqual) {
             Send(res, 500, { "status": "failed" });
+            return;
         }
 
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt);
         user.newpassword = hashPassword;    
-        console.log(user);
         user.save();
-        const token = crypto.randomBytes(128).toString('base64');
-        let item = await ChangePasswordTokenRepository.createAndSave({token, login});            
-        console.log(item);           
-        SendChangePasswordRequest(user.login, confirmation);
+        CreateChangePasswordToken(login, SendConfirmation);
 
         Send(res, 200, { "status": "success" });        
      } catch {
         Send(res, 500, { "status": "failed" });
      }    
+
+     return;
 };
 
 export async function RequestRestorePassword(req, res) {
@@ -221,11 +216,11 @@ export async function Login(req, res) {
         const refresh_token = GenerateRefreshToken(payload);
 
         Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, login: user.login, username: user.username });
-
     } catch (e) {
         console.log(e);
         Send(res, 500, { "status": "failed" });
     }
+    return;
 };
 
 export async function RefreshAccessToken(req, res) {
@@ -272,12 +267,12 @@ const SendConfirmation = (login, confirmation) => {
     console.log(login, confirmation);
 }
 
-const SendPasswordChangedNotification = (login) => {
-    console.log(login);
+const SendPasswordChangedNotification = (login, confirmation) => {
+    console.log(login, confirmation);
 }
 
-const SendChangePasswordRequest = (login, changeCode) => {
-    console.log(login, changeCode); // TODO: Save code to redis with TTL
+const SendChangePasswordRequest = (login, confirmation) => {
+    console.log(login, confirmation); // TODO: Save code to redis with TTL
 }
 
 const GenerateAccessToken = (payload) => {
