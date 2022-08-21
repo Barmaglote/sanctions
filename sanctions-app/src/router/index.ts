@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 
+
+// TODO: subcategories/subfolders - all logins/password in 1 subfolder
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -87,7 +90,13 @@ const router = createRouter({
       path: '/restore',
       name: 'restore',
       component: () => import('./../views/Restore.vue')
-    }      
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: () => import('./../views/PasswordConfirmation.vue')
+    },
+    
   ]
 })
 

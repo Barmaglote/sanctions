@@ -133,7 +133,7 @@ export default {
             },
             error => {
               this.loading = false;
-              this.message = (error.response && error.response.data.status) || error.message || error.toString();
+              this.message = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();
             });
         }
     }

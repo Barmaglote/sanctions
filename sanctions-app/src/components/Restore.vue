@@ -3,6 +3,7 @@
         <div class="card card-container">
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
             <form name="form" @submit.prevent="handlePasswordChange(!v$.$invalid)">
+            <input type="hidden" v-model="login"/>
                 <div class="form-group">
                     <label for="newpassword" :class="{'p-error':v$.newpassword.$invalid && submitted}">New password</label>
                     <Password id="newpassword" v-model="v$.newpassword.$model" :class="{'p-invalid': v$.newpassword.$invalid && submitted}" toggleMask>
@@ -76,6 +77,7 @@ export default {
   data() {
     return {
         token: '',
+        login: null,
         newpassword: '',
         newpasswordconfirmation: '',
         loading: false,
@@ -87,6 +89,9 @@ export default {
       return {
           newpassword: {
               required
+          },
+          login: {
+            required
           },
           newpasswordconfirmation: {
               required
@@ -101,7 +106,7 @@ export default {
   created() {
     this.authStore = useAuthStore();
     this.token = this.$route.query.token; 
-    console.log(this.$route.query.token)
+    this.login = this.$route.query.login; 
   },
   methods: {
     handlePasswordChange(isFormValid) {
@@ -112,8 +117,9 @@ export default {
             return;
         }
 
-        if (this.newpassword && this.token) {        
-            this.authStore.restore(this.newpassword, this.token).then((result) => {
+        if (this.newpassword && this.token && this.login) {
+              this.authStore.restore(this.newpassword, this.token, this.login).then((result) => {
+              this.$toast.add({severity:'success', summary: 'New user', detail:'Your request is accepted. Confirmation link is sent to your e-mail', life: 3000});
               this.$router.push('/login');
             }, 
             error => {

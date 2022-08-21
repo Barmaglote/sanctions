@@ -76,8 +76,8 @@ export const useAuthStore = defineStore("auth", {
                 return Promise.reject(error);
           })
         },     
-        restore(password, token) {
-            return authService.restore(password, token).then(
+        restore(password, token, login) {
+            return authService.restore(password, token, login).then(
               data => {
                   this.state.status.loggedIn = false;
                   this.state.user = null;
@@ -87,6 +87,17 @@ export const useAuthStore = defineStore("auth", {
                   return Promise.reject(error);
             })
           },                               
+        confirm(login, token) {
+          return authService.confirm(login, token).then(
+            data => {
+                this.state.status.loggedIn = false;
+                this.state.user = null;
+                return Promise.resolve();
+          }, 
+            error => {
+                return Promise.reject(error);
+          })
+        },                                         
     },
     getters: {
         getUser: (state) => {

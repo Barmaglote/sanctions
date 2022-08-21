@@ -4,10 +4,6 @@
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
             <form name="form" @submit.prevent="handlePasswordChange(!v$.$invalid)">
                 <div class="form-group">
-                    <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
-                    <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
-                </div>
-                <div class="form-group">
                     <label for="password" :class="{'p-error':v$.password.$invalid && submitted}">Current password</label>
                     <Password id="password" v-model="v$.password.$model" :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask>
                         <template #header>
@@ -131,6 +127,8 @@ export default {
   },
   created() {
     this.authStore = useAuthStore();
+    if (!this.loggedIn) this.$router.push('/profile');
+    this.login = this.authStore.state.user.login; 
   },
   methods: {
     handlePasswordChange(isFormValid) {
@@ -143,11 +141,12 @@ export default {
 
         if (this.login && this.password) {            
             this.authStore.changePassword(new User(this.login, null, this.newpassword), this.password).then((result) => {
+              this.$toast.add({severity:'success', summary: 'Password change', detail:'Confirmation link is sent to your e-mail', life: 3000});
               this.$router.push('/passwordchanged');
             }, 
             error => {
               this.loading = false;
-              this.message = (error.response && error.response.data.status) || error.message || error.toString();
+              this.message = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();
             });
         }
     }

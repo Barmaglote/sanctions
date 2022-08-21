@@ -5,40 +5,32 @@ import User from './../models/users/model.js';
 import crypto from 'node:crypto';
 import { ChangePasswordTokenRepository } from '../repository/redis/ChangePasswordTokenRepository.js';
 
-export async function Register(req, res) {
-    const { login, username, password } = req.body;
+const CHANGE_PASSWORD_TOKEN_TTL = 10*60*1000; // 10 min // TODO: move to .env
 
-    if (!login || !password || !username) {
+export async function Register(req, res) {
+    const { username, password } = req.body;
+    let { login } = req.body;
+
+    if (!login || !password || !username || username == password) {
         Send(res, 500, { "status": "failed" });
         return;
     }
 
-    const exists = await User.exists({login: login.toLowerCase().trim()}); 
+    login = ToLowerAndTrim(login);
+    const isExist = await User.exists({login}); 
 
-    if (exists) {
-        Send(res, 500, { "status": "failed", "message": `Users ${login} already exists`});
+    if (isExist) {
+        Send(res, 500, { "status": "failed", "message": `User ${login} already exists`});
         return;
     }
 
     try {
         const salt = await bcrypt.genSalt(); 
-        const hashPassword = await bcrypt.hash(password, salt);
-        const confirmation = crypto.randomBytes(128).toString('base64');
-
-        const user = await User.create({ 
-            login: login.toLowerCase().trim(),
-            username: username, 
-            password: hashPassword,
-            salt: salt, 
-            confirmed: true, //TODO: fix, when e-mail service is done 
-            confirmation
-        });
-
+        const newpassword = await bcrypt.hash(password, salt);
+        const user = await User.create({login, username, newpassword});
         await user.save();
-        loggerlogin.info("User " + user.login + " is registred");
-
-        SendConfirmation(login, confirmation);
-        Send(res, 200, { "status": "success", login: login, username: username });    
+        CreateChangePasswordToken(login, SendConfirmation);
+        Send(res, 200, { "status": "success", login, username });
     } catch {
         Send(res, 500, { "status": "failed" });
     }    
@@ -46,8 +38,48 @@ export async function Register(req, res) {
     return;
 };
 
+export async function ConfirmPasswordChange(req, res) {
+    const { token } = req.body;
+    let { login } = req.body;
+
+    if (!token) {
+        Send(res, 500, { "status": "failed" });
+        return;
+    }
+
+    let changetoken = await ChangePasswordTokenRepository.search().where('token').is.equalTo(token).return.first();
+
+    login = ToLowerAndTrim(login);
+
+    if (!changetoken || changetoken.login != login) {
+        Send(res, 500, { "status": "failed" });
+        return;        
+    }    
+    
+    let user = await User.findOne({login:login}).exec();
+
+    if (!user) {
+        Send(res, 500, { "status": "failed", "message": "User does not exist" });
+        return;
+    }
+
+    try {
+        user.password = user.newpassword;
+        user.newpassword = null;
+        user.save();
+        
+        SendPasswordChangedNotification(login);
+        Send(res, 200, { "status": "success" });
+     } catch {
+        Send(res, 500, { "status": "failed" });
+     }    
+
+     return;
+};
+
 export async function RestorePassword(req, res) {
     const { password, token } = req.body;
+    let { login } = req.body;
         
     if (!password || !token) {
         Send(res, 500, { "status": "failed" });
@@ -56,12 +88,13 @@ export async function RestorePassword(req, res) {
     
     let changetoken = await ChangePasswordTokenRepository.search().where('token').is.equalTo(token).return.first();
 
-    if (!changetoken) {
+    login = ToLowerAndTrim(login);
+    if (!changetoken || changetoken.login != login) {
         Send(res, 500, { "status": "failed" });
         return;        
     }
 
-    let user = await User.findOne({login:changetoken.login.toLowerCase().trim(), confirmed: true}).exec();
+    let user = await User.findOne({login}).exec();
 
     if (!user) {
         Send(res, 500, { "status": "failed" });
@@ -71,78 +104,86 @@ export async function RestorePassword(req, res) {
     try {
         const salt = await bcrypt.genSalt(); 
         const hashPassword = await bcrypt.hash(password, salt);
-        user.password = hashPassword;
-        user.confirmation = crypto.randomBytes(128).toString('hex');         
+        user.newpassword = hashPassword;
         user.save();
-        SendChangePasswordRequest(user.login, user.confirmation);
+        
+        DeleteChangePasswordTokensByLogin(login);
+
+        const token = crypto.randomBytes(128).toString('base64');
+        ChangePasswordTokenRepository.createAndSave({login, token});
+
+        //loggerlogin.info("User " + login + " restored password, needs confirmation");
+        
+        SendChangePasswordRequest(login, token);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
      }    
 };
 
-
-export async function ChangePassword(req, res) {
-    const { login, oldpassword, password } = req.body;
+export async function ChangePassword(req, res) {      
+    const { oldpassword, password } = req.body;
+    let { login } = req.body;
         
     if (!login || !password || !oldpassword) {
         Send(res, 500, { "status": "failed" });
         return;
     }
-    
-    let user = await User.findOne({login:login.toLowerCase().trim(), confirmed: true}).exec();
+
+    if (password == oldpassword) {
+        Send(res, 500, { "status": "New password repeats old one" });
+        return;
+    }
+
+    login = ToLowerAndTrim(login);
+    let user = await User.findOne({login, password: {$ne:null}}).exec();
 
     if (!user) {
         Send(res, 500, { "status": "failed" });
         return;
     }
-    
+   
     try {
-        if (await bcrypt.compare(oldpassword, user.password)) {            
-            const salt = await bcrypt.genSalt(); 
-            const hashPassword = await bcrypt.hash(password, salt);
-            user.password = hashPassword;
-            user.confirmation = crypto.randomBytes(128).toString('base64');         
-            user.save();
-            SendChangePasswordRequest(user.login, user.confirmation);
-            Send(res, 200, { "status": "success" });
-        } else {
+        const isPasswordEqual = await bcrypt.compare(oldpassword, user.password);
+
+        if (!isPasswordEqual) {
             Send(res, 500, { "status": "failed" });
         }
+
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(password, salt);
+        user.newpassword = hashPassword;    
+        console.log(user);
+        user.save();
+        const token = crypto.randomBytes(128).toString('base64');
+        let item = await ChangePasswordTokenRepository.createAndSave({token, login});            
+        console.log(item);           
+        SendChangePasswordRequest(user.login, confirmation);
+
+        Send(res, 200, { "status": "success" });        
      } catch {
         Send(res, 500, { "status": "failed" });
      }    
 };
 
 export async function RequestRestorePassword(req, res) {
-    const { login } = req.body;
+    let { login } = req.body;
 
     if (!login ) {
-        Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed", "message": "Login is not set" });
         return;
     }
 
-    let user = await User.findOne({login:login.toLowerCase().trim(), confirmed: true}).exec();
+    login = ToLowerAndTrim(login);
+    let user = await User.findOne({login}).exec();
 
     if (!user) {
-        Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed", "message": "User is not found" });
         return;
     }
     
-    try {        
-        let changeCode = crypto.randomBytes(128).toString('hex');
-        let previoustoken = await ChangePasswordTokenRepository.search().where('login').is.equalTo(login).return.all();
-        if (previoustoken && previoustoken.length > 0) {
-            ChangePasswordTokenRepository.remove(previoustoken[0].entityId);
-        }
-        
-        let token = await ChangePasswordTokenRepository.createAndSave({token: changeCode, login: login});
-        if (token) {
-            console.log(token.token);
-            ChangePasswordTokenRepository.expire(token.entityId, 10*60*1000); // 10 mins
-            SendChangePasswordRequest(login, changeCode);
-        }
-        
+    try {      
+        CreateChangePasswordToken(login, SendChangePasswordRequest);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
@@ -152,18 +193,19 @@ export async function RequestRestorePassword(req, res) {
 };
 
 export async function Login(req, res) {
-
-    const { login, password } = req.body;
+    const { password } = req.body;
+    let { login } = req.body;
 
     if (!login || !password) {
-        Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed", "message": "Password or Login are missing" });
         return;    
     }
 
-    let user = await User.findOne({login:login.toLowerCase().trim(), confirmed: true}).exec();
+    login = ToLowerAndTrim(login);
+    let user = await User.findOne({login, password: {$ne:null}}).exec();
 
     if (!user || !user.password) {
-        Send(res, 500, { "status": "failed" });
+        Send(res, 500, { "status": "failed", "message": "User is missing or password is not confirmed" });
         return;
     }
 
@@ -171,7 +213,7 @@ export async function Login(req, res) {
         const isPasswordEqual = await bcrypt.compare(password, user.password);
 
         if (!isPasswordEqual) {
-            Send(res, 500, { "status": "failed" });
+            Send(res, 500, { "status": "failed", "message": "Wrong credentials" });
         }
 
         let payload = { "login": user.login, "username": user.username };
@@ -205,18 +247,43 @@ export async function RefreshAccessToken(req, res) {
     });
 };
 
-function SendConfirmation(login, confirmation) {
+const ToLowerAndTrim = (item) => {
+    if (!item) return;
+    return item.toLowerCase().trim();
+}
+
+const CreateChangePasswordToken = (login, callback) => {
+    DeleteChangePasswordTokensByLogin(login);
+    const token = crypto.randomBytes(128).toString('hex');
+    ChangePasswordTokenRepository.createAndSave({token, login}).then((item) => {
+        if (!item) return;
+        ChangePasswordTokenRepository.expire(token.entityId, CHANGE_PASSWORD_TOKEN_TTL); 
+        callback(login, token);
+    });
+}
+
+const DeleteChangePasswordTokensByLogin = (login) => {
+    ChangePasswordTokenRepository.search().where('login').is.equalTo(login).return.all().then(item => {
+        ChangePasswordTokenRepository.remove(item.entityId);
+    });
+}
+
+const SendConfirmation = (login, confirmation) => {
     console.log(login, confirmation);
 }
 
-function SendChangePasswordRequest(login, changeCode) {
+const SendPasswordChangedNotification = (login) => {
+    console.log(login);
+}
+
+const SendChangePasswordRequest = (login, changeCode) => {
     console.log(login, changeCode); // TODO: Save code to redis with TTL
 }
 
-function GenerateAccessToken(payload) {
+const GenerateAccessToken = (payload) => {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN });
 }
 
-function GenerateRefreshToken(payload) {
+const GenerateRefreshToken = (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN });
 }

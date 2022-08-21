@@ -36,10 +36,12 @@ export default class AuthService {
   requestrestore(login) {
     return loginAxiosInstance.post('auth/requestrestore', {login});
   }    
-  restore(password, token) {
-    console.log({password, token});
-    return loginAxiosInstance.post('auth/restore', {password, token});
-  }      
+  restore(password, token, login) {
+    return loginAxiosInstance.post('auth/restore', {password, token, login});
+  }
+  confirm(login, token) {
+    return loginAxiosInstance.post('auth/confirm', {login, token});
+  }  
   refreshtoken() {
     return loginAxiosInstance.post('auth/refresh-token', TokenService.getLocalRefreshToken());
   }   
