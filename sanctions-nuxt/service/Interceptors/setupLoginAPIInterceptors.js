@@ -1,10 +1,10 @@
-import webAxiosInstance from './../WebAPI/web.api';
-import loginAxiosInstance from './../LoginAPI/login.api';
-import authHeader from './../auth-header';
-import TokenService from './../LoginAPI/token.service';
+import webAxiosInstance from '../WebAPI/web.api.js';
+import loginAxiosInstance from '../LoginAPI/login.api.js';
+import authHeader from '../auth-header.js';
+import TokenService from '../LoginAPI/token.service.js';
 
-const setupInterceptors = () => {
-  webAxiosInstance.interceptors.request.use(
+const setupLoginInterceptors = () => {
+  loginAxiosInstance.interceptors.request.use(
     (config) => {
       const token = authHeader();
       if (token) {
@@ -16,7 +16,7 @@ const setupInterceptors = () => {
       return Promise.reject(error);
     }
   );
-  webAxiosInstance.interceptors.response.use(
+  loginAxiosInstance.interceptors.response.use(
     (res) => {
       return res;
     },
@@ -51,4 +51,4 @@ const setupInterceptors = () => {
     }
   );
 };
-export default setupInterceptors;
+export default setupLoginInterceptors;
