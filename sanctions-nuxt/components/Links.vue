@@ -80,8 +80,7 @@
             sortKey: null,
             sortOrder: null,
             sortField: 'titleeng',
-			country: null,
-			type: null
+			country: null
         }
     },
     props: {
