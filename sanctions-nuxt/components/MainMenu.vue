@@ -47,10 +47,15 @@ export default {
 </script>
 
 <style scoped>
-/*
+
 .p-menubar{
    border: none !important;
    border-radius: 0 !important;
+}
+
+.menu-bar{
+  position: sticky;  
+ 
 }
 
 .title-container{
@@ -64,5 +69,5 @@ export default {
 .menu-end-container {
   display: flex;
 }
-*/
+
 </style>

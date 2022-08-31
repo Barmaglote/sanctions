@@ -2,12 +2,13 @@
  <div class="">
     <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #grid="slotProps">
-				<div class="col-12 md:col-4 display-grid p-3">
+				<div class="col-12 md:col-4 display-grid p-2">
 					<div class="element-grid-item">
-						<div class="element-grid-item-content">
-							<img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/links/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
+						<div class="element-grid-item-content p-3">
+							<img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/${subtitle}/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
 							<img v-else src="/fotos/noname.png" :alt="slotProps.data.titleeng"/>
 							<div class="element-name">{{slotProps.data.titleeng}}</div>
+							<div class="element-name-rus">{{slotProps.data.titlerus}}</div>
 							<div class="element-description">{{slotProps.data.description}}</div>
 							<div class="element-link"><a :href="`${slotProps.data.link}`" target="_blank">{{slotProps.data.link}}</a></div>
 						</div>
@@ -22,15 +23,15 @@
   import DataView from 'primevue/dataview';
   import { useLinksStore } from '@/store/links';
   import { computed, onMounted } from 'vue'
-  
+
   export default {
     head() {
       return {
-        title: process.env.SITE_TITLE + " | Links",
+        title: process.env.SITE_TITLE + " | "+ this.subtitle +": " + this.type,
         meta: [
           {
-            hid: 'links',
-            name: 'Friendly media and organizations',
+            hid: 'media',
+            name: 'Friendly media',
             content: 'My custom description' // TODO
           }
         ]
@@ -54,10 +55,10 @@
 			if (!linksStore?.links) return [];
 
 	        if (!props.search) {	
-        	  	return linksStore?.links?.filter(x => x.type == 'charity');
+        	  	return linksStore?.links?.filter(x => x.type == props.type);
         	};
 
-        	let filtered = JSON.parse(JSON.stringify(linksStore?.links)).filter(x => x.type == 'charity');
+        	let filtered = JSON.parse(JSON.stringify(linksStore?.links)).filter(x => x.type == props.type);
 		
 			if (props.search) {
 	        	let filterVal = this.search.trim().toLowerCase().split(/\s+/)
@@ -69,7 +70,9 @@
 		});
 		return {linksStore, filtered, WEB_STATIC_FILES}
 	},
-	components: { DataView },
+
+
+	components: { DataView }, 
     data() {
         return {
 			linksStore: null,
@@ -85,26 +88,32 @@
       search: {
         type: String,
         default: null,
-      }
-    }
+      },
+      type: {
+        type: String,
+        default: null,
+      }, 
+      subtitle: {
+        type: String,
+        default: null,
+      }	 	  
+    },	
   }
 </script>
+
 
 <style lang="scss" scoped>
 .photo-list {
 	max-width: 13em;
 	max-height: 5em;
 }
+
 .display-grid{
 	display: grid;
 }
 
 .p-dataview-layout-options {
 	box-shadow: none;
-}
-
-.element-grid-item a{
-	overflow-wrap: anywhere;
 }
 
 .p-dropdown {
@@ -134,6 +143,10 @@
 .element-category {
 	font-weight: 600;
 	vertical-align: middle;
+}
+
+.element-link a{
+	overflow-wrap:anywhere;
 }
 
 ::v-deep(.element-list-item) {
@@ -175,9 +188,8 @@
 
 ::v-deep(.element-grid-item) {
 	margin: .5rem;
-	border: 1px solid rgba(0, 0, 0, 0.23);
-	border-radius: 0.375rem;
-
+	border: 1px solid var(--surface-border);
+    border-radius: 0.375rem;
 
 	.element-grid-item-top,
 	.element-grid-item-bottom {
@@ -192,7 +204,6 @@
 
 	.element-grid-item-content {
 		text-align: center;
-		padding: 2em
 	}
 
 	.element-gender {

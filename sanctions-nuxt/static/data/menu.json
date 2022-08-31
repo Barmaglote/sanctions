@@ -40,7 +40,7 @@
         {
          "label":"Charity",
          "icon":"pi pi-fw pi-circle",
-         "to": "/charity"
+         "to": "/links/charity"
          },
          {
           "label":"Navalny",
