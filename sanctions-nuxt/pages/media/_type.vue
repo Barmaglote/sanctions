@@ -1,7 +1,7 @@
 <template>
     <div class="surface-ground">          
         <div class="col-12 md:col-12 p-0">
-            <bg-links :search="search" :type="type"></bg-links>
+            <bg-links :search="search" :type="type" :subtitle="subtitle"></bg-links>
         </div>                            
     </div>              
 </template>
@@ -29,7 +29,9 @@ export default {
       const route = useRoute()
 		  let type = computed(() => route.value.params.type)
 
-      return { type }
+      const subtitle = 'media';
+
+      return { type, subtitle }
     },
     props: {
       search: {
