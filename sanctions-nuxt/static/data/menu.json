@@ -7,12 +7,12 @@
               {
                  "label":"Persons",
                  "icon":"pi pi-fw pi-caret-right",
-                 "to": "/sanctions/persons/list"
+                 "to": "/sanctions/persons"
               },
               {
                 "label":"Organizations",
                  "icon":"pi pi-fw pi-caret-right",
-                 "to": "/sanctions/organizations/list"
+                 "to": "/sanctions/organizations"
               }
            ]
         },

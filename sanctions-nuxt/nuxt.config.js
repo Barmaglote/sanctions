@@ -23,7 +23,12 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/local/menu.service.js',
-    '@/plugins/webapi/links.service.js'
+    '@/plugins/webapi/links.service.js',
+    '@/plugins/webapi/persons.service.js',
+    '@/plugins/webapi/tags.service.js',
+    '@/plugins/webapi/organizations.service.js',
+    '@/plugins/interceptors/setupLoginAPIInterceptors.js',
+    '@/plugins/interceptors/setupWebAPIInterceptors',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

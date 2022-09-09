@@ -10,18 +10,19 @@
                 <div class="menu-end-container">
                     <!--
                     <UserMenuItem></UserMenuItem>
-		            <SearchInput></SearchInput>                 
                     -->
+		            <bg-search-input/>
                 </div>
 			</template>
 		</menu-bar>
-	</div>   
+	</div>
 </template>
 
 <script>  
 import Menubar from 'primevue/menubar'
 import { onMounted, ref } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
+import SearchInput from '@/components/SearchInput.vue'
 
 export default {
 
@@ -33,7 +34,7 @@ export default {
         onMounted(() => {
             $getMenu().then(data => {
             items.value = data;
-        });    
+            });    
         })
 
         return {
@@ -41,7 +42,8 @@ export default {
         }
     },
     components: {
-        "menu-bar": Menubar
+        "menu-bar": Menubar,
+        "bg-search-input": SearchInput
     }
 }
 </script>
@@ -54,8 +56,9 @@ export default {
 }
 
 .menu-bar{
-  position: sticky;  
- 
+  position: sticky;
+  z-index: 1000;
+  top: 0;
 }
 
 .title-container{

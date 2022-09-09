@@ -19,11 +19,20 @@ export const useLinksStore = defineStore("links", {
         }
     },
     getters: {
-        getLinks: (state) => {
+        Links: (state) => {
             return state.links
         },
-        getCharity: (state) => {
-            return state.links.filter(x => x.type == 'charity');
-        }        
+        Filtered: (state) => (type, search) => {
+			if (!state.links) return [];
+
+	        if (!search) {	
+        	  	return state.links.filter(x => x.type == type);
+        	};
+
+        	let filtered = JSON.parse(JSON.stringify(state.links)).filter(x => x.type == type);
+            let filterVal = search.trim().toLowerCase().split(/\s+/)
+        	let filterBy = [ 'titlerus', 'titleeng' ]			
+            return filtered.filter(item => filterBy.some(prop => filterVal.some(val => item[prop].toLowerCase().includes(val))));
+        }
     }
 }); 

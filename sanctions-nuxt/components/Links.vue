@@ -25,18 +25,6 @@
   import { computed, onMounted } from 'vue'
 
   export default {
-    head() {
-      return {
-        title: process.env.SITE_TITLE + " | "+ this.subtitle +": " + this.type,
-        meta: [
-          {
-            hid: 'media',
-            name: 'Friendly media',
-            content: 'My custom description' // TODO
-          }
-        ]
-      }
-	},
 	setup(props){
 		const linksStore = useLinksStore();
 	
@@ -51,22 +39,8 @@
 		});
 
 		const filtered = computed(() => {
-
-			if (!linksStore?.links) return [];
-
-	        if (!props.search) {	
-        	  	return linksStore?.links?.filter(x => x.type == props.type);
-        	};
-
-        	let filtered = JSON.parse(JSON.stringify(linksStore?.links)).filter(x => x.type == props.type);
-		
-			if (props.search) {
-	        	let filterVal = this.search.trim().toLowerCase().split(/\s+/)
-        		let filterBy = [ 'titlerus', 'titleeng' ]			
-				filtered = filtered.filter(item => filterBy.some(prop => filterVal.some(val => item[prop].toLowerCase().includes(val))));
-			}
-
-	        return filtered
+			if (!linksStore?.Links) return [];
+			return linksStore?.Filtered(props.type, props.search);
 		});
 		return {linksStore, filtered, WEB_STATIC_FILES}
 	},

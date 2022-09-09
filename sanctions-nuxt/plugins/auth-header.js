@@ -1,4 +1,4 @@
-import TokenService from './LoginAPI/token.service';
+import TokenService from '@/plugins/loginapi/token.service';
 
 export default function authHeader() {
     let user = TokenService.getUser();

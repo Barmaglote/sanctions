@@ -1,7 +1,7 @@
 <template>
     <div class="surface-ground">          
         <div class="col-12 md:col-12 p-0">
-            <bg-links :search="search" :type="type" subtitle="Media"></bg-links>
+            <bg-links :search="search" :type="type"></bg-links>
         </div>                            
     </div>              
 </template>
@@ -12,6 +12,18 @@ import { useRoute } from '@nuxtjs/composition-api'
 import { computed } from 'vue'
 
 export default {
+    head() {
+      return {
+        title: process.env.SITE_TITLE + " | Media: " + this.type,
+        meta: [
+          {
+            hid: 'media',
+            name: 'Friendly media',
+            content: 'My custom description' // TODO
+          }
+        ]
+      }
+	  },  
     components: { 'bg-links': Links }, 
     setup() {
       const route = useRoute()

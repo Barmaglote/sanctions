@@ -1,10 +1,10 @@
-import webAxiosInstance from './../WebAPI/web.api';
-import loginAxiosInstance from './../LoginAPI/login.api';
-import authHeader from './../auth-header';
-import TokenService from './../LoginAPI/token.service';
-
-const setupInterceptors = () => {
-  webAxiosInstance.interceptors.request.use(
+import webAxiosInstance from '@/plugins/webapi/web.api';
+import loginAxiosInstance from '@/plugins/loginapi/login.api';
+import authHeader from '@/plugins/auth-header';
+import TokenService from '@/plugins/loginapi/token.service';
+import Vue from 'vue'
+/*
+  loginAxiosInstance.interceptors.request.use(
     (config) => {
       const token = authHeader();
       if (token) {
@@ -16,7 +16,8 @@ const setupInterceptors = () => {
       return Promise.reject(error);
     }
   );
-  webAxiosInstance.interceptors.response.use(
+
+  loginAxiosInstance.interceptors.response.use(
     (res) => {
       return res;
     },
@@ -48,8 +49,8 @@ const setupInterceptors = () => {
         } else {
           return Promise.reject(err);
         }
-
     }
   );
-};
-export default setupInterceptors;
+
+Vue.use(loginAxiosInstance)
+*/

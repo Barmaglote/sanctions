@@ -18,7 +18,6 @@ log4js.configure({ // configure to use all types in different files.
     }
 });
 
-
 var loggerapi = log4js.getLogger('api');
 
 let connectDB = require('./models/db.js');
