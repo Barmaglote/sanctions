@@ -11,7 +11,7 @@ export const usePersonsStore = defineStore("persons", {
         async setPersons(value){
             this.persons = JSON.parse(JSON.stringify(value));
         },
-        async fetchPersons(){
+        async fetch(){
             const { $fetchPersons } = useContext()
     		$fetchPersons().then(res => {
         	    this.setPersons(res.data)

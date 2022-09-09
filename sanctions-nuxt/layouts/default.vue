@@ -12,7 +12,7 @@
 <script lang="ts">
     import MainMenu from '@/components/MainMenu.vue';
     import ScrollTop from 'primevue/scrolltop';
-    import Toast from 'primevue/toast';
+    import Toast from 'primevue/toast';    
     export default {
 		setup() {
             

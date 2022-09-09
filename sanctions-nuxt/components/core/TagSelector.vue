@@ -1,6 +1,6 @@
 <template>
     <div v-if="nodes.length > 0">    
-        <Tree :value="nodes" selectionMode="checkbox" :selectionKeys.sync="selectedKeys" @nodeSelect="onNodeSelect" @nodeUnselect="onNodeUnselect"></Tree>
+        <Tree :value="nodes" selectionMode="checkbox" :selectionKeys.sync="selectedKeys" @node-select="onNodeSelect" @node-unselect="onNodeUnselect"></Tree>
     </div>
 </template>
 
@@ -12,10 +12,10 @@ import { computed, ref } from 'vue'
 export default {
         setup() {
         const selectedKeys = ref(null)
-
 		const tagsStore = useTagsStore();
 
         const onNodeSelect = (node) => {
+
             if (node.children) {
                 node.children.forEach(item => {
                     tagsStore.addSelectedTag(item);    

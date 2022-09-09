@@ -6,13 +6,13 @@
       </div>
     </div>                        
     <div class="lg:col-9 md:col-9 col-12">
-        <bg-persons :search="search"></bg-persons>
+        <bg-organizations :search="search"/>
     </div>                            
   </div>              
 </template>
 
 <script>
-  import Persons from "@/components/core/Persons.vue"
+  import Organizations from "@/components/core/Organizations.vue"
   import TagSelector from "~/components/core/TagSelector.vue"
   import { useRoute } from '@nuxtjs/composition-api'
   import { computed } from 'vue'
@@ -20,19 +20,19 @@
   export default {    
     head() {
       return {
-        title: process.env.SITE_TITLE + " | Sanctions: Persons",
+        title: process.env.SITE_TITLE + " | Sanctions: Organizations",
         meta: [
           {
-            hid: 'sanctions_persons',
-            name: 'List of proposed for sanctions persons',
+            hid: 'sanctions_organizations',
+            name: 'List of proposed for sanctions organizations',
             content: 'My custom description' // TODO
           }
         ]
       }
-	  },         
+	  },     
     components: { 
-      'bg-persons': Persons, 
-      'bg-tag-selector': TagSelector 
+      'bg-organizations': Organizations, 
+      'bg-tag-selector':TagSelector 
     },
     setup() {
       const route = useRoute()
@@ -45,20 +45,20 @@
 </script>
 
 <style>
-.surface-ground {
-  display: flex;  
-}
-
-.tags-card {	
-    position: fixed;
-    width: inherit;
-    padding: 0 1.5em 0 0 !important;
-}
-
-@media screen and (max-width: 576px) {
-.tags-card {	
-    display: none;
+  .surface-ground {
+    display: flex;  
   }
-}
-
-</style>
+  
+  .tags-card {	
+      position: fixed;
+      width: inherit;
+      padding: 0 1.5em 0 0 !important;
+  }
+  
+  @media screen and (max-width: 576px) {
+  .tags-card {	
+      display: none;
+    }
+  }
+  
+  </style>

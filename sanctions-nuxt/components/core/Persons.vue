@@ -1,6 +1,6 @@
 <template>
- <div class="card">
-    <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
+	<div class="card">
+    	<DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #header>
                 <div class="grid grid-nogutter">
                     <div class="lg:col-6" style="text-align: left">
@@ -64,16 +64,7 @@
   import { computed, onMounted, ref } from 'vue'
 
   export default {
-	name: "Persons",
 	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender }, 
-    data() {
-        return {
-            sortOptions: [
-                {label: 'Evil High to Low', value: '!rating'},
-                {label: 'Evil Low to High', value: 'rating'},
-            ]
-        }
-    },
     props: {
       search: {
         type: String,
@@ -88,15 +79,17 @@
 		const sortOrder = ref(null)
 		const sortField = ref(null)
 		const layout = ref('list')
+		const sortOptions = ref([
+            {label: 'Evil High to Low', value: '!rating'},
+            {label: 'Evil Low to High', value: 'rating'},
+        ])
 
 		onMounted(() => {
 			if (personsStore?.Persons.length == 0) {
-				personsStore.fetchPersons();
+				personsStore.fetch();
 			}
 
-			if (tagsStore?.Tags.length == 0) {
-				tagsStore.fetchTags('persons');
-			}			
+			tagsStore.fetchTags('persons');			
 		});
 
         const onSortChange = (event) => {
@@ -143,7 +136,7 @@
 			return personsStore?.Filtered(props.search, tagsStore.Selected);
 		});
 
-		return { personsStore, tagsStore, onSortChange, getTagNames, WEB_STATIC_FILES, filtered, sortKey, sortOrder, sortField, layout }
+		return { personsStore, tagsStore, onSortChange, getTagNames, WEB_STATIC_FILES, filtered, sortKey, sortOrder, sortField, layout, sortOptions }
     },
   }
 </script>

@@ -1,0 +1,84 @@
+.menu-bar{
+  top: 0;
+  z-index: 1000;
+}
+
+.card{
+  background: #ffffff;
+  padding: 2rem;
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+  border-radius: 4px;
+}
+
+body{
+  font-family: 'Roboto', sans-serif;
+  font-size: small;
+}
+
+.element-list-item{
+  background-color: #ffffff;
+  color: black;
+}
+
+.display-grid{
+  background-color: #ffffff;
+  color: black;
+}
+
+.p-dataview .p-dataview-content, .p-dataview .p-paginator-bottom{
+  background-color: #ffffff;
+  color: black;
+}
+
+.p-dataview .p-link{
+  color: black;
+}
+
+.p-paginator-page .p-highlight{ 
+    background: rgba(255, 213, 79, 1);
+    border-color: rgba(255, 213, 79, 1);
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page{
+  color: black;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+  color: rgba(0,0,0,0.8);
+}
+
+.p-dropdown{
+  background-color: #FFD54F;
+}
+
+.p-dropdown-label {
+  color: black !important;
+}
+
+.p-scrolltop.p-link, .p-paginator .p-paginator-pages .p-paginator-page.p-highlight{
+  background-color: rgba(255, 213, 79, 1);
+  border-color: rgba(255, 213, 79, 1);
+}
+
+.p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover, .p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover, .p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover, .p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover{
+  color: rgba(255, 213, 79, 1);
+}
+
+.p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover{
+  color: black;
+}
+
+
+.photo-default {
+	opacity: 0.5;
+}
+
+.surface-ground {
+  background-color: #17212f !important;
+}
+
+body {
+  background: #17212f !important;
+}
+
