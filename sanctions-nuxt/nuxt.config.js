@@ -42,6 +42,7 @@ export default {
     '@/plugins/webapi/organizations.service.js',
     '@/plugins/interceptors/setupLoginAPIInterceptors.js',
     '@/plugins/interceptors/setupWebAPIInterceptors',
+    '@/plugins/loginapi/auth.service.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,6 +53,7 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     '@nuxtjs/dotenv',
+    ['@pinia/nuxt', { disableVuex: false }],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -62,9 +64,48 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@pinia/nuxt',
-    '@nuxtjs/composition-api/module',    
+    '@pinia/nuxt',    
+    '@nuxtjs/composition-api/module', 
+    '@nuxtjs/auth-next',
+    'nuxt-browser-console', 
   ],
+
+  browserConsole: {
+    namespace: 'console'
+  },
+
+  auth: {
+    localStorage: {
+      prefix: 'auth.'
+    },
+    strategies: {
+      local: {
+        scheme: 'local',
+        token: {
+          property: 'accessToken',
+          required: true,
+          global: true,
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        user: {
+          property: 'user', // here should be `false`, as you defined in user endpoint `propertyName`
+          autoFetch: true
+        },        
+        endpoints: {
+          login: { url: 'http://localhost:4000/api/auth/signin', method: 'post' },
+          user: { url: 'http://localhost:4000/api/auth/user/', method: 'get' }
+        }
+      }        
+    },
+    redirect: {
+      home: '/'
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

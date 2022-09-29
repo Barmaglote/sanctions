@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Links from "@/components/Links.vue"
+import Links from "@/components/sanctions/Links.vue"
 import { useRoute } from '@nuxtjs/composition-api'
 import { computed } from 'vue'
 

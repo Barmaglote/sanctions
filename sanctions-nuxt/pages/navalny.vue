@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import Navalny from "@/components/Navalny.vue";
+  import Navalny from "@/components/sanctions/Navalny.vue";
   import { ref, onMounted, onUnmounted } from 'vue'
 
   export default {

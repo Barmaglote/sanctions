@@ -8,10 +8,8 @@
 			</template>
 			<template #end>
                 <div class="menu-end-container">
-                    <!--
-                    <UserMenuItem></UserMenuItem>
-                    -->
-		            <bg-search-input/>
+                  <bg-user-menu/>
+		              <bg-search-input/>
                 </div>
 			</template>
 		</menu-bar>
@@ -22,7 +20,8 @@
 import Menubar from 'primevue/menubar'
 import { onMounted, ref } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
-import SearchInput from '@/components/SearchInput.vue'
+import SearchInput from '@/components/core/SearchInput.vue'
+import UserMenu from '@/components/core/UserMenu.vue';
 
 export default {
 
@@ -43,7 +42,8 @@ export default {
     },
     components: {
         "menu-bar": Menubar,
-        "bg-search-input": SearchInput
+        "bg-search-input": SearchInput,
+        "bg-user-menu": UserMenu
     }
 }
 </script>

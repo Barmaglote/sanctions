@@ -12,8 +12,8 @@
 </template>
 
 <script>
-  import Persons from "@/components/core/Persons.vue"
-  import TagSelector from "~/components/core/TagSelector.vue"
+  import Persons from "@/components/sanctions/Persons.vue"
+  import TagSelector from "@/components/core/TagSelector.vue"
   import { useRoute } from '@nuxtjs/composition-api'
   import { computed } from 'vue'
 

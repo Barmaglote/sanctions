@@ -10,7 +10,7 @@ import Tree from 'primevue/tree'
 import { computed, ref } from 'vue'
 
 export default {
-        setup() {
+    setup() {
         const selectedKeys = ref(null)
 		const tagsStore = useTagsStore();
 

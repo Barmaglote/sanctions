@@ -5,4 +5,4 @@ export default ({ app }, inject) => {
         const data = await webAxiosInstance.get('/links');
         return JSON.parse(JSON.stringify(data));
     });
-  }
+}

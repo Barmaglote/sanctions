@@ -12,8 +12,8 @@
 </template>
 
 <script>
-  import Organizations from "@/components/core/Organizations.vue"
-  import TagSelector from "~/components/core/TagSelector.vue"
+  import Organizations from "@/components/sanctions/Organizations.vue"
+  import TagSelector from "@/components/core/TagSelector.vue"
   import { useRoute } from '@nuxtjs/composition-api'
   import { computed } from 'vue'
 

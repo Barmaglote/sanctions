@@ -188,6 +188,7 @@ export async function RequestRestorePassword(req, res) {
 };
 
 export async function Login(req, res) {
+
     const { password } = req.body;
     let { login } = req.body;
 
@@ -209,13 +210,14 @@ export async function Login(req, res) {
 
         if (!isPasswordEqual) {
             Send(res, 500, { "status": "failed", "message": "Wrong credentials" });
+            return
         }
 
         let payload = { "login": user.login, "username": user.username };
         const access_token = GenerateAccessToken(payload);
         const refresh_token = GenerateRefreshToken(payload);
 
-        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, login: user.login, username: user.username });
+        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, login: user.login, username: user.username, user: {login: user.login, username: user.username} });
     } catch (e) {
         console.log(e);
         Send(res, 500, { "status": "failed" });
@@ -240,6 +242,16 @@ export async function RefreshAccessToken(req, res) {
         Send(res, 200, { "status": "success", "accessToken": access_token });
         return;
     });
+};
+
+export async function CurrentUser(req, res) {
+    if (!req.user) {
+        Send(res, 401, { "status": "failed" });
+        return;
+    }
+
+    Send(res, 200, { "status": "success", "user": req.user });
+    return;
 };
 
 const ToLowerAndTrim = (item) => {
