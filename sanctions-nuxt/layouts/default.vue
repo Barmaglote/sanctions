@@ -12,11 +12,13 @@
 <script lang="ts">
     import MainMenu from '@/components/core/MainMenu.vue';
     import ScrollTop from 'primevue/scrolltop';
-    import Toast from 'primevue/toast';    
+    import Toast from 'primevue/toast';  
+  
+
     export default {
 		setup() {
-            
-        },
+
+    },
     components:  {
 			"bg-menu": MainMenu,
 			"p-scrolltop": ScrollTop,

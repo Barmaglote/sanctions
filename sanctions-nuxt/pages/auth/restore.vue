@@ -1,25 +1,25 @@
 <template>          
     <div class="p-0 p-text-center p-flex justify-content-center">
-        <bg-registered/>
+      <bg-restore/>
     </div>                            
 </template>
 
 <script>
-  import Registered from "@/components/auth/Registered.vue";
+  import Restore from "@/components/auth/Restore.vue";
 
   export default {
     head() {
       return {
-        title: process.env.SITE_TITLE + " | Auth: Registered",
+        title: process.env.SITE_TITLE + " | Auth: Restore password",
         meta: [
           {
-            hid: 'registered',
-            name: 'Registered',
+            hid: 'restore',
+            name: 'Restore password',
             content: 'My custom description' // TODO
           }
         ]
       }
 	  },
-    components: { 'bg-registered': Registered },
+    components: { 'bg-restore': Restore },
   }
 </script>

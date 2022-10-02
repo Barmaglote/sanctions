@@ -1,53 +1,24 @@
-import loginAxiosInstance from './login.api.js'
 import TokenService from './token.service.js'
 
-export default ({ app }, inject) => {    
+export default ({ app, $loginapi }, inject) => {    
   inject('login', async (user) => {
-    // return app.$auth.loginWith('local', { data: user })
-
-    const response = await app.$auth.loginWith('local', {data: user })
-    
-    app.$console.log(response)
-    console.log(response)
-
-    if (response.status == 200) {
-      await app.$auth.setUser(user)
-      await app.$auth.setUserToken(response.accessToken, response.refreshToken)
-    }
-    
-  
-    return response.status == 200;
-
-    /*
-    return loginAxiosInstance
-      .post('auth/signin', {
-        login: user.login,
-        password: user.password // TODO: cypher!
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          TokenService.setUser(response.data);
-        }
-        return {login: user.login, ...response.data};
-      });
-    */
+    return app.$auth.loginWith('local', {data: user })    
   })
 
-  inject('changePassword', async (user,password) => {
-    return loginAxiosInstance
-      .post('auth/changepassword', {
+  inject('changepassword', async (user,password) => {
+    return app.$loginapi().post('auth/changepassword', {
         login: user.login,
-        password: user.password,
-        oldpassword: password
-      })
+        password: user.password, // TODO: cypher!
+        oldpassword: password // TODO: cypher!
+      }) 
   })
 
   inject('logout', async () => {
-    TokenService.removeUser();
+    return app.$auth.logout('local');
   })
 
   inject('register', async (user) => {  
-    return loginAxiosInstance.post('auth/signup', {
+    return app.$loginapi().post('auth/signup', {
       username: user.username,
       login: user.login,
       password: user.password // TODO: cypher!
@@ -55,18 +26,14 @@ export default ({ app }, inject) => {
   })
 
   inject('requestrestore', async (login) => {  
-    return loginAxiosInstance.post('auth/requestrestore', {login});
+    return app.$loginapi().post('auth/requestrestore', {login});
   })
 
-  inject('restore', async (password, token, login) => {
-    return loginAxiosInstance.post('auth/restore', {password, token, login});
+  inject('restore', async (password, token, login) => {    
+    return app.$loginapi().post('auth/restore', {password, token, login});
   })
 
   inject('confirm', async (login, token) => {
-    return loginAxiosInstance.post('auth/confirm', {login, token});
-  })
-
-  inject('refreshtoken', async () => {
-    return loginAxiosInstance.post('auth/refresh-token', TokenService.getLocalRefreshToken());
+    return app.$loginapi().post('auth/confirm', {login, token});
   })
 }

@@ -1,8 +1,24 @@
 import axios from "axios";
-const webAxiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/", // TODO: take it from process.env
-  headers: {
-    "Content-Type": "application/json"
-  },
-});
-export default webAxiosInstance;
+
+export default ({ app }, inject) => {    
+  inject('webapi', () => {
+    const webapi = axios.create({
+      baseURL: "http://localhost:5000/api/v1", // TODO: take it from process.env
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": app.$auth.strategy.token.get()
+      },
+    })
+
+    webapi.interceptors.response.use(
+      (res) => {
+        return res;
+      },
+      async (err) => {   
+        return Promise.reject(err);
+      }
+    )
+
+    return webapi;
+  })
+}

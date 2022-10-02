@@ -187,6 +187,10 @@ export async function RequestRestorePassword(req, res) {
      return;
 };
 
+export async function Logout(req, res) {
+    Send(res, 200, { "status": "success", "accessToken": null, "refreshToken": null, user: null });
+}
+
 export async function Login(req, res) {
 
     const { password } = req.body;
@@ -217,7 +221,7 @@ export async function Login(req, res) {
         const access_token = GenerateAccessToken(payload);
         const refresh_token = GenerateRefreshToken(payload);
 
-        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, login: user.login, username: user.username, user: {login: user.login, username: user.username} });
+        Send(res, 200, { "status": "success", "accessToken": access_token, "refreshToken": refresh_token, user: {login: user.login, username: user.username} });
     } catch (e) {
         console.log(e);
         Send(res, 500, { "status": "failed" });

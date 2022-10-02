@@ -16,7 +16,7 @@ import { onMounted } from 'vue'
 export default {
   setup() {
     const router = useRouter()
-    const { $auth } = useContext()
+    const { $auth, $logout } = useContext()
 
     onMounted(() => {    
       if (!$auth.user || !$auth.loggedIn) {
@@ -25,8 +25,7 @@ export default {
     })
 
     const logout = () => {
-      $auth.logout('local');
-      router.push('/auth/login');
+      $logout();
     }
 
     return { logout }

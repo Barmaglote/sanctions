@@ -1,25 +1,25 @@
 <template>          
     <div class="p-0 p-text-center p-flex justify-content-center">
-        <bg-registered/>
+        <bg-change-password/>
     </div>                            
 </template>
 
 <script>
-  import Registered from "@/components/auth/Registered.vue";
+  import ChangePassword from "@/components/auth/ChangePassword.vue";
 
   export default {
     head() {
       return {
-        title: process.env.SITE_TITLE + " | Auth: Registered",
+        title: process.env.SITE_TITLE + " | Auth: Change password",
         meta: [
           {
-            hid: 'registered',
-            name: 'Registered',
+            hid: 'changepassword',
+            name: 'Change password',
             content: 'My custom description' // TODO
           }
         ]
       }
-	  },
-    components: { 'bg-registered': Registered },
+	  }, 
+    components: { 'bg-change-password': ChangePassword }
   }
 </script>

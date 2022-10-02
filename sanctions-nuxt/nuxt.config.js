@@ -40,9 +40,10 @@ export default {
     '@/plugins/webapi/persons.service.js',
     '@/plugins/webapi/tags.service.js',
     '@/plugins/webapi/organizations.service.js',
-    '@/plugins/interceptors/setupLoginAPIInterceptors.js',
-    '@/plugins/interceptors/setupWebAPIInterceptors',
-    '@/plugins/loginapi/auth.service.js'
+    '@/plugins/loginapi/auth.service.js',
+    '@/plugins/loginapi/token.service.js',
+    '@/plugins/webapi/web.api.js',
+    '@/plugins/loginapi/login.api.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -80,17 +81,18 @@ export default {
     },
     strategies: {
       local: {
-        scheme: 'local',
+        scheme: 'refresh',
         token: {
           property: 'accessToken',
-          required: true,
+          data: 'accessToken',
           global: true,
-          maxAge: 1800
+          maxAge: 1800,  // in seconds 1800 sec = 30 min
+          name: 'authorization'    
         },
         refreshToken: {
           property: 'refreshToken',
           data: 'refreshToken',
-          maxAge: 60 * 60 * 24 * 30
+          maxAge: 60 * 60 * 24 * 30 // in seconds, 30 days
         },
         user: {
           property: 'user', // here should be `false`, as you defined in user endpoint `propertyName`
@@ -98,12 +100,15 @@ export default {
         },        
         endpoints: {
           login: { url: 'http://localhost:4000/api/auth/signin', method: 'post' },
-          user: { url: 'http://localhost:4000/api/auth/user/', method: 'get' }
+          logout: { url: 'http://localhost:4000/api/auth/logout', method: 'post' },
+          user: { url: 'http://localhost:4000/api/auth/user/', method: 'get' },
+          refresh: { url: 'http://localhost:4000/api/auth/refreshtoken', method: 'post' },
         }
       }        
     },
     redirect: {
-      home: '/'
+      home: '/',
+      logout: '/auth/login',
     }
   },
 

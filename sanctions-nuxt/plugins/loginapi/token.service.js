@@ -1,27 +1,15 @@
-const localStorageKey = 'barmaglote.sanctions.user'; // TODO: Move to .env
+export default ({ app }, inject) => {    
+  inject('getLocalRefreshToken', async () => {
+    return app.$auth.strategy.token.get()    
+  })
 
-class TokenService {
-    getLocalRefreshToken() {
-      const user = JSON.parse(localStorage.getItem(localStorageKey));
-      return user?.refreshToken;
-    }
-    getLocalAccessToken() {
-      const user = JSON.parse(localStorage.getItem(localStorageKey));
-      return user?.accessToken;
-    }
-    updateLocalAccessToken(token) {
-      let user = JSON.parse(localStorage.getItem(localStorageKey));
-      user.accessToken = token;
-      localStorage.setItem(localStorageKey, JSON.stringify(user));
-    }
-    getUser() {
-      return JSON.parse(localStorage.getItem(localStorageKey));
-    }
-    setUser(user) {
-      localStorage.setItem(localStorageKey, JSON.stringify(user));
-    }
-    removeUser() {
-      localStorage.removeItem(localStorageKey);
-    }
-  }
-  export default new TokenService();
+  inject('getLocalAccessToken', async () => {
+    return app.$auth.strategy.refreshToken.get()    
+  })
+
+  inject('updateLocalToken', async (accessToken, refreshToken) => {
+    app.$auth.setUserToken(accessToken, refreshToken)
+  })  
+
+  
+}

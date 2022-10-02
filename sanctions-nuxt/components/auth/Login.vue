@@ -37,7 +37,7 @@
                     <a href="/auth/requestrestore" :to="{ path: '/auth/restore' }" class="px-1">Forgot password</a>
                 </div>                
                 <div class="form-group">
-                    <div v-if="message" class="alert alert-danger" role="alert">Status: {{message}}</div>
+                    <div v-if="message" class="alert alert-danger pt-2" role="alert">Status: {{message}}</div>
                 </div>
             </form>
         </div>
@@ -74,7 +74,7 @@ export default {
 
     let v$ = useVuelidate(rules, state)
 
-    const { $auth, $login } = useContext()
+    const { $auth, $login, $updateLocalToken } = useContext()
     const router = useRouter()
     const loading = ref(false)
     const submitted = ref(false)
@@ -87,47 +87,21 @@ export default {
         loading.value = false;
         return;
       }
+
       if (state.login && state.password) {
         submitted.value = true;
 
-        $login(new User(state.login, null, state.password))
-
-        loading.value = false;
-
-        $auth.loginWith('local', { data: new User(state.login, null, state.password) }).then(
-          (result) => {
-            console.log(result)
-            router.push('/auth/profile');
-          },
-          (error) => {
-            console.log(error)
-            loading.value = false;
-            message.value = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();
-          })        
-
-        
-        /*
-        $login(new User(state.login, null, state.password)).then(result => {
+        $login(new User(state.login, null, state.password)).then((result) => {
           loading.value = false;
-          console.log(result)
+
           if (result) {
+            $updateLocalToken(result.data?.accessToken, result.data?.refreshToken)
             router.push('/auth/profile');
           }          
+        }, (error) => {          
+          loading.value = false;
+          message.value = (error.response && error.response?.data?.message) || error.response?.data?.status || error.message || error.toString();
         })
-        */
-
-        /*
-
-        $auth.loginWith('local', { data: new User(state.login, null, state.password) }).then(
-          (result) => {
-            console.log(result)
-            router.push('/auth/profile');
-          },
-          (error) => {
-            loading.value = false;
-            message.value = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();
-          })
-          */
       }
     }
 
@@ -146,34 +120,5 @@ export default {
 <style>
 .p-inputtext, .p-password, .p-password-input {
     width: 100%;
-}
-label {
-  display: block;
-  margin-top: 10px;
-}
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
 }
 </style>

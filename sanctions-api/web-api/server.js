@@ -28,8 +28,8 @@ app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 app.use(express.json());
 app.use('/static', express.static('public'))
 app.use(cors(corsOptionsDelegate));
-app.use('/api/persons', routesAPIPersons);
-app.use('/api/links', routesAPILinks);
-app.use('/api/organizations', routesAPIOrganizations);
-app.use('/api/tags', routesAPITags);
+app.use('/api/v1/persons', routesAPIPersons);
+app.use('/api/v1/links', routesAPILinks);
+app.use('/api/v1/organizations', routesAPIOrganizations);
+app.use('/api/v1/tags', routesAPITags);
 app.listen(process.env.PORT);
