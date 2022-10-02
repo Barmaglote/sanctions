@@ -15,38 +15,8 @@ export default ({ app }, inject) => {
         return res;
       },
       async (err) => {
+        app.$toast.error(err.message)
         return Promise.reject(err);
-        /*
-          const originalConfig = err.config;
-          if (originalConfig.url !== "/auth/signin" && err.response) {
-    
-            // Access Token was expired
-            if (err.response.status === 401 && !originalConfig._retry) {            
-    
-              originalConfig._retry = true;
-              try {
-
-                  console.log("app.$getLocalRefreshToken()", app.$getLocalRefreshToken())
-
-                  const response = await loginapi.post("/auth/refreshtoken", {
-                    refreshToken: app.$getLocalRefreshToken()
-                  });
-     
-                const { status, accessToken } = response.data;
-    
-                if (status) {
-                  app.$updateLocalAccessToken(accessToken);
-                }
-                
-                return loginapi(originalConfig);  
-              } catch (_error) {
-                return Promise.reject(_error);
-              }
-            }            
-          } else {
-            return Promise.reject(err);
-          }
-          */
       }
     )
 

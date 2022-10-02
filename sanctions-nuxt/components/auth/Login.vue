@@ -74,7 +74,7 @@ export default {
 
     let v$ = useVuelidate(rules, state)
 
-    const { $auth, $login, $updateLocalToken } = useContext()
+    const { $auth, $login, $updateLocalToken, $toast } = useContext()
     const router = useRouter()
     const loading = ref(false)
     const submitted = ref(false)
@@ -86,7 +86,7 @@ export default {
       if (!isFormValid) {
         loading.value = false;
         return;
-      }
+      }      
 
       if (state.login && state.password) {
         submitted.value = true;
@@ -101,6 +101,7 @@ export default {
         }, (error) => {          
           loading.value = false;
           message.value = (error.response && error.response?.data?.message) || error.response?.data?.status || error.message || error.toString();
+          $toast.error(message.value)
         })
       }
     }

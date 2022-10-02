@@ -92,7 +92,7 @@ export default {
 
     let v$ = useVuelidate(rules, state)
 
-    const { $auth, $register } = useContext() // TODO: toast
+    const { $auth, $register, $toast } = useContext()
     const router = useRouter()
     const loading = ref(false)
     const submitted = ref(false)
@@ -122,6 +122,7 @@ export default {
           error => {
             loading.value = false;
             message.value = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();                  
+            $toast.error(message.value)
         })            
     }
     

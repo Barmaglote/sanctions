@@ -49,7 +49,7 @@ export default {
 
     let v$ = useVuelidate(rules, state)    
 
-    const { $auth, $requestrestore } = useContext()
+    const { $auth, $requestrestore, $toast } = useContext()
     const router = useRouter()
     const loading = ref(false)
     const message = ref('')
@@ -65,12 +65,13 @@ export default {
       if (state.login) {
         $requestrestore(state.login).then(() => {
           loading.value = false;
-          //this.$toast.add({severity:'success', summary: 'Password restore', detail:'Link to restore password is sent to your e-mail', life: 3000});
+          $toast.success('Link to restore password is sent to your e-mail')
           router.push('/auth/login');
         },
         error => {
           loading.value = false;
           message.value = (error.response && error.response.data.status) || error.message || error.toString();
+          $toast.error(message.value)
         });
       }
     }

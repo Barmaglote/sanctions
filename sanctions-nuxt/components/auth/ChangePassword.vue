@@ -111,7 +111,7 @@ export default {
     const submitted = ref(false)
 
     const router = useRouter()
-    const { $changepassword, $auth } = useContext() // TODO
+    const { $changepassword, $auth, $toast } = useContext() // TODO
     
     onMounted(() => {
         if (!$auth.loggedIn) router.push('/auth/profile');
@@ -119,37 +119,25 @@ export default {
     });
 
     const handleSubmit = (isFormValid) => {
-
-        console.log("111111111111")
-
         if (!isFormValid) {
             loading.value = false;
             return;
         }
 
-        console.log("222222222222")
-
         submitted.value = true
-
-        console.log("333333333333")
 
         if (state.login && state.password) {
 
-            console.log("4444444444444444")
-
             loading.value = true            
             $changepassword(new User(state.login, null, state.newpassword), state.password).then(() => {
-              //this.$toast.add({severity:'success', summary: 'Password change', detail:'Confirmation link is sent to your e-mail', life: 3000});
+              $toast.success('Confirmation link is sent to your e-mail')
               loading.value = false
-              console.log("555555555555")
               router.push('/auth/passwordchanged');
             }, 
             error => {
-              console.log("666666666666")
-              console.log(error)
               loading.value = false;
               message.value = (error.response && error.response?.data?.message) || error.response?.data?.status || error.message || error.toString();
-              console.log("7777777")
+              $toast.error(message.value)
             });
         }
     }

@@ -63,19 +63,20 @@ export default {
     const handleSubmit = (isFormValid) => {
       loading.value = true;
       if (!isFormValid) {
-        //$toast.add({severity:'warn', summary: 'Password restore', detail:'Data is incorrect', life: 3000});
+        $toast.error('Data is incorrect')
         loading.value = false;
         return;
       }
 
       if (state.login && state.token) {            
         $confirm(state.login, state.token).then((result) => {
-          //$toast.add({severity:'success', summary: 'Password restore', detail:'Your password is confirm', life: 3000});
+          $toast.success('Your password is confirm')
           router.push('/auth/login');
         }, 
         error => {
           loading.value = false;
           message.value = (error.response && error.response?.data?.message) || error.response?.data?.status || error.message || error.toString();
+          $toast.error(message.value)
         });
       }
     }

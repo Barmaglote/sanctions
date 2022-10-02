@@ -69,6 +69,7 @@ export default {
     '@nuxtjs/composition-api/module', 
     '@nuxtjs/auth-next',
     'nuxt-browser-console', 
+    '@nuxtjs/toast'
   ],
 
   browserConsole: {
@@ -127,6 +128,11 @@ export default {
 
   loading: {
     color: '#666'
+  },  
+
+  toast: {
+    position: 'top-right',
+    duration: 3000,
   },  
 
   env: {
