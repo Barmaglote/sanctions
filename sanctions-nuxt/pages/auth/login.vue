@@ -19,7 +19,8 @@
           }
         ]
       }
-	  },             
+	  },      
+    layout: 'auth',
     components: { 
       'bg-login': Login 
     },

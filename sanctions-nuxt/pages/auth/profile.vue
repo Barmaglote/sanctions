@@ -20,6 +20,7 @@
         ]
       }
 	  }, 
+    layout: 'auth',
     components: { 'bg-profile': Profile },
   }
 </script>

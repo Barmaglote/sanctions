@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-nogutter surface-section text-800">
+  <div class="grid grid-nogutter surface-section bg-text-800">
     <div class="col-12 md:col-6 px-6 text-center md:text-left flex align-items-center responsive-text">
         <section>
             <span class="block text-5xl font-bold mb-1">Stop the war in Ukraine!</span>

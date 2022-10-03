@@ -31,6 +31,7 @@
 
       return { token } 
     },
+    layout: 'auth',
     components: { 'bg-confirmation': PasswordConfirmation },
   }
 </script>

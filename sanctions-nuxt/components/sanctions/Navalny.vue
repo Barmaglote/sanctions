@@ -1,6 +1,6 @@
 <template>
   <div class="time-container">
-    <div class="grid-nogutter surface-section text-800">
+    <div class="grid-nogutter surface-section bg-text-800">
        <div class="col-12 md:col-8 px-2 text-center md:text-left flex align-items-center responsive-text">
            <section>
                <span class="block text-4xl font-bold mb-1">Alexey Navalny</span>
@@ -51,7 +51,6 @@
 
 <script>
   export default {
-    name: "Navalny",
     props: {
       past: {
         default: null
@@ -64,17 +63,19 @@
 
 .clock-timer{
   font-size: 4.2em;
-  color: white;
+  color: #2196F3;
+  margin: 10px;
 }
 
 @media (max-width: 600px) {
  .clock-timer{
   font-size: 1.6em;
-} 
+  } 
 }
 
 .clock-label{
   font-size: 3em;
+  color: silver;
 }
 
 .time-container{
@@ -116,7 +117,7 @@ body {
 .clock-container {
   margin-top: 30px;
   margin-bottom: 30px;
-  background-color: #080808;
+  background-color: white;
   border-radius: 5px;
   padding: 40px 15px;
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.15), 0 15px 90px 30px rgba(0, 0, 0, 0.25);
@@ -132,7 +133,7 @@ body {
 }
 .clock-col:not(:last-child):before, .clock-col:not(:last-child):after {
   content: "";
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #2196F3;
   height: 5px;
   width: 5px;
   border-radius: 50%;
@@ -147,14 +148,14 @@ body {
   top: 50%;
 }
 .clock-timer:before {
-  color: #fff;
+  color: #2196F3;
   font-size: 4.2rem;
   text-transform: uppercase;
 }
 
 
 .clock-label {
-  color: rgba(255, 255, 255, 0.35);
+  color: black;
   text-transform: uppercase;
   font-size: 0.7rem;
   margin-top: 10px;
@@ -182,7 +183,7 @@ body {
 }
 
 .clock-timer:before {
-  color: #fff;
+  color: #2196F3;
   font-size: 3.2rem;  
 }
 

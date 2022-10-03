@@ -8,6 +8,9 @@
   import Login from "@/components/auth/Login";
 
   export default {
+    layout: 'auth',
     components: { 'bg-login': Login },
   }
 </script>
+
+

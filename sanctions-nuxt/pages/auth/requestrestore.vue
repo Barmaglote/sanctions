@@ -20,6 +20,7 @@
         ]
       }
 	  },    
+    layout: 'auth',
     components: { 'bg-request-restore': RequestRestore },
   }
 </script>

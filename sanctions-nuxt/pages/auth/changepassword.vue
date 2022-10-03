@@ -20,6 +20,7 @@
         ]
       }
 	  }, 
+    layout: 'auth',
     components: { 'bg-change-password': ChangePassword }
   }
 </script>

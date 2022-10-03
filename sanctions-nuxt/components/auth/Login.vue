@@ -1,6 +1,7 @@
 <template>
     <div class="p-col-12">
         <div class="card card-container">
+            <bg-home-button/>
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
             <form name="form" @submit.prevent="handleSubmit(!v$.$invalid)">
                 <div class="form-group">
@@ -45,15 +46,16 @@
 </template>
 
 <script>
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import Password from 'primevue/password';
-import User from '@/models/user';
-import Divider from 'primevue/divider/Divider';
-import { email, required } from 'vuelidate/lib/validators';
-import { useVuelidate } from "@vuelidate/core";
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import Password from 'primevue/password'
+import User from '@/models/user'
+import Divider from 'primevue/divider/Divider'
+import { email, required } from 'vuelidate/lib/validators'
+import { useVuelidate } from "@vuelidate/core"
 import { reactive, ref, onMounted } from 'vue'
 import { useContext, useRouter } from '@nuxtjs/composition-api'
+import HomeButton from '@/components/core/HomeButton'
 
 export default {
   setup() {
@@ -114,12 +116,6 @@ export default {
 
     return { state, v$, loading, loading, message, handleSubmit, submitted }
   },
-  components: { InputText, Password, Button, Divider }
+  components: { InputText, Password, Button, Divider, 'bg-home-button': HomeButton }
 }
-</script>
-
-<style>
-.p-inputtext, .p-password, .p-password-input {
-    width: 100%;
-}
-</style>
+</script> 

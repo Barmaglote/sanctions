@@ -1,6 +1,7 @@
 <template>
     <div class="p-col-12">
         <div class="card card-container">
+            <bg-home-button/>
             <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
             <form name="form" @submit.prevent="handleSubmit(!v$.$invalid)">
             <input type="hidden" v-model="v$.login"/>
@@ -67,7 +68,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { reactive, ref, computed } from 'vue'
 import { email, required } from 'vuelidate/lib/validators'
 import { useContext, useRouter, useRoute } from '@nuxtjs/composition-api'
-import Divider from 'primevue/divider/Divider';
+import Divider from 'primevue/divider/Divider'
+import HomeButton from '@/components/core/HomeButton.vue'
 
 export default {  
   setup(){ 
@@ -85,7 +87,7 @@ export default {
 
     let v$ = useVuelidate(rules, state)    
 
-    const { $restore } = useContext()
+    const { $restore, $toast } = useContext()
     const router = useRouter()
 
     const loading = ref(false)
@@ -110,7 +112,7 @@ export default {
         if (state.newpassword && token.value && state.login) {
             loading.value = true;
               $restore(state.newpassword, token.value, state.login).then(() => {
-              //this.$toast.add({severity:'success', summary: 'New user', detail:'Your request is accepted. Confirmation link is sent to your e-mail', life: 3000});
+              $toast.success('Your request is accepted. Confirmation link is sent to your e-mail')
               loading.value = false;
               submitted.value = false;
               router.push('/auth/login');
@@ -119,6 +121,7 @@ export default {
               submitted.value = false;
               loading.value = false;
               message.value = (error.response && error.response.data.status) || error.message || error.toString();
+              $toast.error(message.value)
             });
         } else {
             loading.value = false;
@@ -127,41 +130,6 @@ export default {
 
     return {v$, handleSubmit, message, loading, submitted}
   },
-  components: { InputText, Password, Button, Divider }, 
+  components: { InputText, Password, Button, Divider, 'bg-home-button': HomeButton }, 
 };
 </script>
-
-<style>
-.p-inputtext, .p-password, .p-password-input {
-    width: 100%;
-}
-label {
-  display: block;
-  margin-top: 10px;
-}
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-}
-</style>
