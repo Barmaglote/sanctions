@@ -1,8 +1,8 @@
 import TokenService from './token.service.js'
 
-export default ({ app, $loginapi }, inject) => {    
+export default ({ app }, inject) => {    
   inject('login', async (user) => {
-    return app.$auth.loginWith('local', {data: user })    
+    return app.$auth.loginWith('local', { data: user })
   })
 
   inject('changepassword', async (user,password) => {

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config('');
 import cors from 'cors';
 import corsOptionsDelegate from './helpers/cors.js';
 import express from 'express';
@@ -14,7 +14,6 @@ log4js.configure({ // configure to use all types in different files.
         default: { appenders: ["login"], level: "all" }
     }
 });
-
 
 var loggerlogin = log4js.getLogger('login');
 

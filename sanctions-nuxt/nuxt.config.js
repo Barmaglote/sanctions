@@ -37,6 +37,16 @@ export default {
     '@/styles/styles.scss',     
   ],
 
+  publicRuntimeConfig: {
+    recaptcha: {
+      hideBadge: false,
+      siteKey: process.env.RECAPTCHA_SITE_KEY,
+      size: 'normal',
+      version: 3,
+      mode: 'base'
+    }
+  },  
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/local/menu.service.js',
@@ -73,7 +83,8 @@ export default {
     '@nuxtjs/composition-api/module', 
     '@nuxtjs/auth-next',
     'nuxt-browser-console', 
-    '@nuxtjs/toast'
+    '@nuxtjs/toast',
+    '@nuxtjs/recaptcha'
   ],
 
   browserConsole: {

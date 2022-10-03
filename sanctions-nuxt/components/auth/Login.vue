@@ -28,7 +28,11 @@
                     </Password>
                 </div>
                 <div class="form-group pt-3"> 
-                    <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
+                    <Button type="submit" 
+                            label="Submit" 
+                            class="mt-2 g-recaptcha" 
+                            :disabled="loading" 
+                            style="width: 100%;"> 
                       <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
                       <span class="text-center" style="width: 100%;">Sign Up</span>                    
                     </Button>
@@ -53,7 +57,7 @@ import User from '@/models/user'
 import Divider from 'primevue/divider/Divider'
 import { email, required } from 'vuelidate/lib/validators'
 import { useVuelidate } from "@vuelidate/core"
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useContext, useRouter } from '@nuxtjs/composition-api'
 import HomeButton from '@/components/core/HomeButton'
 
@@ -76,13 +80,13 @@ export default {
 
     let v$ = useVuelidate(rules, state)
 
-    const { $auth, $login, $updateLocalToken, $toast } = useContext()
+    const { $auth, $login, $updateLocalToken, $toast, $recaptcha } = useContext()
     const router = useRouter()
     const loading = ref(false)
     const submitted = ref(false)
     const message = ref('')
 
-    const handleSubmit = (isFormValid) => {
+    const handleSubmit = async (isFormValid) => {
       loading.value = true;
 
       if (!isFormValid) {
@@ -93,7 +97,9 @@ export default {
       if (state.login && state.password) {
         submitted.value = true;
 
-        $login(new User(state.login, null, state.password)).then((result) => {
+        const recaptcha = await $recaptcha.execute('login')
+
+        $login(new User(state.login, null, state.password, recaptcha)).then((result) => {
           loading.value = false;
 
           if (result) {
@@ -112,6 +118,16 @@ export default {
       if ($auth.loggedIn) {
         router.push('/auth/profile')  
       }
+
+      try {
+        $recaptcha.init()
+      } catch (e) {
+        console.error(e);
+      }
+    })
+
+    onBeforeUnmount(() => {
+      $recaptcha.destroy()
     })
 
     return { state, v$, loading, loading, message, handleSubmit, submitted }
