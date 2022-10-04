@@ -24,7 +24,6 @@ import SearchInput from '@/components/core/SearchInput.vue'
 import UserMenu from '@/components/core/UserMenu.vue';
 
 export default {
-
     setup() {
         const items = ref([])
 
