@@ -14,7 +14,8 @@ export default ({ app }, inject) => {
       (res) => {
         return res;
       },
-      async (err) => {   
+      async (err) => {
+        app.$toast.error(err.message)
         return Promise.reject(err);
       }
     )

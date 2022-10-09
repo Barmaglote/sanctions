@@ -1,6 +1,6 @@
 <template>
 	<div class="card">
-	   <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
+		<DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="5" :totalRecords="totalRecords" :loading="loading">			
 		   <template #header>
 			   <div class="grid grid-nogutter">
 				   <div class="lg:col-6" style="text-align: left">
@@ -21,7 +21,7 @@
 						   <div class="element-name">{{slotProps.data.titleeng}}</div>
 						   <div class="element-name-rus">{{slotProps.data.titlerus}}</div>
 						   <div class="element-description">{{slotProps.data.description}}</div>
-						   <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
+						   <Rating v-model="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
 						   <i class="pi pi-tag element-category-icon"></i><span class="element-category">{{getTagNames(slotProps.data.tag)}}</span>
 					   </div>
 					   <div class="element-list-action">
@@ -63,9 +63,10 @@
   import Dropdown from 'primevue/dropdown'
   import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
   import IconGender from "@/components/icons/IconGender.vue"
-  import { useOrganizationsStore } from '@/store/organizations'
   import { useTagsStore } from '@/store/tags'
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
+  import TagHelper from '@/models/tag.helper'
+  import { useContext } from '@nuxtjs/composition-api'
 
   export default {
 	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender }, 
@@ -76,71 +77,102 @@
       }
     },	
     setup(props) {
-		const organizationsStore = useOrganizationsStore();
-		const tagsStore = useTagsStore();
-		const sortOptions = ref([
-            {label: 'Evil High to Low', value: '!rating'},
-            {label: 'Evil Low to High', value: 'rating'},
-        ])		
-
+		const { $fetchOrganizations } = useContext()
+		const tagsStore = useTagsStore()
 		const sortKey = ref(null)
-		const sortOrder = ref(null)
-		const sortField = ref(null)
+		const sortOrder = ref(-1)
+		const sortField = ref('rating')
+		const items = ref([])
+		const loading = ref(false)
+		const totalRecords = ref(0)
 		const layout = ref('list')
+		const lazyParams = ref({})
 
-		onMounted(() => {
-			if (organizationsStore?.Organizations.length == 0) {
-				organizationsStore.fetch();
+		const sortOptions = ref([
+            {label: 'Evil High to Low', value: -1},
+            {label: 'Evil Low to High', value: 1},
+        ])			
+		const filters = ref({
+            'title': {value: '', matchMode: 'contains'},
+			'tags': {value: '', matchMode: 'in'},
+        })		
+
+		const table = ref(null)
+		const tagHelper = ref(null)
+		
+		// TODO: regex against INJECTIONS	
+		
+		if (props.search) {
+			filters.value.title = props.search
+		}	
+
+		const lazyLoadOrganizations = () => {
+			loading.value = true;
+
+			filters.value.tags.value = ''
+			const tags = tagsStore.Selected.map(x => x.key) 
+			if (tags && tags.length > 0) {
+				filters.value.tags.value = tags;
 			}
 
-			tagsStore.fetchTags('organizations');		
+			lazyParams.value.filters = filters.value
+
+			$fetchOrganizations(lazyParams).then(data => {
+				items.value = data.data.result
+				totalRecords.value = data.data.total
+				loading.value = false
+			})
+		}		
+
+		const onPage = (event) => {
+            lazyParams.value = event;
+			lazyParams.value.sortField = sortField.value
+			lazyParams.value.sortOrder = sortOrder.value
+
+            lazyLoadOrganizations();
+        }
+
+		onMounted(() => {
+			lazyParams.value = {
+            	first: 0,
+            	rows: table.value.rows,
+            	sortField:  sortField.value,
+            	sortOrder: sortOrder.value,
+            	filters: filters.value
+        	};
+
+			tagsStore.fetchTags('organizations');
+			tagHelper.value = new TagHelper(tagsStore.tags)
 		});
 
         const onSortChange = (event) => {
-            const value = event.value.value;
-            const sortValue = event.value;
+			lazyParams.value.sortOrder = event.value.value 
+			sortOrder.value = event.value.value
 
-            if (value.indexOf('!') === 0) {
-                sortOrder.value = -1;
-                sortField.value = value.substring(1, value.length);
-                sortKey.value = sortValue;
-            }
-            else {
-                sortOrder.value = 1;
-                sortField.value = value;
-                sortKey.value = sortValue;
-            }
+			lazyLoadOrganizations()
         }
 
 		const getTagNames = (keys) => {
-
-			if (!keys) return "";
-			if (!tagsStore.tags) return "";
-
-			let tagNames = [];
-
-			keys.forEach(key => {
-				tagsStore.tags.forEach(x => {
-					x.children.forEach(y => {
-						if (y.key == key) {
-							tagNames.push(y.label);
-						}
-					});
-				});
-			});
-
-			return tagNames.join(", ");
-		}
+			return tagHelper.value.getTagNames(keys)
+		}		
 
 		const WEB_STATIC_FILES = computed(() => {
 			return process.env.WEB_STATIC_FILES;
-		});		
+		})
 
-		const filtered = computed(() => {
-			return organizationsStore?.Filtered(props.search, tagsStore.Selected);
-		});
+		tagsStore.$subscribe(() => {
+			if (loading.value) return;
+			lazyLoadOrganizations()
+		})
 
-		return { organizationsStore, tagsStore, onSortChange, getTagNames, WEB_STATIC_FILES, filtered, sortKey, sortOrder, sortField, layout, sortOptions }
+		watch(() => props.search, (newValue, oldValue) => {
+      		if (newValue != oldValue) {
+				filters.value.title = props.search
+				lazyLoadPersons()
+			}
+    	});
+
+		return { items, tagsStore, table, totalRecords, loading, onPage, onSortChange, getTagNames, WEB_STATIC_FILES, sortKey, sortOrder, sortField, layout, sortOptions }
     },
   }
 </script>

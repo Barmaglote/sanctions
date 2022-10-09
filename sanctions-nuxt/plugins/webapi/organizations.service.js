@@ -1,8 +1,6 @@
-import webAxiosInstance from '@/plugins/webapi/web.api';
-
 export default ({ app }, inject) => {    
-    inject('fetchOrganizations', async () => {
-        const data = await app.$webapi().get('/organizations');
+    inject('fetchOrganizations', async (lazyParams) => {
+        const data = await app.$webapi().get('/organizations?params='+JSON.stringify(lazyParams));
         return JSON.parse(JSON.stringify(data));
-    });
+    });        
   }

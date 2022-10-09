@@ -4,6 +4,7 @@ const TagsModel = require('../models/tags/model.js');
 const allowed = ['organizations', 'persons']
 
 module.exports.Tags = (req, res) => {
+
     const { area } = req.query;
     if (allowed.indexOf(area) < 0) {
         JSONResponse.Send(res, 500, null);
