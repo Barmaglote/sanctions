@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import User from './../models/users/model.js';
 import crypto from 'node:crypto';
 import { ChangePasswordTokenRepository } from '../repository/redis/ChangePasswordTokenRepository.js';
+import request from 'request';
 
 const CHANGE_PASSWORD_TOKEN_TTL = 10*60*1000; // 10 min // TODO: move to .env
 
@@ -11,13 +12,15 @@ export async function Register(req, res) {
     const { username, password } = req.body;
     let { login } = req.body;
 
+    console.log("111111")
+
     if (!login || !password || !username || username == password) {
         Send(res, 500, { "status": "failed" });
         return;
     }
 
     login = ToLowerAndTrim(login);
-    const isExist = await User.exists({login}); 
+    const isExist = await User.exists({login});
 
     if (isExist) {
         Send(res, 500, { "status": "failed", "message": `User ${login} already exists`});
@@ -29,7 +32,7 @@ export async function Register(req, res) {
         const newpassword = await bcrypt.hash(password, salt);
         const user = await User.create({login, username, newpassword});
         await user.save();
-        CreateChangePasswordToken(login, SendConfirmation);
+        CreateChangePasswordToken(username, login, SendConfirmation);
         Send(res, 200, { "status": "success", login, username });
     } catch {
         Send(res, 500, { "status": "failed" });
@@ -68,7 +71,7 @@ export async function ConfirmPasswordChange(req, res) {
         user.newpassword = null;
         user.save();
         
-        CreateChangePasswordToken(login, SendPasswordChangedNotification);
+        CreateChangePasswordToken(user.username, login, SendPasswordChangedNotification);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
@@ -263,13 +266,13 @@ const ToLowerAndTrim = (item) => {
     return item.toLowerCase().trim();
 }
 
-const CreateChangePasswordToken = (login, callback) => {
+const CreateChangePasswordToken = (username, login, callback) => {
     DeleteChangePasswordTokensByLogin(login);
     const token = crypto.randomBytes(128).toString('hex');
     ChangePasswordTokenRepository.createAndSave({token, login}).then((item) => {
         if (!item) return;
         ChangePasswordTokenRepository.expire(token.entityId, CHANGE_PASSWORD_TOKEN_TTL); 
-        callback(login, token);
+        callback(username, login, token);
     });
 }
 
@@ -279,7 +282,22 @@ const DeleteChangePasswordTokensByLogin = (login) => {
     });
 }
 
-const SendConfirmation = (login, confirmation) => {
+const SendConfirmation = (username, login, confirmation) => {
+    let msg = {
+        Category: 'Confirmation',
+        Username: username,
+        Email: login,
+        Confirmation: confirmation
+    }
+
+    request.post(
+        `${process.env.MAILSERVER}/send`, // process.env
+        {json: msg},
+        (err, response, body) => {
+            console.log(response)
+        }
+    );
+
     console.log(login, confirmation);
 }
 

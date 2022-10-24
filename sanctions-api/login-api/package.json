@@ -22,6 +22,7 @@
     "mongoose": "^6.3.6",
     "ohmyfetch": "^0.4.19",
     "redis-om": "^0.3.3",
+    "request": "^2.88.2",
     "swagger-ui-express": "^4.4.0",
     "tslib": "^2.4.0"
   },

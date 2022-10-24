@@ -1,1 +1,3 @@
 bind_addr = ":7673"
+log_level = "debug"
+mail_buffer_size = 100
