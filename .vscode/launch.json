@@ -1,0 +1,72 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "DB-MongoDB",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-db/mongodb/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-db/mongodb",
+      "console": "externalTerminal",
+      "env": {}
+    },
+    {
+      "name": "DB-Redis",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-db/redis/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-db/redis",
+      "console": "externalTerminal",
+      "env": {}
+    },
+    {
+      "name": "API-Login",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-api/login-api/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-api/login-api",
+      "console": "externalTerminal",
+      "env": {}
+    },
+    {
+      "name": "API-Web",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-api/web-api/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-api/web-api",
+      "console": "externalTerminal",
+      "env": {}
+    },    
+    {
+      "name": "API-Mail",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-api/mail-api/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-api/mail-api",
+      "console": "externalTerminal",
+      "env": {}
+    },
+    {
+      "name": "FRONT-Nuxt",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-nuxt/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-nuxt",
+      "console": "externalTerminal",
+      "env": {}
+    },
+  ],
+  "compounds": [
+    {
+      "name": "Sanctions-Full",
+      "configurations": [
+        "DB-MongoDB",
+        "DB-Redis",
+        "API-Login",
+        "API-Web",
+        "API-Mail",
+        "FRONT-Nuxt"
+      ]
+    }
+  ]
+}
