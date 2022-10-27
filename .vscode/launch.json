@@ -25,7 +25,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sanctions-api/login-api/start.cmd",
       "cwd": "${workspaceFolder}/sanctions-api/login-api",
-      "console": "externalTerminal",
+      "console": "integratedTerminal",
       "env": {}
     },
     {
@@ -34,7 +34,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sanctions-api/web-api/start.cmd",
       "cwd": "${workspaceFolder}/sanctions-api/web-api",
-      "console": "externalTerminal",
+      "console": "integratedTerminal",
       "env": {}
     },    
     {
@@ -43,7 +43,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sanctions-api/mail-api/start.cmd",
       "cwd": "${workspaceFolder}/sanctions-api/mail-api",
-      "console": "externalTerminal",
+      "console": "integratedTerminal",
       "env": {}
     },
     {
@@ -52,7 +52,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sanctions-nuxt/start.cmd",
       "cwd": "${workspaceFolder}/sanctions-nuxt",
-      "console": "externalTerminal",
+      "console": "integratedTerminal",
       "env": {}
     },
   ],

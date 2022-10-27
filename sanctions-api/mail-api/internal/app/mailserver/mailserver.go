@@ -1,7 +1,11 @@
 package mailserver
 
 import (
+	"bytes"
+	"html/template"
+	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -26,6 +30,7 @@ type MailServer struct {
 	logger *logrus.Logger
 	router *gin.Engine
 	queue  chan *Msg
+	tmpls  map[string]*template.Template
 }
 
 func New(config *Config) *MailServer {
@@ -34,11 +39,16 @@ func New(config *Config) *MailServer {
 		logger: logrus.New(),
 		router: gin.Default(),
 		queue:  make(chan *Msg, config.MailBufferSize),
+		tmpls:  map[string]*template.Template{},
 	}
 }
 
 func (s *MailServer) Start() error {
 	if err := s.configureLogger(); err != nil {
+		return err
+	}
+
+	if err := s.configureTemplates(); err != nil {
 		return err
 	}
 
@@ -60,6 +70,32 @@ func (s *MailServer) configureLogger() error {
 	return nil
 }
 
+func (s *MailServer) configureTemplates() error {
+	for _, item := range s.config.Templates {
+		files := make([]string, 0)
+		var sb strings.Builder
+
+		for _, file := range item.Files {
+			sb.Reset()
+			sb.WriteString(s.config.TemplateFolder)
+			sb.WriteString(file)
+			files = append(files, sb.String())
+		}
+
+		ts, err := template.ParseFiles(files...)
+
+		if err != nil {
+			s.logger.Error(err.Error())
+			s.logger.Error("Unable to read file")
+			return nil
+		}
+
+		s.tmpls[item.Name] = ts
+	}
+
+	return nil
+}
+
 func (s *MailServer) configureRouter() error {
 	// s.router.Use() // add middleware to check token
 	s.router.GET("/v1/health", getStatus)
@@ -72,7 +108,7 @@ func getStatus(c *gin.Context) {
 }
 
 func sendMessage(s *MailServer) gin.HandlerFunc {
-	go notify(s.queue, s.logger)
+	go notify(s.queue, s)
 
 	return func(c *gin.Context) {
 		var msg Msg
@@ -83,10 +119,25 @@ func sendMessage(s *MailServer) gin.HandlerFunc {
 	}
 }
 
-func notify(c chan *Msg, logger *logrus.Logger) {
+func notify(c chan *Msg, s *MailServer) {
 	for msg := range c {
-		logger.Println(msg.Category)
-		logger.Println(msg.Email)
-		logger.Println(msg.Username)
+		s.logger.Error(msg.Category)
+		tmpl := s.tmpls[msg.Category]
+
+		if tmpl == nil {
+			s.logger.Error("Unable to find template")
+			return
+		}
+
+		message := ""
+		buf := bytes.NewBufferString(message)
+		err := tmpl.Execute(buf, msg)
+
+		if err != nil {
+			log.Println(err.Error())
+			s.logger.Error("Unable to parse")
+		}
+
+		s.logger.Info(buf)
 	}
 }

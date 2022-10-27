@@ -1,3 +1,5 @@
 bind_addr = ":7673"
 log_level = "debug"
 mail_buffer_size = 100
+template_folder = "./web/templates/mail/"
+templates = [ { name = "Confirmation", files = ["confirmation.page.tmpl", "base.layout.tmpl"] } ]
