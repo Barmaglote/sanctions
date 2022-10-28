@@ -12,8 +12,6 @@ export async function Register(req, res) {
     const { username, password } = req.body;
     let { login } = req.body;
 
-    console.log("111111")
-
     if (!login || !password || !username || username == password) {
         Send(res, 500, { "status": "failed" });
         return;
@@ -294,7 +292,7 @@ const SendConfirmation = (username, login, confirmation) => {
         `${process.env.MAILSERVER}/send`, // process.env
         {json: msg},
         (err, response, body) => {
-            console.log(response)
+            /*console.log(response)*/
         }
     );
 

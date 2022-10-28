@@ -1,8 +1,9 @@
 package mailserver
 
 type TemplateConfig struct {
-	Name  string   `toml:"name"`
-	Files []string `toml:"files"`
+	Name    string   `toml:"name"`
+	Subject string   `toml:"subject"`
+	Files   []string `toml:"files"`
 }
 
 type Config struct {
@@ -11,6 +12,9 @@ type Config struct {
 	MailBufferSize int               `toml:"mail_buffer_size"`
 	TemplateFolder string            `toml:"template_folder"`
 	Templates      []*TemplateConfig `toml:"templates"`
+	SMTPHost       string            `toml:"smtp_host"`
+	SMTPAddr       string            `toml:"smtp_addr"`
+	MailSender     string            `toml:"mail_sender"`
 }
 
 func NewConfig() *Config {
@@ -19,5 +23,8 @@ func NewConfig() *Config {
 		LogLevel:       "debug",
 		MailBufferSize: 100,
 		Templates:      make([]*TemplateConfig, 0, 10),
+		SMTPHost:       "",
+		SMTPAddr:       "",
+		MailSender:     "",
 	}
 }

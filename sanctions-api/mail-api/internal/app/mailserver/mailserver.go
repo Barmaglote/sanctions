@@ -2,9 +2,11 @@ package mailserver
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"net/smtp"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -17,8 +19,19 @@ type Msg struct {
 	Email    string `json:"Email"`    // To
 }
 
+type Mail struct {
+	Sender  string
+	To      []string
+	Subject string
+	Body    string
+}
+
 type health struct {
 	Msg string `json:"Msg"`
+}
+
+type templateData struct {
+	Snippet *Msg
 }
 
 var healthresponse = []health{
@@ -26,20 +39,24 @@ var healthresponse = []health{
 }
 
 type MailServer struct {
-	config *Config
-	logger *logrus.Logger
-	router *gin.Engine
-	queue  chan *Msg
-	tmpls  map[string]*template.Template
+	config      *Config
+	logger      *logrus.Logger
+	router      *gin.Engine
+	queue       chan *Msg
+	tmpls       map[string]*template.Template
+	tmplsConfig map[string]*TemplateConfig
+	env         *EnvConfig
 }
 
 func New(config *Config) *MailServer {
 	return &MailServer{
-		config: config,
-		logger: logrus.New(),
-		router: gin.Default(),
-		queue:  make(chan *Msg, config.MailBufferSize),
-		tmpls:  map[string]*template.Template{},
+		config:      config,
+		logger:      logrus.New(),
+		router:      gin.Default(),
+		queue:       make(chan *Msg, config.MailBufferSize),
+		tmpls:       map[string]*template.Template{},
+		tmplsConfig: map[string]*TemplateConfig{},
+		env:         NewEnv(),
 	}
 }
 
@@ -91,6 +108,7 @@ func (s *MailServer) configureTemplates() error {
 		}
 
 		s.tmpls[item.Name] = ts
+		s.tmplsConfig[item.Name] = item
 	}
 
 	return nil
@@ -131,13 +149,48 @@ func notify(c chan *Msg, s *MailServer) {
 
 		message := ""
 		buf := bytes.NewBufferString(message)
-		err := tmpl.Execute(buf, msg)
+		data := &templateData{Snippet: msg}
+		err := tmpl.Execute(buf, data)
 
 		if err != nil {
 			log.Println(err.Error())
 			s.logger.Error("Unable to parse")
 		}
 
-		s.logger.Info(buf)
+		go send(msg, buf.String(), s)
 	}
+}
+
+func send(messsage *Msg, body string, s *MailServer) {
+
+	to := []string{
+		messsage.Email,
+	}
+
+	request := Mail{
+		Sender:  s.config.MailSender,
+		To:      to,
+		Subject: s.tmplsConfig[messsage.Category].Subject,
+		Body:    body,
+	}
+
+	msg := BuildMessage(request)
+	auth := smtp.PlainAuth("", s.env.Mail.Username, s.env.Mail.Password, s.config.SMTPHost)
+	err := smtp.SendMail(s.config.SMTPAddr, auth, s.config.MailSender, to, []byte(msg))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s.logger.Info("Email sent successfully")
+}
+
+func BuildMessage(mail Mail) string {
+	msg := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\r\n"
+	msg += fmt.Sprintf("From: %s\r\n", mail.Sender)
+	msg += fmt.Sprintf("To: %s\r\n", strings.Join(mail.To, ";"))
+	msg += fmt.Sprintf("Subject: %s\r\n", mail.Subject)
+	msg += fmt.Sprintf("\r\n%s\r\n", mail.Body)
+
+	return msg
 }

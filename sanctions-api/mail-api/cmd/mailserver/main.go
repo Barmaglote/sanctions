@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/BurntSushi/toml"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -14,6 +15,9 @@ var (
 
 func init() {
 	flag.StringVar(&configPath, "config-path", "configs/mailserver.toml", "path to config file")
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
 }
 
 func main() {
