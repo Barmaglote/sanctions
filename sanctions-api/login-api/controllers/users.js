@@ -290,13 +290,16 @@ const SendConfirmation = (username, login, confirmation) => {
 
     request.post(
         `${process.env.MAILSERVER}/send`, // process.env
-        {json: msg},
+        {
+            json: msg,
+            headers: {
+                'APIKEY': process.env.MAIL_API_KEY
+            }
+        },
         (err, response, body) => {
             /*console.log(response)*/
         }
     );
-
-    console.log(login, confirmation);
 }
 
 const SendPasswordChangedNotification = (login, confirmation) => {

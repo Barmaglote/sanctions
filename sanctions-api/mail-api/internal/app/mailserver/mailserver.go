@@ -117,7 +117,7 @@ func (s *MailServer) configureTemplates() error {
 func (s *MailServer) configureRouter() error {
 	// s.router.Use() // add middleware to check token
 	s.router.GET("/v1/health", getStatus)
-	s.router.POST("/v1/send", sendMessage(s))
+	s.router.POST("/v1/send", authorization(s, sendMessage(s)))
 	return nil
 }
 
@@ -176,11 +176,15 @@ func send(messsage *Msg, body string, s *MailServer) {
 
 	msg := BuildMessage(request)
 	auth := smtp.PlainAuth("", s.env.Mail.Username, s.env.Mail.Password, s.config.SMTPHost)
-	err := smtp.SendMail(s.config.SMTPAddr, auth, s.config.MailSender, to, []byte(msg))
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Println(msg, auth)
+	/*
+		err := smtp.SendMail(s.config.SMTPAddr, auth, s.config.MailSender, to, []byte(msg))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	*/
 
 	s.logger.Info("Email sent successfully")
 }
@@ -193,4 +197,16 @@ func BuildMessage(mail Mail) string {
 	msg += fmt.Sprintf("\r\n%s\r\n", mail.Body)
 
 	return msg
+}
+
+func authorization(s *MailServer, next gin.HandlerFunc) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		apikey := c.Request.Header.Get("APIKEY")
+
+		if apikey != s.env.APIKey {
+			s.logger.Error("Wrong Mail API Key")
+			return
+		}
+		c.Next()
+	}
 }

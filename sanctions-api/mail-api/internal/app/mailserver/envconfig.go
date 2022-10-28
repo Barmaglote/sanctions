@@ -12,7 +12,8 @@ type SMTPConfig struct {
 }
 
 type EnvConfig struct {
-	Mail SMTPConfig
+	Mail   SMTPConfig
+	APIKey string
 }
 
 // New returns a new Config struct
@@ -22,6 +23,7 @@ func NewEnv() *EnvConfig {
 			Username: getEnv("SMTP_USERNAME", ""),
 			Password: getEnv("SMTP_PASSWORD", ""),
 		},
+		APIKey: getEnv("MAIL_APIKEY", ""),
 	}
 }
 
