@@ -14,9 +14,10 @@ import (
 )
 
 type Msg struct {
-	Category string `json:"Category"` // Cofirmation, Request and etc. TODO: enum
-	Username string `json:"Username"` // Title, Username
-	Email    string `json:"Email"`    // To
+	Category     string `json:"Category"`     // Cofirmation, Request and etc. TODO: enum
+	Username     string `json:"Username"`     // Title, Username
+	Email        string `json:"Email"`        // To
+	Confirmation string `json:"Confirmation"` // Confirmation
 }
 
 type Mail struct {
@@ -115,9 +116,8 @@ func (s *MailServer) configureTemplates() error {
 }
 
 func (s *MailServer) configureRouter() error {
-	// s.router.Use() // add middleware to check token
 	s.router.GET("/v1/health", getStatus)
-	s.router.POST("/v1/send", authorization(s, sendMessage(s)))
+	s.router.POST("/v1/send", sendMessage(s))
 	return nil
 }
 
@@ -129,6 +129,12 @@ func sendMessage(s *MailServer) gin.HandlerFunc {
 	go notify(s.queue, s)
 
 	return func(c *gin.Context) {
+
+		if !isAuthorized(s, c) {
+			c.String(401, "Failed")
+			return
+		}
+
 		var msg Msg
 		if c.ShouldBind(&msg) == nil {
 			s.queue <- &msg
@@ -138,8 +144,8 @@ func sendMessage(s *MailServer) gin.HandlerFunc {
 }
 
 func notify(c chan *Msg, s *MailServer) {
+
 	for msg := range c {
-		s.logger.Error(msg.Category)
 		tmpl := s.tmpls[msg.Category]
 
 		if tmpl == nil {
@@ -150,6 +156,7 @@ func notify(c chan *Msg, s *MailServer) {
 		message := ""
 		buf := bytes.NewBufferString(message)
 		data := &templateData{Snippet: msg}
+
 		err := tmpl.Execute(buf, data)
 
 		if err != nil {
@@ -162,7 +169,6 @@ func notify(c chan *Msg, s *MailServer) {
 }
 
 func send(messsage *Msg, body string, s *MailServer) {
-
 	to := []string{
 		messsage.Email,
 	}
@@ -175,18 +181,15 @@ func send(messsage *Msg, body string, s *MailServer) {
 	}
 
 	msg := BuildMessage(request)
-	auth := smtp.PlainAuth("", s.env.Mail.Username, s.env.Mail.Password, s.config.SMTPHost)
+	auth := smtp.PlainAuth("Reputation", s.env.Mail.Username, s.env.Mail.Password, s.config.SMTPHost)
 
-	log.Println(msg, auth)
-	/*
-		err := smtp.SendMail(s.config.SMTPAddr, auth, s.config.MailSender, to, []byte(msg))
+	err := smtp.SendMail(s.config.SMTPAddr, auth, s.config.MailSender, to, []byte(msg))
 
-		if err != nil {
-			log.Fatal(err)
-		}
-	*/
+	if err != nil {
+		s.logger.Error(err)
+	}
 
-	s.logger.Info("Email sent successfully")
+	s.logger.Debug("Email sent successfully")
 }
 
 func BuildMessage(mail Mail) string {
@@ -199,14 +202,7 @@ func BuildMessage(mail Mail) string {
 	return msg
 }
 
-func authorization(s *MailServer, next gin.HandlerFunc) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		apikey := c.Request.Header.Get("APIKEY")
-
-		if apikey != s.env.APIKey {
-			s.logger.Error("Wrong Mail API Key")
-			return
-		}
-		c.Next()
-	}
+func isAuthorized(s *MailServer, c *gin.Context) bool {
+	apikey := c.Request.Header.Get("APIKEY")
+	return apikey == s.env.APIKey
 }

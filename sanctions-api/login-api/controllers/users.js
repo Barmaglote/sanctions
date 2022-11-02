@@ -280,13 +280,7 @@ const DeleteChangePasswordTokensByLogin = (login) => {
     });
 }
 
-const SendConfirmation = (username, login, confirmation) => {
-    let msg = {
-        Category: 'Confirmation',
-        Username: username,
-        Email: login,
-        Confirmation: confirmation
-    }
+const PostMsg = (msg) => {
 
     request.post(
         `${process.env.MAILSERVER}/send`, // process.env
@@ -302,12 +296,37 @@ const SendConfirmation = (username, login, confirmation) => {
     );
 }
 
+const SendConfirmation = (username, login, confirmation) => {
+    let msg = {
+        Category: 'Confirmation',
+        Username: username,
+        Email: login,
+        Confirmation: confirmation
+    }
+
+    PostMsg(msg)
+}
+
 const SendPasswordChangedNotification = (login, confirmation) => {
-    console.log(login, confirmation);
+    let msg = {
+        Category: 'ConfirmationPasswordChange',
+        Username: username,
+        Email: login,
+        Confirmation: confirmation
+    }
+
+    PostMsg(msg)
 }
 
 const SendChangePasswordRequest = (login, confirmation) => {
-    console.log(login, confirmation); // TODO: Save code to redis with TTL
+    let msg = {
+        Category: 'ChangePasswordRequest',
+        Username: username,
+        Email: login,
+        Confirmation: confirmation
+    }
+
+    PostMsg(msg)
 }
 
 const GenerateAccessToken = (payload) => {
