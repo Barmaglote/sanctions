@@ -109,7 +109,7 @@ export async function RestorePassword(req, res) {
         user.newpassword = hashPassword;
         user.save();
         
-        CreateChangePasswordToken(login, SendChangePasswordRequest);
+        CreateChangePasswordToken(user.username, login, SendConfirmation);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
@@ -152,7 +152,7 @@ export async function ChangePassword(req, res) {
         const hashPassword = await bcrypt.hash(password, salt);
         user.newpassword = hashPassword;    
         user.save();
-        CreateChangePasswordToken(login, SendConfirmation);
+        CreateChangePasswordToken(user.username, login, SendConfirmation);
 
         Send(res, 200, { "status": "success" });        
      } catch {
@@ -179,7 +179,7 @@ export async function RequestRestorePassword(req, res) {
     }
     
     try {      
-        CreateChangePasswordToken(login, SendChangePasswordRequest);
+        CreateChangePasswordToken(user.username, login, SendChangePasswordRequest);
         Send(res, 200, { "status": "success" });
      } catch {
         Send(res, 500, { "status": "failed" });
@@ -280,9 +280,9 @@ const DeleteChangePasswordTokensByLogin = (login) => {
     });
 }
 
-const PostMsg = (msg) => {
+const PostMsg = async (msg) => {
 
-    request.post(
+    await request.post(
         `${process.env.MAILSERVER}/send`, // process.env
         {
             json: msg,
@@ -296,7 +296,7 @@ const PostMsg = (msg) => {
     );
 }
 
-const SendConfirmation = (username, login, confirmation) => {
+const SendConfirmation = async (username, login, confirmation) => {
     let msg = {
         Category: 'Confirmation',
         Username: username,
@@ -304,10 +304,10 @@ const SendConfirmation = (username, login, confirmation) => {
         Confirmation: confirmation
     }
 
-    PostMsg(msg)
+    await PostMsg(msg)
 }
 
-const SendPasswordChangedNotification = (login, confirmation) => {
+const SendPasswordChangedNotification = async (username, login, confirmation) => {
     let msg = {
         Category: 'ConfirmationPasswordChange',
         Username: username,
@@ -315,10 +315,10 @@ const SendPasswordChangedNotification = (login, confirmation) => {
         Confirmation: confirmation
     }
 
-    PostMsg(msg)
+    await PostMsg(msg)
 }
 
-const SendChangePasswordRequest = (login, confirmation) => {
+const SendChangePasswordRequest = async (username, login, confirmation) => {
     let msg = {
         Category: 'ChangePasswordRequest',
         Username: username,
@@ -326,7 +326,7 @@ const SendChangePasswordRequest = (login, confirmation) => {
         Confirmation: confirmation
     }
 
-    PostMsg(msg)
+    await PostMsg(msg)
 }
 
 const GenerateAccessToken = (payload) => {

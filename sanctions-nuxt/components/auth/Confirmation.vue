@@ -72,7 +72,7 @@ export default {
 
       if (state.login && state.token) {            
         $confirm(state.login, state.token).then((result) => {
-          $toast.success('Your password is confirm')
+          $toast.success('Your password is confirmed')
           router.push('/auth/login');
         }, 
         error => {

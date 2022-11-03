@@ -5,7 +5,7 @@ template_folder = "./web/templates/mail/"
 templates = [ 
     { name = "Confirmation", subject = "Password confirmation", files = ["confirmation.page.tmpl", "base.layout.tmpl"] },
     { name = "ChangePasswordRequest", subject = "Password change request", files = ["change-password-request.page.tmpl", "base.layout.tmpl"] },
-    { name = "ConfirmationPasswordChange", subject = "Password cnange confirmation", files = ["confirmation-password-change.page.tmpl", "base.layout.tmpl"] },
+    { name = "ConfirmationPasswordChange", subject = "Your password is confirmed", files = ["confirmation-password-change.page.tmpl", "base.layout.tmpl"] },
  ]
 smtp_addr = "smtp.mailtrap.io:2525"
 smtp_host = "smtp.mailtrap.io"
