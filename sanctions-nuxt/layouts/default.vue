@@ -8,10 +8,9 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
     import MainMenu from '@/components/core/MainMenu.vue';
     import ScrollTop from 'primevue/scrolltop';
-   
   
     export default {
 		setup() {

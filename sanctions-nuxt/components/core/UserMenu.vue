@@ -6,7 +6,7 @@
 
 <script>
 import SplitButton from 'primevue/splitbutton'
-import { useRouter, ref, useContext, computed } from '@nuxtjs/composition-api'
+import { useRouter, useContext, computed } from '@nuxtjs/composition-api'
 
 export default {
   components: { SplitButton },
@@ -22,7 +22,7 @@ export default {
 					label: $auth.loggedIn ? $auth.user.username : 'Anonymous',
 					icon: 'pi pi-user',
 					command: () => {
-						router.push('/auth/profile')
+						router.push('/user/profile')
 					}
 			  },
         {
@@ -60,7 +60,7 @@ export default {
     })
 
     const goToProfile = () => {
-      router.push('/auth/profile')
+      router.push('/user/profile')
     }    
 
     return { router, items, goToProfile }

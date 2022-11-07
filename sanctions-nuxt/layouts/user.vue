@@ -1,5 +1,5 @@
 <template>
-    <div class="vertical-middle">
+    <div>
       <main>
         <Nuxt/>        
       </main>      
@@ -14,15 +14,11 @@
 
 
 <style lang="scss">
-
 #__nuxt, #__layout {
   height: 100%;
 }
 
-.vertical-middle {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+body {
+  background-color: var(--blue-50);
 }
 </style>
