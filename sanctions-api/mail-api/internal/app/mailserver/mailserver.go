@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"strings"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -40,10 +41,11 @@ var healthresponse = []health{
 }
 
 type MailServer struct {
-	config      *Config
-	logger      *logrus.Logger
-	router      *gin.Engine
-	queue       chan *Msg
+	config *Config
+	logger *logrus.Logger
+	router *gin.Engine
+	queue  chan *Msg
+	sync.Mutex
 	tmpls       map[string]*template.Template
 	tmplsConfig map[string]*TemplateConfig
 	env         *EnvConfig
@@ -146,16 +148,18 @@ func sendMessage(s *MailServer) gin.HandlerFunc {
 func notify(c chan *Msg, s *MailServer) {
 
 	for msg := range c {
+		message := ""
+		buf := bytes.NewBufferString(message)
+		data := &templateData{Snippet: msg}
+
+		s.Lock()
 		tmpl := s.tmpls[msg.Category]
+		s.Unlock()
 
 		if tmpl == nil {
 			s.logger.Error("Unable to find template")
 			return
 		}
-
-		message := ""
-		buf := bytes.NewBufferString(message)
-		data := &templateData{Snippet: msg}
 
 		err := tmpl.Execute(buf, data)
 
