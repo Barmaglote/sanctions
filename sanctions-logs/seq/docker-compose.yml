@@ -1,0 +1,25 @@
+version: "3"
+services:
+  seqcli:
+    image: datalust/seqcli:latest
+    command: bash -c "apikey create -t mailapi --token YEqm9UV8qB4UjNu4HeEHAo6JgSGeEiio -s http://seq
+                    && apikey create -t webapi --token HAkcCdtTXIl0PO0rzBWMEhZzuXrdAbmc -s http://seq
+                    && apikey create -t loginapi --token eno8mu5ek5bz9hWR3oQohVECQ2OK4aQX -s http://seq"
+    depends_on:
+      - seq
+    restart: on-failure
+    networks:
+      - seqnetwork
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 9501:80
+      - 9502:5341 
+    networks:
+      - seqnetwork
+    volumes:
+      - c:/Projects/Learning/VUE/Sanctions/sanctions/sanctions-logs/seq/data:/data
+networks:
+  seqnetwork:

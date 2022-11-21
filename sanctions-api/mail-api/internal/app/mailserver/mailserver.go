@@ -11,6 +11,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nullseed/logruseq"
 	"github.com/sirupsen/logrus"
 )
 
@@ -76,6 +77,8 @@ func (s *MailServer) Start() error {
 		return err
 	}
 
+	s.logger.WithField("application", "mailapi").Info("Mail server is starting")
+
 	return http.ListenAndServe(s.config.BindAddr, s.router)
 }
 
@@ -85,6 +88,8 @@ func (s *MailServer) configureLogger() error {
 		return err
 	}
 
+	s.logger.AddHook(logruseq.NewSeqHook(s.env.LogConfig.Addr, logruseq.OptionAPIKey(s.env.LogConfig.APIKey)))
+	s.logger.SetReportCaller(true)
 	s.logger.SetLevel(level)
 
 	return nil

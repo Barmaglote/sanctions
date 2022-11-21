@@ -11,6 +11,15 @@
       "env": {}
     },
     {
+      "name": "LOG-SEQ",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-logs/seq/start.cmd",
+      "cwd": "${workspaceFolder}/sanctions-logs/seq",
+      "console": "externalTerminal",
+      "env": {}
+    },    
+    {
       "name": "DB-Redis",
       "type": "clr",
       "request": "launch",

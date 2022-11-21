@@ -4,21 +4,9 @@ import cors from 'cors';
 import corsOptionsDelegate from './helpers/cors.js';
 import express from 'express';
 const app = express();
-import  log4js from 'log4js'; 
+import logger from './helpers/logger.js';
 
-log4js.configure({ // configure to use all types in different files.
-    appenders: { 
-        login: { type: "file", filename: "./logs/login.log", maxLogSize: 20480, backups: 10 },
-    },
-    categories: { 
-        default: { appenders: ["login"], level: "all" }
-    }
-});
-
-var loggerlogin = log4js.getLogger('login');
-
-loggerlogin.info("Starting LoginAPI Server");
-app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
+logger.info("Starting LoginAPI Server");
 
 import { connectDB } from './models/db.js';
 connectDB(process.env.MONGO_URI);

@@ -113,7 +113,7 @@ export default {
     const submitted = ref(false)
 
     const router = useRouter()
-    const { $changepassword, $auth, $toast } = useContext() // TODO
+    const { $changepassword, $auth, $toast } = useContext()
     
     onMounted(() => {
         if (!$auth.loggedIn) router.push('/auth/profile');

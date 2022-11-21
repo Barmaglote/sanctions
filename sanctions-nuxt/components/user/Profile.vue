@@ -1,11 +1,16 @@
 <template>
   <div class="h-full">
-    <TabMenu :model="items" :activeIndex.sync="active"/>
-    <div class="p-grid h-full py-3">
-      <div class="col-6 col-offset-3 surface-0 p-5">
-        <bg-personal v-if="active === 1"></bg-personal>
-        <bg-setting v-if="active === 2"></bg-setting>
-        <bg-security v-if="active === 3"></bg-security>
+    <div v-if="profile?.id === null" class="p-0 h-screen flex align-content-center flex-wrap card-container">
+      <bg-create-profile :store="store"/>
+    </div>
+    <div v-if="profile?.id">
+      <TabMenu :model="items" :activeIndex.sync="active"/>
+      <div class="p-grid h-full py-3">
+        <div class="col-6 col-offset-3 surface-0 p-5">
+          <bg-personal v-if="active === 1"></bg-personal>
+          <bg-setting v-if="active === 2"></bg-setting>
+          <bg-security v-if="active === 3"></bg-security>
+        </div>
       </div>
     </div>
   </div>
@@ -16,11 +21,24 @@ import TabMenu from 'primevue/tabmenu';
 import Personal from '~/components/user/Personal.vue';
 import Settings from '@/components/user/Settings.vue';
 import Security from '@/components/user/Security.vue';
-import { ref } from 'vue';
+import CreateProfile from '@/components/user/CreateProfile.vue'
+import { useProfileStore } from '@/store/profiles';
+import { ref, onMounted, computed } from 'vue';
 
 
 export default {
   setup() {
+		const profilesStore = useProfileStore();
+
+		onMounted(() => {
+			if (profilesStore?.id) {
+				profilesStore.fetchPrivateProfile();
+			}
+		});
+
+		const profile = computed(() => {
+			return profilesStore?.Profile;
+		});    
 
     const active = ref(1)
 
@@ -31,8 +49,13 @@ export default {
       {label: 'Security', icon: 'pi pi-fw pi-shield'}
     ]
 
-    return { items, active }
+    return { items, active, profile, 'store': profilesStore }
   },
-  components: { TabMenu, 'bg-personal': Personal, 'bg-setting': Settings, 'bg-security': Security }
+  components: { TabMenu, 
+    'bg-personal': Personal, 
+    'bg-setting': Settings, 
+    'bg-security': Security,
+    'bg-create-profile': CreateProfile 
+  }
 }
 </script>

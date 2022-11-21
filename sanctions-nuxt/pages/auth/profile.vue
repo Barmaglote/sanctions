@@ -24,9 +24,3 @@
     components: { 'bg-profile': Profile },
   }
 </script>
-
-<style>
-.surface-ground {
-  display: flex;  
-}
-</style>

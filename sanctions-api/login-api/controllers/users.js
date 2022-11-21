@@ -5,6 +5,7 @@ import User from './../models/users/model.js';
 import crypto from 'node:crypto';
 import { ChangePasswordTokenRepository } from '../repository/redis/ChangePasswordTokenRepository.js';
 import request from 'request';
+import logger from '../helpers/logger.js';
 
 const CHANGE_PASSWORD_TOKEN_TTL = 10*60*1000; // 10 min // TODO: move to .env
 
@@ -32,7 +33,8 @@ export async function Register(req, res) {
         await user.save();
         CreateChangePasswordToken(username, login, SendConfirmation);
         Send(res, 200, { "status": "success", login, username });
-    } catch {
+    } catch (err) {
+        logger.error(err)
         Send(res, 500, { "status": "failed" });
     }    
 
