@@ -15,7 +15,7 @@ export const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        maxlength: 25
+        maxlength: 50
     },
     password: {
         type: String,
