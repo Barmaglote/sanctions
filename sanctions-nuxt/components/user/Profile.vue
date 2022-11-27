@@ -1,9 +1,9 @@
 <template>
   <div class="h-full">
-    <div v-if="profile?.id === null" class="p-0 h-screen flex align-content-center flex-wrap card-container">
+    <div v-if="profile?._id === null" class="p-0 h-screen flex align-content-center flex-wrap card-container">
       <bg-create-profile :store="store"/>
     </div>
-    <div v-if="profile?.id">
+    <div v-if="profile?._id">
       <TabMenu :model="items" :activeIndex.sync="active"/>
       <div class="p-grid h-full py-3">
         <div class="col-6 col-offset-3 surface-0 p-5">
@@ -31,7 +31,7 @@ export default {
 		const profilesStore = useProfileStore();
 
 		onMounted(() => {
-			if (profilesStore?.id) {
+			if (!profilesStore?._id) {
 				profilesStore.fetchPrivateProfile();
 			}
 		});

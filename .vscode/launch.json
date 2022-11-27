@@ -69,6 +69,7 @@
     {
       "name": "Sanctions-Full",
       "configurations": [
+        "LOG-SEQ",
         "DB-MongoDB",
         "DB-Redis",
         "API-Login",

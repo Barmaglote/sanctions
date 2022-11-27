@@ -49,6 +49,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/webapi/profile.service.js',
     '@/plugins/local/menu.service.js',
     '@/plugins/webapi/links.service.js',
     '@/plugins/webapi/persons.service.js',
@@ -57,7 +58,7 @@ export default {
     '@/plugins/loginapi/auth.service.js',
     '@/plugins/loginapi/token.service.js',
     '@/plugins/webapi/web.api.js',
-    '@/plugins/loginapi/login.api.js'
+    '@/plugins/loginapi/login.api.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

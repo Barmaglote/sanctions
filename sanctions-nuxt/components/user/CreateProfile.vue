@@ -2,7 +2,6 @@
   <div class="card card-container">
     <label for="nickname" class="py-2" :class="{'p-error':v$.nickname.$invalid && loading}">Nickname</label>
     <div class="text-center p-flex flex-row flex-1" style="display: flex;">    	
-      {{!v$.$invalid}}
       <form name="form" @submit.prevent="handleSubmit(!v$.$invalid)">
         <InputText id="nickname" type="text" v-model="v$.nickname.$model" />
         <Button type="submit" icon="pi pi-user-plus" class="mx-2 px-5">
@@ -25,13 +24,14 @@ import Button from 'primevue/button'
 import { useProfileStore } from '@/store/profiles'
 import HomeButton from '@/components/core/HomeButton.vue'
 import InputText from 'primevue/inputtext'
-import { reactive, ref } from 'vue'
+import { reactive, ref,onMounted } from 'vue'
 import { required } from 'vuelidate/lib/validators'
 import { useVuelidate } from "@vuelidate/core"
 import { useContext } from '@nuxtjs/composition-api'
 
 export default {  
   setup(props){ 
+    const profileStore = useProfileStore()
     const state = reactive({
         nickname: ''
     })
@@ -41,16 +41,19 @@ export default {
     }
 
     let v$ = useVuelidate(rules, state)
-
-    const { $createProfile } = useContext()
-
-    //const profilesStore = useProfileStore()
-  
+    
     const loading = ref(false)
     const submitted = ref(false)
     const message = ref('')    
 
-    const handleSubmit = async (isFormValid) => {
+   
+    let ctx = null;
+
+		onMounted(() => {
+			ctx = useContext()
+		});
+
+    const handleSubmit = (isFormValid) => {
       loading.value = true
 
       if ( !isFormValid ) {
@@ -58,18 +61,13 @@ export default {
         return
       }
 
-      console.log(props.store)
-      const profile = await props.store.createProfile(state.nickname)
-      //const profile = await $createProfile(state.nickname)      
+      profileStore.createProfile(state.nickname, ctx)
       loading.value = false
     }
 
     return { state, v$, handleSubmit, loading, submitted, message }
   },
-  components: { InputText, Button, 'bg-home-button': HomeButton },
-  props: {
-    store: null
-  },
+  components: { InputText, Button, 'bg-home-button': HomeButton }
 }
 </script>
 

@@ -13,16 +13,13 @@ export default ({ app }, inject) => {
 
     // update data
     inject('updateProfile', async (entity) => {         
-        const data = await app.$webapi().put(`/`, entity); 
+        const data = await app.$webapi().put(`/profiles`, entity); 
         return JSON.parse(JSON.stringify(data));
     });
 
     // createProfile
     inject('createProfile', async (nickname) => {       
-        console.log("nickname", nickname)
-        const data = await app.$webapi().post(`/`, nickname);
-        console.log("nickname", data)
+        const data = await app.$webapi().post(`/profiles`, JSON.stringify({nickname}));
         return JSON.parse(JSON.stringify(data));
     });    
 }
-
