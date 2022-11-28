@@ -23,9 +23,6 @@ body {
   border-radius: 4px;
 }
 
-
-
-
 .element-list-item{
   background-color: #ffffff;
   color: black;
@@ -34,6 +31,7 @@ body {
 .display-grid{
   background-color: #ffffff;
   color: black;
+  display: grid;
 }
 
 .p-dataview .p-dataview-content, .p-dataview .p-paginator-bottom{

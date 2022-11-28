@@ -86,6 +86,7 @@
   height: calc(100vh - 60px);
   position: absolute;
   width:100%;
+  background-color: white;
 }
 
   .past {
@@ -123,6 +124,7 @@ body {
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.15), 0 15px 90px 30px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
+  height: 180px;
 }
 .clock-col {
   text-align: center;
