@@ -1,12 +1,12 @@
-var express = require("express");
-var router = express.Router();
-var authentication = require('./authentication');
+const express = require('express')
+const router = express.Router()
+const authentication = require('./authentication')
 
-var controllers = require("../../controllers/profiles.js");
+const controllers = require('../../controllers/profiles.js')
 
-router.get("/public", controllers.GetPublic);
-router.get("/private", authentication, controllers.GetPrivate);
-router.put("/", authentication, controllers.Update);
-router.post("/", authentication, controllers.Create);
+router.get('/public', controllers.GetPublic)
+router.get('/private', authentication, controllers.GetPrivate)
+router.put('/', authentication, controllers.Update)
+router.post('/', authentication, controllers.Create)
 
-module.exports = router;
+module.exports = router
