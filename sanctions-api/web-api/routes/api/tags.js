@@ -1,9 +1,8 @@
-var express = require("express");
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-var controllers = require("../../controllers/tags.js");
+const controllers = require('../../controllers/tags.js')
 
-router.get("/", controllers.Tags);
+router.get('/', controllers.Tags)
 
-module.exports = router;
-
+module.exports = router
