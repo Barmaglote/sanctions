@@ -1,7 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { Persons } from '../../controllers/persons.js'
 const router = express.Router()
-const controllers = require('../../controllers/persons.js')
 
-router.get('/', controllers.Persons)
+router.get('/', Persons)
 
-module.exports = router
+export function getRoutesAPIPersons () {
+    return router
+}

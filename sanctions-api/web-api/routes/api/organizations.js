@@ -1,7 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { Organizations } from '../../controllers/organizations.js'
 const router = express.Router()
-const controllers = require('../../controllers/organizations.js')
 
-router.get('/', controllers.Organizations)
+router.get('/', Organizations)
 
-module.exports = router
+export function getRoutesAPIOrganizations () {
+    return router
+}

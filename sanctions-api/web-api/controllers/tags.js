@@ -1,21 +1,19 @@
-const JSONResponse = require('../helpers/response')
-const TagsModel = require('../models/tags/model.js')
+import { Send } from '../helpers/response.js'
+import TagsModel from '../models/tags/model.js'
 
 const allowed = ['organizations', 'persons']
 
-module.exports.Tags = (req, res) => {
+export function Tags (req, res) {
   const { area } = req.query
   if (allowed.indexOf(area) < 0) {
-    JSONResponse.Send(res, 500, null)
-    return
+    Send(res, 500, null)
   }
 
   TagsModel.find({ area }, function (err, result) {
     if (err) {
-      JSONResponse.Send(res, 500, null)
-      return
+      Send(res, 500, null)
     }
 
-    JSONResponse.Send(res, 200, result)
+    Send(res, 200, result)
   })
 }

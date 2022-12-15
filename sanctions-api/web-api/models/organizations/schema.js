@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const organizationsSchema = new mongoose.Schema({
   titlerus: {
@@ -33,4 +33,4 @@ const organizationsSchema = new mongoose.Schema({
   }
 })
 
-module.exports = organizationsSchema
+export default organizationsSchema

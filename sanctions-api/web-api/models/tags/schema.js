@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const subTagsSchema = new mongoose.Schema({
   key: {
@@ -57,4 +57,4 @@ const tagsSchema = new mongoose.Schema({
   }
 })
 
-module.exports = tagsSchema
+export default tagsSchema

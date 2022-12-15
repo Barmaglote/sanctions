@@ -1,12 +1,14 @@
-const express = require('express')
+import express from 'express'
+import { authenticateToken } from './authentication.js'
+import { GetPublic, GetPrivate, Update, Create } from '../../controllers/profiles.js'
+
 const router = express.Router()
-const authentication = require('./authentication')
 
-const controllers = require('../../controllers/profiles.js')
+router.get('/public', GetPublic)
+router.get('/private', authenticateToken, GetPrivate)
+router.put('/', authenticateToken, Update)
+router.post('/', authenticateToken, Create)
 
-router.get('/public', controllers.GetPublic)
-router.get('/private', authentication, controllers.GetPrivate)
-router.put('/', authentication, controllers.Update)
-router.post('/', authentication, controllers.Create)
-
-module.exports = router
+export function getRoutesAPIProfiles () {
+    return router
+}

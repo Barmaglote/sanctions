@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected to MongoDB')
@@ -12,7 +12,7 @@ mongoose.connection.on('disconnected', () => {
   console.log('Mongoose disconnected')
 })
 
-function connectDB (url) {
+export function connectDB (url) {
   try {
     console.log('Connecting to DB')
     mongoose.connect(url)
@@ -21,5 +21,3 @@ function connectDB (url) {
     console.log(error)
   }
 }
-
-module.exports = connectDB

@@ -1,8 +1,8 @@
-const JSONResponse = require('../helpers/response')
-const ProfileModel = require('../models/profiles/model.js')
-const logger = require('../helpers/logger.js')
+import * as JSONResponse from '../helpers/response.js'
+import ProfileModel from '../models/profiles/model.js'
+import logger from '../helpers/logger.js'
 
-module.exports.GetPublic = async (req, res) => {
+export async function GetPublic (req, res) {
   const { nickname } = req.query.params ? JSON.parse(req.query.params) : { nickname: null }
   if (!nickname) {
     console.log('dfsdfsd')
@@ -23,7 +23,7 @@ module.exports.GetPublic = async (req, res) => {
   JSONResponse.Send(res, 200, { ...user })
 }
 
-module.exports.GetPrivate = async (req, res) => {
+export async function GetPrivate (req, res) {
   let { login } = req.user ? req.user : { login: null }
 
   if (!login) {
@@ -45,11 +45,11 @@ module.exports.GetPrivate = async (req, res) => {
   JSONResponse.Send(res, 200, { user: user[0] })
 }
 
-module.exports.Update = async (req, res) => {
-
+export async function Update (req, res) {
+  
 }
 
-module.exports.Create = async (req, res) => {
+export async function Create (req, res) {
   let { nickname, login } = req.body ? req.body : { nickname: null, login: null }
 
   if (!nickname || !login) {

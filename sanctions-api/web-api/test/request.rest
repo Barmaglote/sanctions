@@ -21,3 +21,22 @@ Content-Type: application/json
     "password": "654654"
 }
 
+###
+GET http://localhost:5000/api/v1/links
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/persons
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/organizations
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/tags
+Content-Type: application/json
+
+{
+    "area": "persons"
+}

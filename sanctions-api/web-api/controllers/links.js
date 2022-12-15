@@ -1,11 +1,12 @@
-const JSONResponse = require('../helpers/response')
-const LinksModel = require('../models/links/model.js')
+import { Send } from '../helpers/response.js'
+import LinksModel from '../models/links/model.js'
 
-module.exports.Links = (req, res) => {
+export function Links (req, res) {
   LinksModel.find({}, function (err, result) {
     if (err) {
-      JSONResponse.Send(res, 500, null)
+      Send(res, 500, null)
     }
-    JSONResponse.Send(res, 200, result)
+
+    Send(res, 200, result)
   })
 }

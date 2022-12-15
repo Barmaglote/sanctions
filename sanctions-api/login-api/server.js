@@ -3,12 +3,11 @@ import cors from 'cors'
 import corsOptionsDelegate from './helpers/cors.js'
 import express from 'express'
 import logger from './helpers/logger.js'
-
 import { connectDB } from './models/db.js'
-
 import { getRoutesAPIUsers } from './routes/api/users.js'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.js'
+
 dotenv.config('')
 const app = express()
 

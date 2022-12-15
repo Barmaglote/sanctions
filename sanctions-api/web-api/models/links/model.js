@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const linksSchema = require('./schema.js')
+import mongoose from 'mongoose'
+import { linksSchema } from './schema.js'
 
-const LinksModel = mongoose.model('links', linksSchema)
-module.exports = LinksModel
+export default mongoose.model('links', linksSchema)

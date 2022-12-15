@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const LINK = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ig
 
-const linksSchema = new mongoose.Schema({
+export const linksSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
@@ -36,6 +36,4 @@ const linksSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   }
-})
-
-module.exports = linksSchema
+});

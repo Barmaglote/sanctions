@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const OrganizationsSchema = require('./schema.js')
+import mongoose from 'mongoose'
+import OrganizationsSchema from './schema.js'
 
 const OrganizationsModel = mongoose.model('organizations', OrganizationsSchema)
-module.exports = OrganizationsModel
+export default OrganizationsModel

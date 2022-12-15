@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const personsSchema = new mongoose.Schema({
   titlerus: {
@@ -40,4 +40,4 @@ const personsSchema = new mongoose.Schema({
   }
 })
 
-module.exports = personsSchema
+export default personsSchema

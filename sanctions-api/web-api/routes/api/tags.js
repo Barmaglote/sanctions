@@ -1,8 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { Tags } from '../../controllers/tags.js'
+
 const router = express.Router()
+router.get('/', Tags)
 
-const controllers = require('../../controllers/tags.js')
-
-router.get('/', controllers.Tags)
-
-module.exports = router
+export function getRoutesAPITags () {
+    return router
+}

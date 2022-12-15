@@ -1,8 +1,6 @@
 import winston from 'winston';
 import { SeqTransport } from '@datalust/winston-seq';
 
-process.env
-
 const logger = winston.createLogger({
     level: 'info',  
     format: winston.format.combine( 

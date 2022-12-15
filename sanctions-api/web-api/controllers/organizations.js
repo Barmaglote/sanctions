@@ -1,7 +1,7 @@
-const JSONResponse = require('../helpers/response')
-const OrganizationsModel = require('../models/organizations/model.js')
+import * as JSONResponse from '../helpers/response.js'
+import OrganizationsModel from '../models/organizations/model.js'
 
-module.exports.Organizations = async (req, res) => {
+export async function Organizations (req, res) {
   const { value } = req.query.params ? JSON.parse(req.query.params) : { value: null }
   const { sortField, sortOrder } = value
   const sorting = {}

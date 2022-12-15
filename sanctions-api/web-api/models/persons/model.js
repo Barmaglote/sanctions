@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const personsSchema = require('./schema.js')
+import mongoose from 'mongoose'
+import personsSchema from './schema.js'
 
 const PersonsModel = mongoose.model('persons', personsSchema)
-module.exports = PersonsModel
+export default PersonsModel

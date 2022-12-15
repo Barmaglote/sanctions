@@ -1,5 +1,5 @@
-const winston = require('winston')
-const { SeqTransport } = require('@datalust/winston-seq')
+import winston from 'winston';
+import { SeqTransport } from '@datalust/winston-seq';
 
 const logger = winston.createLogger({
   level: 'info',
@@ -22,4 +22,4 @@ const logger = winston.createLogger({
   ]
 })
 
-module.exports = logger
+export default logger
