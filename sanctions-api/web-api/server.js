@@ -26,5 +26,5 @@ app.use('/api/v1/organizations', getRoutesAPIOrganizations())
 app.use('/api/v1/tags', getRoutesAPITags())
 app.use('/api/v1/profiles', getRoutesAPIProfiles())
 app.listen(process.env.PORT, () => {
-  logger.info(`WebAPI Server is started, port: ${process.env.PORT}`)
+  logger.info(`🚀 WebAPI Server is started, port: ${process.env.PORT}`)
 })

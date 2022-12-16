@@ -1,0 +1,65 @@
+enum LINK_TYPE {
+    youtube
+    charity
+    newspapers
+    telegram
+}
+
+enum AREA_TYPE {
+    organizations
+    persons
+}
+
+type Link {
+    id: String
+    type: LINK_TYPE!
+    titlerus: String
+    titleeng: String
+    description: String
+    foto: String
+    link: String
+}
+
+type Tag {
+    key: String!
+    label: String!
+    data: String!
+    icon: String!
+    area: AREA_TYPE
+    children: [Tag]
+}
+
+type Person {
+    titlerus: String
+    titleeng: String!
+    description: String!
+    tag: [String]!
+    tags: [Tag]!
+    rating: Int
+    foto: String
+    dob: String
+    gender: String
+}
+
+type Organization {
+    titlerus: String
+    titleeng: String!
+    description: String!
+    tag: [String]!
+    tags: [Tag]!
+    rating: Int
+    foto: String
+}
+
+input Filters {
+    tags: [String]
+    title: String
+}
+
+input LazyLoadEvent {
+    sortField: String
+    sortOrder: String    
+    filters: Filters
+    first: Int!
+    rows: Int!
+}

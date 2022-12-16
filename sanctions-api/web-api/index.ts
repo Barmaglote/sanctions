@@ -1,60 +1,70 @@
+import dotenv from 'dotenv'
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { loadSchemaSync } from '@graphql-tools/load'
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
+import logger from './helpers/logger.js'
+import { connectDB } from './models/db.js'
+import { Links } from './controllers/graphql/links.js'
+import { Tags, ComputeTags } from './controllers/graphql/tags.js'
+import { Persons, PersonsTotal } from './controllers/graphql/persons.js'
+import { Organizations, OrganizationsTotal } from './controllers/graphql/organizations.js'
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from '@apollo/server/plugin/landingPage/default';
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache';
 
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+dotenv.config()
+logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
+connectDB(process.env.MONGO_URI)
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+const schema = loadSchemaSync('./models/schema.graphql', { loaders: [new GraphQLFileLoader()] })
+const queriesDefs = `#graphql
   type Query {
-    books: [Book]
+    links(type: String): [Link]
+    tags(area: String): [Tag]
+    persons(lazyLoadEvent: LazyLoadEvent): [Person]  
+    personsTotal(lazyLoadEvent: LazyLoadEvent): Int  
+    organizations(lazyLoadEvent: LazyLoadEvent): [Organization]  
+    organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int        
   }
 `;
 
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-
-
-  // Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      books: () => books,
+      links: (_, { type }) => Links(type),
+      tags: (_, { area }) => Tags(area),
+      persons: (_, { lazyLoadEvent }) => Persons(lazyLoadEvent),
+      personsTotal: (_, { lazyLoadEvent }) => PersonsTotal(lazyLoadEvent),
+      organizations: (_, { lazyLoadEvent }) => Organizations(lazyLoadEvent),
+      organizationsTotal: (_, { lazyLoadEvent }) => OrganizationsTotal(lazyLoadEvent),      
     },
+    Person: {
+      tags: ComputeTags
+    },
+    Organization: {
+      tags: ComputeTags
+    }
   };
 
-
-  // The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
 const server = new ApolloServer({
-    typeDefs,
+    typeDefs: [schema, queriesDefs],
     resolvers,
+    plugins: [
+      process.env.PRODUCTION === 'true'
+        ? ApolloServerPluginLandingPageProductionDefault()
+        : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ],
+    cache: new InMemoryLRUCache({
+      maxSize: Math.pow(2, 20) * 100, // ~100MiB
+      ttl: 300_000, // 5 minutes (in milliseconds)
+    }),
   });
   
-  // Passing an ApolloServer instance to the `startStandaloneServer` function:
-  //  1. creates an Express app
-  //  2. installs your ApolloServer instance as middleware
-  //  3. prepares your app to handle incoming requests
   const { url } = await startStandaloneServer(server, {
     listen: { port: 5005 },
   });
   
-  console.log(`🚀  Server ready at: ${url}`);
+  console.log(`🚀 Server ready at: ${url}`);
