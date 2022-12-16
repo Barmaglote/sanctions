@@ -1,6 +1,5 @@
 import dotenv from 'dotenv'
 import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import logger from './helpers/logger.js'
@@ -12,8 +11,17 @@ import { Organizations, OrganizationsTotal } from './controllers/graphql/organiz
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
-} from '@apollo/server/plugin/landingPage/default';
-import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache';
+} from '@apollo/server/plugin/landingPage/default'
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
+import { expressMiddleware } from '@apollo/server/express4'
+import cors from 'cors'
+import express from 'express'
+import corsOptionsDelegate from './helpers/cors.js'
+import { getRoutesAPIPersons } from './routes/api/persons.js'
+import { getRoutesAPILinks } from './routes/api/links.js'
+import { getRoutesAPIOrganizations } from './routes/api/organizations.js'
+import { getRoutesAPITags } from './routes/api/tags.js'
+import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
 
 dotenv.config()
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
@@ -49,6 +57,8 @@ const resolvers = {
     }
   };
 
+const app = express();
+
 const server = new ApolloServer({
     typeDefs: [schema, queriesDefs],
     resolvers,
@@ -61,10 +71,20 @@ const server = new ApolloServer({
       maxSize: Math.pow(2, 20) * 100, // ~100MiB
       ttl: 300_000, // 5 minutes (in milliseconds)
     }),
-  });
+});
   
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 5005 },
-  });
-  
-  console.log(`🚀 Server ready at: ${url}`);
+await server.start();
+
+
+app.use(express.json())
+app.use(cors(corsOptionsDelegate))
+app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(server));
+app.use('/static', express.static('public'))
+app.use('/api/v1/persons', getRoutesAPIPersons())
+app.use('/api/v1/links', getRoutesAPILinks())
+app.use('/api/v1/organizations', getRoutesAPIOrganizations())
+app.use('/api/v1/tags', getRoutesAPITags())
+app.use('/api/v1/profiles', getRoutesAPIProfiles())
+app.listen(process.env.PORT, () => {
+  logger.info(`🚀 WebAPI Server is started, port: ${process.env.PORT}`)
+})
