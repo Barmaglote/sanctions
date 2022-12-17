@@ -22,6 +22,9 @@ import { getRoutesAPILinks } from './routes/api/links.js'
 import { getRoutesAPIOrganizations } from './routes/api/organizations.js'
 import { getRoutesAPITags } from './routes/api/tags.js'
 import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
+import { ApolloContext } from './models/apollo-context'; 
+import { GetContext } from './helpers/context.js';
+import { GetProfile } from './controllers/graphql/profiles.js';
 
 dotenv.config()
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
@@ -36,7 +39,8 @@ const queriesDefs = `#graphql
     persons(lazyLoadEvent: LazyLoadEvent): [Person]  
     personsTotal(lazyLoadEvent: LazyLoadEvent): Int  
     organizations(lazyLoadEvent: LazyLoadEvent): [Organization]  
-    organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int        
+    organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int,
+    profile(nickname: String): Profile        
   }
 `;
 
@@ -48,6 +52,7 @@ const resolvers = {
       personsTotal: (_, { lazyLoadEvent }) => PersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => Organizations(lazyLoadEvent),
       organizationsTotal: (_, { lazyLoadEvent }) => OrganizationsTotal(lazyLoadEvent),      
+      profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login)
     },
     Person: {
       tags: ComputeTags
@@ -59,7 +64,7 @@ const resolvers = {
 
 const app = express();
 
-const server = new ApolloServer({
+const server = new ApolloServer<ApolloContext>({
     typeDefs: [schema, queriesDefs],
     resolvers,
     plugins: [
@@ -71,6 +76,7 @@ const server = new ApolloServer({
       maxSize: Math.pow(2, 20) * 100, // ~100MiB
       ttl: 300_000, // 5 minutes (in milliseconds)
     }),
+    logger: logger
 });
   
 await server.start();
@@ -78,7 +84,9 @@ await server.start();
 
 app.use(express.json())
 app.use(cors(corsOptionsDelegate))
-app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(server));
+app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(server, {
+  context: GetContext
+}));
 app.use('/static', express.static('public'))
 app.use('/api/v1/persons', getRoutesAPIPersons())
 app.use('/api/v1/links', getRoutesAPILinks())

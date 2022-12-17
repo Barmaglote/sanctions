@@ -63,3 +63,9 @@ input LazyLoadEvent {
     first: Int!
     rows: Int!
 }
+
+type Profile {
+    login: String
+    nickname: String
+    info: String
+}

@@ -5,7 +5,6 @@ import logger from '../helpers/logger.js'
 export async function GetPublic (req, res) {
   const { nickname } = req.query.params ? JSON.parse(req.query.params) : { nickname: null }
   if (!nickname) {
-    console.log('dfsdfsd')
     JSONResponse.Send(res, 404, 'Illegal parameters')
     return
   }
