@@ -1,6 +1,6 @@
 import LinksModel from '../../models/links/model.js'
 
-export async function Links(type) {
+export async function GetLinks(type) {
   if (!type) {
       return await LinksModel.find({}) 
   } else {

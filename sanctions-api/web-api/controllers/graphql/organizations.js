@@ -1,6 +1,6 @@
 import OrganizationsModel from '../../models/organizations/model.js'
 
-export async function Organizations(lazyLoadEvent) {
+export async function GetOrganizations(lazyLoadEvent) {
 
   const { sortField, sortOrder, first, rows } = lazyLoadEvent || { sortField: 'id', sortOrder: '-1', first: 0, rows: 50 }
   const sorting = {}
@@ -20,7 +20,7 @@ export async function Organizations(lazyLoadEvent) {
   return await OrganizationsModel.find(filter).sort(sorting).skip(first).limit(rows)
 }
 
-export async function OrganizationsTotal(lazyLoadEvent) {
+export async function GetOrganizationsTotal(lazyLoadEvent) {
 
   const { sortField, sortOrder } = lazyLoadEvent || { sortField: 'id', sortOrder: '-1' }
   const sorting = {}

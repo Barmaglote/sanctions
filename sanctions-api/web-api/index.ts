@@ -4,10 +4,10 @@ import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import logger from './helpers/logger.js'
 import { connectDB } from './models/db.js'
-import { Links } from './controllers/graphql/links.js'
-import { Tags, ComputeTags } from './controllers/graphql/tags.js'
-import { Persons, PersonsTotal } from './controllers/graphql/persons.js'
-import { Organizations, OrganizationsTotal } from './controllers/graphql/organizations.js'
+import { GetLinks } from './controllers/graphql/links.js'
+import { GetTags, ComputeTags } from './controllers/graphql/tags.js'
+import { GetPersons, GetPersonsTotal } from './controllers/graphql/persons.js'
+import { GetOrganizations, GetOrganizationsTotal } from './controllers/graphql/organizations.js'
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
@@ -24,7 +24,7 @@ import { getRoutesAPITags } from './routes/api/tags.js'
 import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
 import { ApolloContext } from './models/apollo-context'; 
 import { GetContext } from './helpers/context.js';
-import { GetProfile } from './controllers/graphql/profiles.js';
+import { GetProfile, AddProfile } from './controllers/graphql/profiles.js';
 
 dotenv.config()
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
@@ -42,17 +42,23 @@ const queriesDefs = `#graphql
     organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int,
     profile(nickname: String): Profile        
   }
+  type Mutation {
+    addProfile(nickname: String): Profile
+  }
 `;
 
 const resolvers = {
     Query: {
-      links: (_, { type }) => Links(type),
-      tags: (_, { area }) => Tags(area),
-      persons: (_, { lazyLoadEvent }) => Persons(lazyLoadEvent),
-      personsTotal: (_, { lazyLoadEvent }) => PersonsTotal(lazyLoadEvent),
-      organizations: (_, { lazyLoadEvent }) => Organizations(lazyLoadEvent),
-      organizationsTotal: (_, { lazyLoadEvent }) => OrganizationsTotal(lazyLoadEvent),      
+      links: (_, { type }) => GetLinks(type),
+      tags: (_, { area }) => GetTags(area),
+      persons: (_, { lazyLoadEvent }) => GetPersons(lazyLoadEvent),
+      personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
+      organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
+      organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login)
+    },
+    Mutation: {
+      addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login)
     },
     Person: {
       tags: ComputeTags

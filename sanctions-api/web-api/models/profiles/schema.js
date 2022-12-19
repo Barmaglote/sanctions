@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
-const NICKNAME = /^[a-z]{3,25}$/i
+const NICKNAME = /^[a-z]{1}[a-z\d]{3,25}$/i
 const INFO = /^[\w\s\d]{0,250}$/i
 
 const profileSchema = new mongoose.Schema({

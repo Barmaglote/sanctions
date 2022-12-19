@@ -29,7 +29,17 @@ type Tag {
     children: [Tag]
 }
 
-type Person {
+interface ReputationObject {
+    titlerus: String
+    titleeng: String!
+    description: String!
+    tag: [String]!
+    tags: [Tag]!
+    rating: Int
+    foto: String
+}
+
+type Person implements ReputationObject {
     titlerus: String
     titleeng: String!
     description: String!
@@ -68,4 +78,8 @@ type Profile {
     login: String
     nickname: String
     info: String
+}
+
+type Mutation {
+  addProfile(nickname: String): Profile
 }

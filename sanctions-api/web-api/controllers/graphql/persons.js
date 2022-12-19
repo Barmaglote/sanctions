@@ -1,6 +1,6 @@
 import PersonsModel from '../../models/persons/model.js'
 
-export async function Persons(lazyLoadEvent) {
+export async function GetPersons(lazyLoadEvent) {
 
   const { sortField, sortOrder, first, rows } = lazyLoadEvent || { sortField: 'id', sortOrder: '-1', first: 0, rows: 50 }
   const sorting = {}
@@ -20,7 +20,7 @@ export async function Persons(lazyLoadEvent) {
   return await PersonsModel.find(filter).sort(sorting).skip(first).limit(rows)
 }
 
-export async function PersonsTotal(lazyLoadEvent) {
+export async function GetPersonsTotal(lazyLoadEvent) {
 
   const { sortField, sortOrder } = lazyLoadEvent || { sortField: 'id', sortOrder: '-1' }
   const sorting = {}
