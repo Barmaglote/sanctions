@@ -21,31 +21,18 @@
 
 <script>
   import DataView from 'primevue/dataview';
-  import { useLinksStore } from '@/store/links';
-  import { computed, onMounted } from 'vue'
-
+  import { computed, toRef } from 'vue';
+  
   export default {
 	setup(props){
-		const linksStore = useLinksStore();
-	
 		const WEB_STATIC_FILES = computed(() => {
-			return process.env.WEB_STATIC_FILES;
-		});
+		    return process.env.WEB_STATIC_FILES;
+	  	});
 
-		onMounted(() => {
-			if (linksStore?.links.length == 0) {
-				linksStore.fetchLinks();
-			}
-		});
+		const filtered = toRef(props, 'items')
 
-		const filtered = computed(() => {
-			if (!linksStore?.Links) return [];
-			return linksStore?.Filtered(props.type, props.search);
-		});
-		return {linksStore, filtered, WEB_STATIC_FILES}
+		return { filtered, WEB_STATIC_FILES }
 	},
-
-
 	components: { DataView }, 
     data() {
         return {
@@ -58,13 +45,9 @@
         }
     },
     props: {
-      search: {
-        type: String,
-        default: null,
-      },
-      type: {
-        type: String,
-        default: null,
+      items: {
+        type: [],
+        default: [],
       }, 
       subtitle: {
         type: String,

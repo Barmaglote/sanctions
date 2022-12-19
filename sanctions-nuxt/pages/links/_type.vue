@@ -1,7 +1,7 @@
 <template>
     <div class="surface-ground">          
         <div class="col-12 md:col-12 p-0">
-          <bg-links :search="search" :type="type" :subtitle="subtitle"></bg-links>
+          <bg-links :items="filtered" :subtitle="subtitle"></bg-links>
         </div>                            
     </div>              
 </template>
@@ -10,6 +10,10 @@
 import Links from "@/components/sanctions/Links.vue"
 import { useRoute } from '@nuxtjs/composition-api'
 import { computed } from 'vue'
+import { useLinksStore } from '@/store/links'
+import { LINKS_QUERY } from '@/queries/links'
+import { storeToRefs } from 'pinia';
+import { FilterList } from '@/common/Filters';
 
 export default {
     head() {
@@ -23,13 +27,28 @@ export default {
           }
         ]
       }
-	  },    
-    components: { 'bg-links': Links }, 
-    setup() {
+	  },
+    components: { 'bg-links': Links },
+    async asyncData({ app }) {
+      const client = app.apolloProvider.defaultClient;
+      const res = await client.query({
+        query: LINKS_QUERY,
+      })
+
+      const linksStore = useLinksStore();
+      linksStore.setLinks(res.data?.links);
+    },
+    setup() {      
       const route = useRoute()
-		  let type = computed(() => route.value.params.type)
+		  const type = computed(() => route.value.params.type)
+      const search = computed(() => route.value.params.search)
       const subtitle = 'links';
-      return { type, subtitle }
+      const linksStore = useLinksStore();
+
+      const { Links } = storeToRefs(linksStore);
+      const filtered = computed(() => FilterList(Links.value, type.value, search.value, ['titlerus', 'titlerus']) );
+
+      return { filtered, subtitle }
     },
     props: {
       search: {

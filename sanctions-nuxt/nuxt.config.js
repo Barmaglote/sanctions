@@ -59,6 +59,7 @@ export default {
     '@/plugins/loginapi/token.service.js',
     '@/plugins/webapi/web.api.js',
     '@/plugins/loginapi/login.api.js',
+    '@/plugins/graphql/apollo-client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -85,7 +86,8 @@ export default {
     '@nuxtjs/auth-next',
     'nuxt-browser-console', 
     '@nuxtjs/toast',
-    '@nuxtjs/recaptcha'
+    '@nuxtjs/recaptcha',
+    '@nuxtjs/apollo'
   ],
 
   browserConsole: {
@@ -159,7 +161,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // https://github.com/primefaces/primevue/issues/844
-    transpile: ['primevue'],
+    transpile: ['primevue', '@vue/apollo-composable'],
     extend(config) {
       config.module.rules.push({
         test: /\.mjs$/,
@@ -168,6 +170,14 @@ export default {
       })
     },
     postcss: null,
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: "http://localhost:5000/graphql/"
+      }
+    }
   },
 }
 
