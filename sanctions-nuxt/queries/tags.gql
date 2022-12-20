@@ -1,0 +1,16 @@
+query GetTags($area: String!) {
+  tags(area: $area) {
+    area
+    data
+    icon
+    key
+    label
+    children {
+      area
+      data
+      icon
+      key
+      label
+    }
+  }   
+}
