@@ -1,8 +1,8 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">        
     <div class="lg:col-3 md:col-3">
-      <div class="tags-card">
-        <bg-tag-selector/>
+      <div class="tags-card" v-if="tags && tags.length > 0">
+        <bg-tag-selector :items="tags"/>
       </div>
     </div>                        
     <div class="lg:col-9 md:col-9 col-12">
@@ -16,8 +16,18 @@
   import TagSelector from "@/components/core/TagSelector.vue"
   import { useRoute } from '@nuxtjs/composition-api'
   import { computed } from 'vue'
+  import TAGS_QUERY from '@/queries/tags.gql'
 
-  export default {    
+  export default {  
+    apollo: {
+      tags: {
+        prefetch: true,
+        query: TAGS_QUERY,
+        variables () {
+          return { area: "organizations" }
+        }
+      }
+    },        
     head() {
       return {
         title: process.env.SITE_TITLE + " | Sanctions: Organizations",

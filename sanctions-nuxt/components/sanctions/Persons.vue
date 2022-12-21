@@ -106,11 +106,12 @@
 
 			filters.value.tags.value = ''
 			const tags = tagsStore.Selected.map(x => x.key) 
+
 			if (tags && tags.length > 0) {
 				filters.value.tags.value = tags;
 			}
 
-			lazyParams.value.filters = filters.value
+			lazyParams.value.filters = filters.value		
 
 			$fetchPersons(lazyParams).then(data => {
 				items.value = data.data.result
@@ -136,15 +137,15 @@
             	filters: filters.value
         	};
 
-			tagsStore.fetchTags('persons')
 			tagHelper.value = new TagHelper(tagsStore.tags)
+			lazyLoadPersons();
 		});
 
         const onSortChange = (event) => {
 			lazyParams.value.sortOrder = event.value.value 
 			sortOrder.value = event.value.value			
 
-			lazyLoadPersons()
+			lazyLoadPersons();
         }
 
 		const getTagNames = (keys) => {

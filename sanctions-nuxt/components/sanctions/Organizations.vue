@@ -141,8 +141,8 @@
             	filters: filters.value
         	};
 
-			tagsStore.fetchTags('organizations');
 			tagHelper.value = new TagHelper(tagsStore.tags)
+			lazyLoadOrganizations();
 		});
 
         const onSortChange = (event) => {

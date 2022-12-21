@@ -1,0 +1,11 @@
+query GetLinks($type: String) {
+  links(type: $type) {
+    description
+    foto
+    id
+    link
+    titleeng
+    titlerus
+    type
+  }
+}

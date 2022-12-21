@@ -1,0 +1,18 @@
+query GetOrganizations($lazyLoadEvent: LazyLoadEvent) {
+  organizations(lazyLoadEvent: $lazyLoadEvent) {
+    description
+    foto
+    rating
+    tag
+    tags {
+      area
+      data
+      icon
+      key
+      label
+    }
+    titleeng
+    titlerus
+  }
+  organizationsTotal(lazyLoadEvent: $lazyLoadEvent)  
+}

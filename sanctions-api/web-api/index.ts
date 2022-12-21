@@ -18,7 +18,6 @@ import cors from 'cors'
 import express from 'express'
 import corsOptionsDelegate from './helpers/cors.js'
 import { getRoutesAPIPersons } from './routes/api/persons.js'
-import { getRoutesAPILinks } from './routes/api/links.js'
 import { getRoutesAPIOrganizations } from './routes/api/organizations.js'
 import { getRoutesAPITags } from './routes/api/tags.js'
 import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
@@ -95,7 +94,6 @@ app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(
 }));
 app.use('/static', express.static('public'))
 app.use('/api/v1/persons', getRoutesAPIPersons())
-app.use('/api/v1/links', getRoutesAPILinks())
 app.use('/api/v1/organizations', getRoutesAPIOrganizations())
 app.use('/api/v1/tags', getRoutesAPITags())
 app.use('/api/v1/profiles', getRoutesAPIProfiles())

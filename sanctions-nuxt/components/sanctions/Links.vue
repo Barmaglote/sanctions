@@ -1,6 +1,6 @@
 <template>
  <div class="">
-    <DataView :value="filtered" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
+    <DataView :value="items" :layout="layout" :paginator="true" :rows="50" :sortOrder="sortOrder" :sortField="sortField">
 			<template #grid="slotProps">
 				<div class="col-12 md:col-4 display-grid p-2">
 					<div class="element-grid-item">
@@ -21,17 +21,15 @@
 
 <script>
   import DataView from 'primevue/dataview';
-  import { computed, toRef } from 'vue';
+  import { computed } from 'vue';
   
   export default {
-	setup(props){
+	setup(){
 		const WEB_STATIC_FILES = computed(() => {
 		    return process.env.WEB_STATIC_FILES;
 	  	});
 
-		const filtered = toRef(props, 'items')
-
-		return { filtered, WEB_STATIC_FILES }
+		return { WEB_STATIC_FILES }
 	},
 	components: { DataView }, 
     data() {
@@ -47,7 +45,7 @@
     props: {
       items: {
         type: [],
-        default: [],
+        default: () => [],
       }, 
       subtitle: {
         type: String,

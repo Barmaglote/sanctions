@@ -1,1 +1,1 @@
-npm run monitor
+npm run apollo

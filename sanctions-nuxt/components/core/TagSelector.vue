@@ -10,12 +10,12 @@ import Tree from 'primevue/tree'
 import { computed, ref } from 'vue'
 
 export default {
-    setup() {
-        const selectedKeys = ref(null)
+    setup( { items } ) {
 		const tagsStore = useTagsStore();
+        tagsStore.setTags(items);
+        const selectedKeys = ref(null)
 
         const onNodeSelect = (node) => {
-
             if (node.children) {
                 node.children.forEach(item => {
                     tagsStore.addSelectedTag(item);    
@@ -39,6 +39,12 @@ export default {
 
         return {tagsStore, onNodeSelect, onNodeUnselect, selectedKeys, nodes}
     },
-    components: { Tree }
+    components: { Tree },
+    props: {
+            items: {
+                type: [],
+                default: () => [],
+        }, 
+    }
 }
 </script>

@@ -20,12 +20,6 @@ export const useTagsStore = defineStore("tags", {
             if (!this.selected.some(x => x.key == value.key)) return;
             this.selected = this.selected.filter(x => x.key != value.key)
         },
-        async fetchTags(entity){
-            const { $fetchTags } = useContext()
-    		$fetchTags(entity).then(res => {
-        	    this.setTags(res.data);
-    		}) 
-        }
     },
     getters: {
         Tags: (state) => {

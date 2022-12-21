@@ -1,0 +1,20 @@
+query GetPersons($lazyLoadEvent: LazyLoadEvent) {
+  persons(lazyLoadEvent: $lazyLoadEvent) {
+    description
+    dob
+    foto
+    gender
+    rating
+    tag
+    tags {
+      area
+      data
+      icon
+      key
+      label
+    }
+    titleeng
+    titlerus
+  }
+  personsTotal(lazyLoadEvent: $lazyLoadEvent)
+}
