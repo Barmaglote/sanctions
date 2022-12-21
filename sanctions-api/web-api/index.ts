@@ -1,25 +1,19 @@
 import dotenv from 'dotenv'
+import cors from 'cors'
+import express from 'express'
+import corsOptionsDelegate from './helpers/cors.js'
+import logger from './helpers/logger.js'
 import { ApolloServer } from '@apollo/server';
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
-import logger from './helpers/logger.js'
 import { connectDB } from './models/db.js'
 import { GetLinks } from './controllers/graphql/links.js'
 import { GetTags, ComputeTags } from './controllers/graphql/tags.js'
 import { GetPersons, GetPersonsTotal } from './controllers/graphql/persons.js'
 import { GetOrganizations, GetOrganizationsTotal } from './controllers/graphql/organizations.js'
-import {
-  ApolloServerPluginLandingPageLocalDefault,
-  ApolloServerPluginLandingPageProductionDefault,
-} from '@apollo/server/plugin/landingPage/default'
+import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
 import { expressMiddleware } from '@apollo/server/express4'
-import cors from 'cors'
-import express from 'express'
-import corsOptionsDelegate from './helpers/cors.js'
-import { getRoutesAPIPersons } from './routes/api/persons.js'
-import { getRoutesAPIOrganizations } from './routes/api/organizations.js'
-import { getRoutesAPITags } from './routes/api/tags.js'
 import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
 import { ApolloContext } from './models/apollo-context'; 
 import { GetContext } from './helpers/context.js';
@@ -86,16 +80,10 @@ const server = new ApolloServer<ApolloContext>({
   
 await server.start();
 
-
 app.use(express.json())
 app.use(cors(corsOptionsDelegate))
-app.use('/graphql', cors<cors.CorsRequest>(), express.json(), expressMiddleware(server, {
-  context: GetContext
-}));
+app.use('/graphql', cors<cors.CorsRequest>(process.env.CORS_DOMAINS), express.json(), expressMiddleware(server, { context: GetContext }));
 app.use('/static', express.static('public'))
-app.use('/api/v1/persons', getRoutesAPIPersons())
-app.use('/api/v1/organizations', getRoutesAPIOrganizations())
-app.use('/api/v1/tags', getRoutesAPITags())
 app.use('/api/v1/profiles', getRoutesAPIProfiles())
 app.listen(process.env.PORT, () => {
   logger.info(`🚀 WebAPI Server is started, port: ${process.env.PORT}`)

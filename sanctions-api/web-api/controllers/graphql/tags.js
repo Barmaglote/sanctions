@@ -4,7 +4,6 @@ import { GraphQLError } from 'graphql'
 const ALLOWED = ['organizations', 'persons']
 
 export async function GetTags(area) {
-  console.log(area);
   if (ALLOWED.indexOf(area) < 0) {
     throw new GraphQLError('Unsupported tag area', {
       extensions: {

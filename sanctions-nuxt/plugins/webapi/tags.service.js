@@ -1,7 +1,13 @@
-export default ({ app }, inject) => {    
-    inject('fetchTags', async (entity) => {
-        const data = await app.$webapi().get(`/tags?area=${entity}`);
-        return JSON.parse(JSON.stringify(data));
-    });
-}
+import TAGS_QUERY from '@/queries/tags'
 
+export default ({ app }, inject) => {    
+    inject('fetchTags', async (area) => {        
+
+        const { data } = await app.apolloProvider.defaultClient.query({
+            query: TAGS_QUERY,
+            variables: { area }
+        });
+
+        return { data: data.tags };
+    });    
+}
