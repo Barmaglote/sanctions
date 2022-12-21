@@ -1,8 +1,11 @@
-import { provide, onGlobalSetup, defineNuxtPlugin } from '@nuxtjs/composition-api';
-import { DefaultApolloClient } from '@vue/apollo-composable/dist';
+import { createHttpLink } from 'apollo-link-http'
 
-export default defineNuxtPlugin(({ app }) => {
-  onGlobalSetup(() => {
-    provide(DefaultApolloClient, app.apolloProvider?.defaultClient);
-  });
-});
+export default function GetApolloClient(_) {
+  return {
+    defaultHttpLink: false,
+    link: createHttpLink({
+      uri: 'http://localhost:5000/graphql/',
+    }),
+    authenticationType: 'Bearer'
+  }
+}

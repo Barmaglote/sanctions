@@ -3,7 +3,7 @@ import axios from "axios";
 export default ({ app }, inject) => {    
   inject('loginapi', () => {
     const loginapi = axios.create({
-      baseURL: "http://localhost:4000/api/",
+      baseURL: process.env.LOGIN_API,
       headers: {
         "Content-Type": "application/json",
         "Authorization": app.$auth.strategy.token.get()

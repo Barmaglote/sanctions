@@ -14,7 +14,9 @@ export const useProfileStore = defineStore("profile", {
     },
     actions: {
         async setProfile(value){
-            this.profile = JSON.parse(JSON.stringify(value.user));
+            if (value?.profile) { 
+                this.profile = JSON.parse(JSON.stringify(value.profile));
+            }             
         },
 
         async fetchPublicProfile(){

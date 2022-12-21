@@ -1,5 +1,3 @@
-import TokenService from './token.service.js'
-
 export default ({ app }, inject) => {    
   inject('login', async (user) => {
     return app.$auth.loginWith('local', { data: user })

@@ -1,25 +1,45 @@
+import PROFILES_QUERY from '@/queries/profiles';
 export default ({ app }, inject) => {    
-    // private settings
-    inject('fetchPrivateProfile', async (entity) => {      
-        const data = await app.$webapi().get(`/profiles/private`);
-        return JSON.parse(JSON.stringify(data));
+    inject('fetchPrivateProfile', async () => {        
+        const { data } = await app.apolloProvider.defaultClient.query({
+            query: PROFILES_QUERY,
+            variables: { nickname: null },
+            context: {
+                headers: {
+                    Authorization: app.$auth.strategy.token.get()
+                }
+            }
+        });
+
+        return { data };
+    }); 
+
+    inject('fetchPublicProfile', async (nickname) => {        
+        const { data } = await app.apolloProvider.defaultClient.query({
+            query: PROFILES_QUERY,
+            variables: { nickname },
+            context: {
+                headers: {
+                    Authorization: app.$auth.strategy.token.get()
+                }
+            }
+        });
+
+        return { data };
     });
 
-    // public data
-    inject('fetchPublicProfile', async (entity) => {         
-        const data = await app.$webapi().get(`/profiles/public`); 
-        return JSON.parse(JSON.stringify(data));
-    });
+    // TODO: Not ready
+    inject('createProfile', async (nickname) => {        
+        const { data } = await app.apolloProvider.defaultClient.query({
+            query: PROFILES_QUERY,
+            variables: { nickname },
+            context: {
+                headers: {
+                    Authorization: app.$auth.strategy.token.get()
+                }
+            }
+        });
 
-    // update data
-    inject('updateProfile', async (entity) => {         
-        const data = await app.$webapi().put(`/profiles`, entity); 
-        return JSON.parse(JSON.stringify(data));
-    });
-
-    // createProfile
-    inject('createProfile', async (nickname) => {       
-        const data = await app.$webapi().post(`/profiles`, JSON.stringify({nickname}));
-        return JSON.parse(JSON.stringify(data));
-    });    
+        return { data };
+    });         
 }

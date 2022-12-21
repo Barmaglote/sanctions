@@ -14,7 +14,7 @@ export async function GetContext({ req, res }): Promise<ApolloContext> {
 
     return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      if (err) return reject(EMPTY_CONTEXT)
+      if (err) { return reject(EMPTY_CONTEXT) }
       resolve({
         isAuthenticated: user !== null,
         user: user
