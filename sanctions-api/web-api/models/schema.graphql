@@ -80,6 +80,14 @@ type Profile {
     info: String
 }
 
+input ProfileInput {
+    login: String
+    nickname: String
+    info: String
+}
+
 type Mutation {
   addProfile(nickname: String): Profile
+  updateProfile(profile: ProfileInput): Profile
 }
+

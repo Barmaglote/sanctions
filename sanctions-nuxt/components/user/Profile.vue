@@ -38,8 +38,8 @@ export default {
 
 		const profile = computed(() => {      
 			return profilesStore?.Profile;
-		});    
-
+		});
+    
     const active = ref(1)
 
     const items = [
@@ -48,7 +48,6 @@ export default {
       {label: 'Settings', icon: 'pi pi-fw pi-cog'},
       {label: 'Security', icon: 'pi pi-fw pi-shield'}
     ]
-
     return { items, active, profile, 'store': profilesStore }
   },
   components: { TabMenu, 

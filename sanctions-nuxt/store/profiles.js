@@ -32,14 +32,12 @@ export const useProfileStore = defineStore("profile", {
         	    this.setProfile(res.data);
     		}) 
         }, 
-        async updateProfile(profile){
-            const { $updateProfile } = useContext()
-    		$updateProfile().then(res => {
+        async updateProfile(profile, { $updateProfile }){
+    		$updateProfile(profile).then(res => {
         	    this.setProfile(res.data);
     		})
         },         
-        async createProfile(nickname, ctx){
-            const { $createProfile } = ctx;
+        async createProfile(nickname, { $createProfile } ){
     		await $createProfile(nickname).then(res => {
         	    this.setProfile(res.data);
     		})            

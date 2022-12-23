@@ -24,13 +24,13 @@ import Button from 'primevue/button'
 import { useProfileStore } from '@/store/profiles'
 import HomeButton from '@/components/core/HomeButton.vue'
 import InputText from 'primevue/inputtext'
-import { reactive, ref,onMounted } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { required } from 'vuelidate/lib/validators'
 import { useVuelidate } from "@vuelidate/core"
-import { useContext } from '@nuxtjs/composition-api'
+import { useContext, useRouter } from '@nuxtjs/composition-api'
 
 export default {  
-  setup(props){ 
+  setup(){ 
     const profileStore = useProfileStore()
     const state = reactive({
         nickname: ''
@@ -45,7 +45,6 @@ export default {
     const loading = ref(false)
     const submitted = ref(false)
     const message = ref('')    
-
    
     let ctx = null;
 
@@ -53,7 +52,9 @@ export default {
 			ctx = useContext()
 		});
 
-    const handleSubmit = (isFormValid) => {
+    const router = useRouter()
+
+    const handleSubmit = async (isFormValid) => {
       loading.value = true
 
       if ( !isFormValid ) {
@@ -61,8 +62,11 @@ export default {
         return
       }
 
-      profileStore.createProfile(state.nickname, ctx)
+      await profileStore.createProfile(state.nickname, ctx)
       loading.value = false
+      if (profileStore?.profile?.nickname) {
+        router.push('/user/profile')
+      }      
     }
 
     return { state, v$, handleSubmit, loading, submitted, message }

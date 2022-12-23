@@ -17,7 +17,7 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { getRoutesAPIProfiles } from  './routes/api/profiles.js'
 import { ApolloContext } from './models/apollo-context'; 
 import { GetContext } from './helpers/context.js';
-import { GetProfile, AddProfile } from './controllers/graphql/profiles.js';
+import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js';
 
 dotenv.config()
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
@@ -32,11 +32,12 @@ const queriesDefs = `#graphql
     persons(lazyLoadEvent: LazyLoadEvent): [Person]  
     personsTotal(lazyLoadEvent: LazyLoadEvent): Int  
     organizations(lazyLoadEvent: LazyLoadEvent): [Organization]  
-    organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int,
+    organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int
     profile(nickname: String): Profile        
   }
   type Mutation {
     addProfile(nickname: String): Profile
+    updateProfile(profile: ProfileInput): Profile
   }
 `;
 
@@ -51,7 +52,8 @@ const resolvers = {
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login)
     },
     Mutation: {
-      addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login)
+      addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),
+      updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login)
     },
     Person: {
       tags: ComputeTags

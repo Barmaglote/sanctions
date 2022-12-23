@@ -1,0 +1,7 @@
+mutation Mutation($nickname: String) {
+  addProfile(nickname: $nickname) {
+    info
+    login
+    nickname
+  }
+}
