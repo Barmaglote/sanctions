@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Reputation</string>
+    <string name="welcome_button_start">Start!</string>
+    <string name="textview">TextView</string>
 </resources>

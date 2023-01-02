@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reputation">
         <activity
-            android:name=".MainActivity"
+            android:name=".NavalnyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

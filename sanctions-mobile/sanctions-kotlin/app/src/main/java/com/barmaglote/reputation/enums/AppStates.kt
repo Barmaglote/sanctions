@@ -1,0 +1,13 @@
+package com.barmaglote.reputation.enums
+
+enum class AppStates {
+    INITIAL,
+    SANCTIONS_PERSONS,
+    SANCTIONS_ORGANIZATIONS,
+    REPUTATION_PERSONS,
+    REPUTATION_ORGANIZATIONS,
+    REPUTATION_PERSON,
+    AUTHENTIFICATION,
+    MEDIA,
+    NAVALNY
+}
