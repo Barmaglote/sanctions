@@ -37,12 +37,14 @@ import { useTagsStore } from '@/store/tags'
 import { onMounted, ref, computed } from 'vue'
 import Rating from 'primevue/rating'
 
-
 export default {
 	components: { Rating }, 
-	setup(){
+	setup({ tags }){
         const tagHelper = ref(null)
-        const tagsStore = useTagsStore();        
+        const tagsStore = useTagsStore();        	
+		if (tags && tags.length > 0) {
+			tagsStore.setTags(tags);
+		}        
 
 		onMounted(() => {
 			tagHelper.value = new TagHelper(tagsStore.tags)
@@ -56,18 +58,21 @@ export default {
 			return process.env.WEB_STATIC_FILES
 		})
 
-
         return { getTagNames, WEB_STATIC_FILES }
     },
     props: {
-      person: {
-        type: Object,
-        default: () =>  {},
-      }, 
-	  view: {
-		type: String,
-		default: 'item'
-	  }
+      	person: {
+      	  type: Object,
+      	  default: () =>  {},
+      	}, 
+	  	view: {
+			type: String,
+			default: 'item'
+	  	},
+		tags: {
+                type: [],
+                default: () => [],
+        },
     }
 }
 </script>

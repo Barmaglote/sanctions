@@ -1,0 +1,6 @@
+query GetComments($reputationObjectId: String!) {
+  comments(reputation_object_id: $reputationObjectId) {
+    comment
+    id
+  }
+}

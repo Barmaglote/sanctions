@@ -37,6 +37,7 @@ export default{
   position: fixed;
   width: 100%;
   height: 100%;
+  background-color: unset !important;
 }
 
 a{

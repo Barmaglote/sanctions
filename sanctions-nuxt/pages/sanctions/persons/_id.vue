@@ -6,7 +6,7 @@
       </div>
     </div>                        
     <div class="lg:col-9 md:col-9 col-12">
-        <bg-persons :search="search"></bg-persons>
+        <bg-persons :search="search" class="card_shadow"></bg-persons>
     </div>                            
   </div>              
 </template>
@@ -27,7 +27,7 @@
           return { area: "persons" }
         }
       }
-    },        
+    },     
     head() {
       return {
         title: process.env.SITE_TITLE + " | Sanctions: Persons",

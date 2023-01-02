@@ -40,6 +40,11 @@ interface ReputationObject {
     foto: String
 }
 
+type Comment {
+    id: String
+    comment: String
+}
+
 type Person implements ReputationObject {
     _id: String!
     titlerus: String
@@ -93,4 +98,3 @@ type Mutation {
   addProfile(nickname: String): Profile
   updateProfile(profile: ProfileInput): Profile
 }
-

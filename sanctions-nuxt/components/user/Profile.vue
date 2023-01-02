@@ -6,7 +6,7 @@
     <div v-if="profile?.login">
       <TabMenu :model="items" :activeIndex.sync="active"/>
       <div class="p-grid h-full py-3">
-        <div class="col-6 col-offset-3 surface-0 p-5">
+        <div class="col-6 col-offset-3 surface-0 p-5 card_shadow">
           <bg-personal v-if="active === 1"></bg-personal>
           <bg-setting v-if="active === 2"></bg-setting>
           <bg-security v-if="active === 3"></bg-security>
