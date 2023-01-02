@@ -19,6 +19,6 @@
 }
 
 body {
-  background-color: var(--blue-50);
+  background-color: var(--surface-ground);
 }
 </style>

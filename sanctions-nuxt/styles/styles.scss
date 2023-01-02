@@ -8,7 +8,7 @@ label {
 }
 
 .card {
-    background-color: #f7f7f7;
+    background-color: white;
     padding: 20px 25px 30px;
     margin: 0 auto;
     -moz-border-radius: 2px;
@@ -31,4 +31,45 @@ label {
 
 .p-inputtext, .p-password, .p-password-input {
   width: 100%;
+}
+
+.person-name {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.person-name-rus {
+	font-size: 1.1rem;
+	font-weight: 400;
+}
+
+.person-description {
+	margin: 0 0 1rem 0;
+}
+
+.person-category-icon {
+	vertical-align: middle;
+	margin-right: .5rem;
+}
+
+.person-category {
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.photo-grid {
+	max-width: 15em;
+	height: 100%;
+	box-shadow: none !important;
+}
+
+.photo-list{
+	max-width: 10em;
+	height: 100%;
+	box-shadow: none !important;	
+}
+
+a, .nuxt-link-active {
+  text-decoration: auto;
+  color: unset;
 }

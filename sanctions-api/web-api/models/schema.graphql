@@ -30,6 +30,7 @@ type Tag {
 }
 
 interface ReputationObject {
+    _id: String!
     titlerus: String
     titleeng: String!
     description: String!
@@ -40,6 +41,7 @@ interface ReputationObject {
 }
 
 type Person implements ReputationObject {
+    _id: String!
     titlerus: String
     titleeng: String!
     description: String!
@@ -52,6 +54,7 @@ type Person implements ReputationObject {
 }
 
 type Organization {
+    _id: String!
     titlerus: String
     titleeng: String!
     description: String!

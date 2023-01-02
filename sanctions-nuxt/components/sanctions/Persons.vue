@@ -14,40 +14,16 @@
 
 			<template #list="slotProps">
 				<div class="col-12">
-					<div class="person-list-item">
-						<img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
-						<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-list photo-default" />
-						<div class="person-list-detail">
-							<div class="person-name">{{slotProps.data.titleeng}}</div>
-							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
-							<div class="person-description">{{slotProps.data.description}}</div>
-							<Rating v-model="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
-							<i class="pi pi-tag person-category-icon"></i><span class="person-category">{{getTagNames(slotProps.data.tag)}}</span>
-						</div>
-					</div>
+					<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }">
+						<bg-person :person="slotProps.data" view="item"></bg-person>
+					</nuxt-link>
 				</div>
 			</template>
 
 			<template #grid="slotProps">
-				<div class="col-12 md:col-4 display-grid">
-					<div class="person-grid-item card">
-						<div class="person-grid-item-top">
-							<div>
-								<i class="pi pi-tag person-category-icon"></i>
-								<span class="person-category">{{getTagNames(slotProps.data.tag)}}</span>
-							</div>
-							<span class="person-badge">{{slotProps.data.dob}}</span>
-						</div>
-						<div class="person-grid-item-content">
-							<img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${slotProps.data.foto}`" class="photo-grid" :alt="slotProps.data.titleeng"/>
-							<img v-else :src="'/fotos/'+ slotProps.data.gender + '-user-icon.png'" :alt="slotProps.data.titleeng" class="photo-grid photo-default" />
-							<div class="person-name">{{slotProps.data.titleeng}}</div>
-							<div class="person-name-rus">{{slotProps.data.titlerus}}</div>
-							<div class="person-description">{{slotProps.data.description}}</div>
-							<Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
-						</div>
-					</div>
-				</div>
+					<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }" class="col-12 md:col-4">
+						<bg-person :person="slotProps.data" view="card"></bg-person>
+					</nuxt-link>					
 			</template>
 		</DataView>
 	</div>
@@ -63,9 +39,10 @@
   import { computed, onMounted, ref, watch } from 'vue'
   import TagHelper from '@/models/tag.helper'
   import { useContext } from '@nuxtjs/composition-api'
+  import Person from "@/components/persons/Person.vue"
 
   export default {
-	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender }, 
+	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender, 'bg-person': Person }, 
     props: {
       search: {
         type: String,
@@ -131,7 +108,7 @@
 		onMounted(() => {
 			lazyParams.value = {
             	first: 0,
-            	rows: table.value.rows,
+            	rows: table?.value?.rows,
             	sortField:  sortField.value,
             	sortOrder: sortOrder.value,
             	filters: filters.value
@@ -176,22 +153,6 @@
 
 
 <style lang="scss" scoped>
-.photo-grid {
-	max-width: 15em;
-	height: 100%;
-	box-shadow: none !important;
-}
-
-.photo-list{
-	max-width: 10em;
-	height: 100%;
-	box-shadow: none !important;	
-}
-
-.display-grid{
-	display: grid;
-}
-
 .p-dataview-layout-options {
 	box-shadow: none;
 }
@@ -206,37 +167,6 @@
 	    width: 100%;
 	    font-weight: normal;
 	}	
-}
-
-.person-name {
-	font-size: 1.5rem;
-	font-weight: 700;
-}
-
-.person-name-rus {
-	font-size: 1.1rem;
-	font-weight: 400;
-}
-
-.person-description {
-	margin: 0 0 1rem 0;
-}
-
-.person-category-icon {
-	vertical-align: middle;
-	margin-right: .5rem;
-}
-
-.person-category {
-	font-weight: 600;
-	vertical-align: middle;
-}
-
-.card{
-	box-shadow: none;
-	border-radius: 0.375rem;
-	border: 1px solid #e5e7eb;
-	padding: 1rem;
 }
 
 ::v-deep(.p-dataview .p-dataview-header){

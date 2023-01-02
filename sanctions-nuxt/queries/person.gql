@@ -1,0 +1,27 @@
+query GetPerson($_id: String!) {
+  person(_id: $_id) {
+    _id
+    description
+    dob
+    foto
+    gender
+    rating
+    tag
+    tags {
+      area      
+      children {
+        data
+        icon
+        key
+        label
+        area
+      }
+      data
+      icon
+      key
+      label
+    }
+    titleeng
+    titlerus
+  }
+}

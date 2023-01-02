@@ -46,10 +46,9 @@
     },
     setup() {
       const route = useRoute()
-		  let id = computed(() => route.value.params.id)
       let search = computed(() => route.value.query.search)
 
-      return { id, search }
+      return { search }
     }
   }
 </script>

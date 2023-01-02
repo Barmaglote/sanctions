@@ -1,5 +1,6 @@
 query GetPersons($lazyLoadEvent: LazyLoadEvent) {
   persons(lazyLoadEvent: $lazyLoadEvent) {
+    _id
     description
     dob
     foto
