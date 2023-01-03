@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 
 export const commentsSchema = new mongoose.Schema({
-  reputation_object_id: {
+  reputationObjectId: {
     type: String,
     required: true,
     lowercase: true    
   },  
-  parrent_id: {
+  parrentId: {
     type: String,
     lowercase: true
   },
@@ -20,4 +20,8 @@ export const commentsSchema = new mongoose.Schema({
     required: true,
     maxlength: 200
   },
+  createdAt: {
+    type: Date,
+    required: false
+  },  
 });

@@ -1,6 +1,9 @@
-query GetComments($reputationObjectId: String!) {
-  comments(reputation_object_id: $reputationObjectId) {
+query Comments($reputationObjectId: String!) {
+  comments(reputationObjectId: $reputationObjectId) {
     comment
+    createdAt
     id
+    parentId
+    reputationObjectId
   }
 }

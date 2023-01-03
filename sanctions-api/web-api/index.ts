@@ -19,6 +19,7 @@ import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments } from './controllers/graphql/comments.js'
+import { dateTimeScalar } from './models/datetimescalar.js';
 
 dotenv.config()
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
@@ -36,7 +37,7 @@ const queriesDefs = `#graphql
     organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int
     profile(nickname: String): Profile        
     person(_id: String!): Person
-    comments(reputation_object_id: String!): [Comment]
+    comments(reputationObjectId: String!): [Comment]
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -45,6 +46,7 @@ const queriesDefs = `#graphql
 `;
 
 const resolvers = {
+    DateTime: dateTimeScalar,
     Query: {
       links: (_, { type }) => GetLinks(type),
       tags: (_, { area }) => GetTags(area),
@@ -54,7 +56,7 @@ const resolvers = {
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login),
       person: (_, { _id } ) => GetPerson(_id),
-      comments: (_, { reputation_object_id } ) => GetComments(reputation_object_id)
+      comments: (_, { reputationObjectId } ) => GetComments(reputationObjectId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),

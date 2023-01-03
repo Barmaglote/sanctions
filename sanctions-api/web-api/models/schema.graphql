@@ -29,6 +29,8 @@ type Tag {
     children: [Tag]
 }
 
+scalar DateTime
+
 interface ReputationObject {
     _id: String!
     titlerus: String
@@ -42,7 +44,10 @@ interface ReputationObject {
 
 type Comment {
     id: String
+    reputationObjectId: String
+    parentId: String
     comment: String
+    createdAt: DateTime
 }
 
 type Person implements ReputationObject {
