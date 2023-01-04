@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Password from 'primevue/password';
 import User from '../models/user';
@@ -91,7 +90,7 @@ export default {
   setup: () => ({ 
         v$: useVuelidate()
     }),
-  components: { InputText, Password, Button }, 
+  components: { Password, Button }, 
   data() {
     return {
         login: '',

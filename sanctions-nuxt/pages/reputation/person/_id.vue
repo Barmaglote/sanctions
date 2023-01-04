@@ -1,7 +1,8 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-6 col-offset-3">
-      <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>      
+      <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>  
+      <bg-add-comment class="card_shadow"></bg-add-comment>
       <bg-comments :comments="comments" class="card_shadow" v-if="comments && comments.length > 0"></bg-comments>
     </div>
   </div>              
@@ -10,6 +11,7 @@
 <script>
   import Person from "@/components/persons/Person.vue"
   import Comments from "@/components/comments/Comments.vue"
+  import AddComment from "@/components/comments/AddComment.vue"
   import { useRoute } from '@nuxtjs/composition-api'
   import { computed } from 'vue'
   import PERSON_QUERY from '@/queries/person.gql'
@@ -54,7 +56,8 @@
 	  },         
     components: { 
       'bg-person': Person,
-      'bg-comments': Comments
+      'bg-comments': Comments,
+      'bg-add-comment': AddComment
     },
     setup() {
       const route = useRoute()

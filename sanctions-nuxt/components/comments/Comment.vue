@@ -1,18 +1,24 @@
 <template>
     <div style="width: 100%">
-        <div class="card person-list-item" v-if="comment && view === 'item'">
+        <div class="card comment-item" v-if="comment && view === 'item'">
+			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
 			{{comment.comment}}
         </div>
 		<div class="person-grid-item card"  v-if="comment && view !== 'item'">
+			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>			
 			{{comment?.comment}}
 		</div>				
     </div>
 </template>
 
 <script>
+
+import { formatDate } from '~/models/date.helper'
+
 export default {
+
 	setup({ comment }){
-        return { comment }
+        return { comment, formatDate }
     },
     props: {
       	comment: {
@@ -28,6 +34,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.comment-item {
+	display: flex;
+	flex-direction: column;
+}
+.comment-basic-info{
+	font-size: 0.8rem;
+	color: rgba(0, 0, 0, 0.70);
+}
 
 .card {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -122,36 +136,5 @@ export default {
 	}
 }
 
-@media screen and (max-width: 576px) {
-	.person-list-item {
-		flex-direction: column;
-		align-items: center;
-
-		img {
-			margin: 2rem 0;
-		}
-
-		.person-list-detail {
-			text-align: center;
-		}
-
-		.person-gender {
-			align-self: center;
-		}
-
-		.person-list-action {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.person-list-action {
-			margin-top: 2rem;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			width: 100%;
-		}
-	}
-}
 
 </style>

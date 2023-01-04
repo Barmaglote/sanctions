@@ -56,8 +56,6 @@
             {label: 'Evil Low to High', value: 1},
         ])
 
-		console.log(comments)
-
 		const filters = ref({
             'title': {value: '', matchMode: 'contains'},
 			'tags': {value: '', matchMode: 'in'},
@@ -95,16 +93,6 @@
 
 			lazyLoadComments();
         }
-
-        /*
-		watch(() => comments, (newValue, oldValue) => {
-      		if (newValue != oldValue) {
-				filters.value.title = props.search
-				lazyLoadComments()
-			}
-    	});
-        */
-
 		return { comments, table, totalRecords, loading, onPage, onSortChange, sortKey, sortOrder, sortField, layout, sortOptions }
     },
 	watchQuery: true

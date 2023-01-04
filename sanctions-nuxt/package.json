@@ -24,6 +24,7 @@
     "@pinia/nuxt": "^0.2.1",
     "@vue/apollo-composable": "^4.0.0-beta.1",
     "@vuelidate/core": "^2.0.0",
+    "apollo-cache-inmemory": "^1.6.6",
     "core-js": "^3.26.1",
     "fs": "0.0.1-security",
     "graphql": "^16.6.0",
