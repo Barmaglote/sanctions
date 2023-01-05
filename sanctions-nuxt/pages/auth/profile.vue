@@ -1,7 +1,7 @@
-<template>          
-    <div class="p-0 p-text-center p-flex justify-content-center">
-      <bg-profile/>
-    </div>                            
+<template>
+    <div class="p-0 p-text-center p-flex justify-content-center card-container_horizontal_center">
+      <bg-profile class="card_shadow"/>
+    </div>
 </template>
 
 <script>
@@ -19,7 +19,7 @@
           }
         ]
       }
-	  }, 
+	  },
     layout: 'auth',
     components: { 'bg-profile': Profile },
   }

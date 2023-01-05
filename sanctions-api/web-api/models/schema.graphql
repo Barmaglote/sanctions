@@ -99,7 +99,14 @@ input ProfileInput {
     info: String
 }
 
+input CommentInput {
+    comment: String!
+    reputationObjectId: String!
+    parentId: String
+}
+
 type Mutation {
-  addProfile(nickname: String): Profile
-  updateProfile(profile: ProfileInput): Profile
+  addProfile(nickname: String!): Profile
+  updateProfile(profile: ProfileInput!): Profile
+  addComment(commentInput: CommentInput!): Comment
 }

@@ -18,7 +18,7 @@ import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { GetComments } from './controllers/graphql/comments.js'
+import { GetComments, AddComment } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 
 dotenv.config()
@@ -42,6 +42,7 @@ const queriesDefs = `#graphql
   type Mutation {
     addProfile(nickname: String): Profile
     updateProfile(profile: ProfileInput): Profile
+    addComment(commentInput: CommentInput!): Comment
   }
 `;
 
@@ -60,7 +61,8 @@ const resolvers = {
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),
-      updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login)
+      updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login),
+      addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.login)
     },
     Person: {
       tags: ComputeTags

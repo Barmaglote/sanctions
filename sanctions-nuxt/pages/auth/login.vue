@@ -1,7 +1,7 @@
-<template>          
-    <div class="p-0 p-text-center p-flex justify-content-center">
-        <bg-login/>
-    </div>                            
+<template>
+    <div class="p-0 p-text-center p-flex justify-content-center card-container_horizontal_center">
+        <bg-login class="card_shadow"/>
+    </div>
 </template>
 
 <script>
@@ -19,16 +19,16 @@
           }
         ]
       }
-	  },      
+	  },
     layout: 'auth',
-    components: { 
-      'bg-login': Login 
+    components: {
+      'bg-login': Login
     },
   }
 </script>
 
 <style>
 .surface-ground {
-  display: flex;  
+  display: flex;
 }
 </style>

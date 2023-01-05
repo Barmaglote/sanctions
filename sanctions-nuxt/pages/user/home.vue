@@ -1,7 +1,7 @@
-<template>          
+<template>
     <div class="p-0 p-text-center p-flex justify-content-center page">
       <bg-profile/>
-    </div>                            
+    </div>
 </template>
 
 <script>
@@ -20,7 +20,7 @@
           }
         ]
       }
-	  }, 
+	  },
     components: { 'bg-home': Home },
   }
 </script>
