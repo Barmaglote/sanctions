@@ -1,9 +1,9 @@
 <template>
-  <div class="h-full">
+  <div class="h-full w-full">
     <div v-if="!profile?.login" class="p-0 h-screen flex align-content-center flex-wrap card-container">
       <bg-create-profile :store="store"/>
     </div>
-    <div v-if="profile?.login">
+    <div v-if="profile?.login" class="h-full">
       <TabMenu :model="items" :activeIndex.sync="active"/>
       <div class="p-grid h-full py-3">
         <div class="col-6 col-offset-3 surface-0 p-5 card_shadow">
@@ -36,10 +36,10 @@ export default {
 			}
 		});
 
-		const profile = computed(() => {      
+		const profile = computed(() => {
 			return profilesStore?.Profile;
 		});
-    
+
     const active = ref(1)
 
     const items = [
@@ -50,11 +50,11 @@ export default {
     ]
     return { items, active, profile, 'store': profilesStore }
   },
-  components: { TabMenu, 
-    'bg-personal': Personal, 
-    'bg-setting': Settings, 
+  components: { TabMenu,
+    'bg-personal': Personal,
+    'bg-setting': Settings,
     'bg-security': Security,
-    'bg-create-profile': CreateProfile 
+    'bg-create-profile': CreateProfile
   }
 }
 </script>

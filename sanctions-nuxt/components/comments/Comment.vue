@@ -5,20 +5,22 @@
 			{{comment.comment}}
         </div>
 		<div class="person-grid-item card"  v-if="comment && view !== 'item'">
-			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>			
+			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
 			{{comment?.comment}}
-		</div>				
+		</div>
     </div>
 </template>
 
 <script>
 
 import { formatDate } from '~/models/date.helper'
+import { toRefs } from 'vue'
 
 export default {
 
-	setup({ comment }){
-        return { comment, formatDate }
+	setup(props){
+      const { comment } = toRefs(props)
+      return { comment, formatDate }
     },
     props: {
       	comment: {
@@ -28,7 +30,7 @@ export default {
       	view: {
       	  type: String,
       	  default: () => 'item',
-      	}		
+      	}
     }
 }
 </script>

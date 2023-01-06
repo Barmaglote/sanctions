@@ -2,14 +2,14 @@
 	<div class="card">
     	<DataView :value="comments" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="50" :totalRecords="totalRecords" :loading="loading">
 			<template #header>
-                <div class="grid grid-nogutter">
-                    <div class="lg:col-6" style="text-align: left">
-                        <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
-                    </div>
-                    <div class="lg:col-6 view-selector" style="text-align: right;">
-                        <DataViewLayoutOptions v-model="layout" />
-                    </div>
-                </div>
+        <div class="grid grid-nogutter">
+            <div class="lg:col-6" style="text-align: left">
+                <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Date" @change="onSortChange($event)"/>
+            </div>
+            <div class="lg:col-6 view-selector" style="text-align: right;">
+                <DataViewLayoutOptions v-model="layout" />
+            </div>
+        </div>
 			</template>
 
 			<template #list="slotProps">
@@ -21,7 +21,7 @@
 			<template #grid="slotProps">
 				<div class="col-12 md:col-4">
 					<bg-comment :comment="slotProps.data" view="card"></bg-comment>
-				</div>					
+				</div>
 			</template>
 		</DataView>
 	</div>
@@ -32,70 +32,76 @@
   import Rating from 'primevue/rating'
   import Dropdown from 'primevue/dropdown'
   import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, toRefs } from 'vue'
   import Comment from "@/components/comments/Comment.vue"
 
   export default {
-	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, 'bg-comment': Comment }, 
+	  components: { DataView, Rating, Dropdown, DataViewLayoutOptions, 'bg-comment': Comment },
     props: {
       comments: {
         type: [],
         default: () => [],
       }
-    },	
-    setup({ comments }) {
-		const sortKey = ref(null)
-		const sortOrder = ref('desc')
-		const sortField = ref('rating')
-		const loading = ref(false)
-		const totalRecords = ref(0)
-		const layout = ref('list')
-		const lazyParams = ref({})
-		const sortOptions = ref([
-            {label: 'Evil High to Low', value: -1},
-            {label: 'Evil Low to High', value: 1},
-        ])
+    },
+    setup(props) {
+		  const sortKey = ref(null)
+		  const sortOrder = ref('desc')
+		  const sortField = ref('rating')
+		  const loading = ref(false)
+		  const totalRecords = ref(0)
+		  const layout = ref('list')
+		  const lazyParams = ref({})
+		  const sortOptions = ref([
+        {label: 'New comments at the top', value: -1},
+        {label: 'Old comments at the top', value: 1},
+      ])
 
-		const filters = ref({
-            'title': {value: '', matchMode: 'contains'},
-			'tags': {value: '', matchMode: 'in'},
-        })
+		  const filters = ref({
+        'title': {value: '', matchMode: 'contains'},
+		  	'tags': {value: '', matchMode: 'in'},
+      })
 
-		const table = ref(null)
+      const table = ref(null)
 
-		const lazyLoadComments = () => {
-			loading.value = true;
-		}
+      /*
+		  const lazyLoadComments = () => {
+			  loading.value = true;
+  		}
+      */
+		  const onPage = (event) => {
+        lazyParams.value = event;
+			  lazyParams.value.sortField = sortField.value
+			  lazyParams.value.sortOrder = sortOrder.value
+          //lazyLoadComments();
+      }
 
-		const onPage = (event) => {
-            lazyParams.value = event;
-			lazyParams.value.sortField = sortField.value
-			lazyParams.value.sortOrder = sortOrder.value
-
-            lazyLoadComments();
-        }
 
 		onMounted(() => {
 			lazyParams.value = {
-            	first: 0,
-            	rows: table?.value?.rows,
-            	sortField:  sortField.value,
-            	sortOrder: sortOrder.value,
-            	filters: filters.value
-        	};
+        first: 0,
+        rows: table?.value?.rows,
+        sortField:  sortField.value,
+        sortOrder: sortOrder.value,
+        filters: filters.value
+      }
 
-			lazyLoadComments();
-		});
+			//lazyLoadComments()
+		})
 
-        const onSortChange = (event) => {
-			lazyParams.value.sortOrder = event.value.value 
-			sortOrder.value = event.value.value			
 
-			lazyLoadComments();
-        }
+    const onSortChange = (event) => {
+		  lazyParams.value.sortOrder = event.value.value
+			sortOrder.value = event.value.value
+
+			//lazyLoadComments();
+    }
+
+    //const items = computed(()=>comments)
+    const { comments } = toRefs(props)
+
 		return { comments, table, totalRecords, loading, onPage, onSortChange, sortKey, sortOrder, sortField, layout, sortOptions }
     },
-	watchQuery: true
+	  watchQuery: true
   }
 </script>
 
@@ -114,7 +120,7 @@
 	.p-dropdown {
 	    width: 100%;
 	    font-weight: normal;
-	}	
+	}
 }
 
 ::v-deep(.p-dataview .p-dataview-header){

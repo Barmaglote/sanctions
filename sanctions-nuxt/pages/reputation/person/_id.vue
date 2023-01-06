@@ -1,11 +1,11 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-6 col-offset-3">
-      <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>  
-      <bg-add-comment class="card_shadow"></bg-add-comment>
-      <bg-comments :comments="comments" class="card_shadow" v-if="comments && comments.length > 0"></bg-comments>
+      <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>
+      <bg-add-comment class="card_shadow" v-if="isLogged" :reputation-object-id="id" @submit="refetch()"></bg-add-comment>
+      <bg-comments :comments="comments" class="card_shadow" v-if="comments && comments?.length > 0"></bg-comments>
     </div>
-  </div>              
+  </div>
 </template>
 
 <script>
@@ -17,15 +17,16 @@
   import PERSON_QUERY from '@/queries/person.gql'
   import TAGS_QUERY from '@/queries/tags.gql'
   import COMMENTS_QUERY from '@/queries/comments.gql'
-  
-  export default {  
+  import { useContext } from '@nuxtjs/composition-api'
+
+  export default {
     apollo: {
       person: {
         prefetch: true,
         query: PERSON_QUERY,
         variables () {
           return { _id: this.id }
-        }
+        },
       },
       tags: {
         prefetch: true,
@@ -41,7 +42,7 @@
           return { reputationObjectId: this.id }
         }
       },
-    },      
+    },
     head() {
       return {
         title: process.env.SITE_TITLE + " | Sanctions: Persons",
@@ -53,8 +54,8 @@
           }
         ]
       }
-	  },         
-    components: { 
+	  },
+    components: {
       'bg-person': Person,
       'bg-comments': Comments,
       'bg-add-comment': AddComment
@@ -64,8 +65,15 @@
       const id = computed(() => route.value.params.id)
       const first = computed(() => route.value.query.first)
       const rows = computed(() => route.value.query.rows)
+      const { $auth } = useContext()
+      const isLogged = computed(() => $auth.loggedIn )
 
-      return { id, first, rows }
+      return { id, first, rows, isLogged }
+    },
+    methods: {
+      refetch() {
+        this.$apollo.queries.comments.refetch();
+      }
     }
   }
 </script>
@@ -75,14 +83,14 @@
   display: flex;
 }
 
-.tags-card {	
+.tags-card {
     position: fixed;
     width: inherit;
     padding: 0 1.5em 0 0 !important;
 }
 
 @media screen and (max-width: 576px) {
-.tags-card {	
+.tags-card {
     display: none;
   }
 }
