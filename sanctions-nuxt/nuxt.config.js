@@ -32,9 +32,9 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'primeflex/primeflex.css', 
-    '@/styles/overrides.scss', 
-    '@/styles/styles.scss',     
+    'primeflex/primeflex.css',
+    '@/styles/overrides.scss',
+    '@/styles/styles.scss',
   ],
 
   publicRuntimeConfig: {
@@ -45,11 +45,12 @@ export default {
       version: 3,
       mode: 'base'
     }
-  },  
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/webapi/profile.service.js',
+    '@/plugins/webapi/comments.service.js',
     '@/plugins/local/menu.service.js',
     '@/plugins/webapi/links.service.js',
     '@/plugins/webapi/persons.service.js',
@@ -81,10 +82,10 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@pinia/nuxt',    
-    '@nuxtjs/composition-api/module', 
+    '@pinia/nuxt',
+    '@nuxtjs/composition-api/module',
     '@nuxtjs/auth-next',
-    'nuxt-browser-console', 
+    'nuxt-browser-console',
     '@nuxtjs/toast',
     '@nuxtjs/recaptcha',
     '@nuxtjs/apollo'
@@ -106,7 +107,7 @@ export default {
           data: 'accessToken',
           global: true,
           maxAge: 1800,  // in seconds 1800 sec = 30 min
-          name: 'authorization'    
+          name: 'authorization'
         },
         refreshToken: {
           property: 'refreshToken',
@@ -116,14 +117,14 @@ export default {
         user: {
           property: 'user', // here should be `false`, as you defined in user endpoint `propertyName`
           autoFetch: true
-        },        
+        },
         endpoints: {
           login: { url: 'http://localhost:4000/api/auth/signin', method: 'post' },
           logout: { url: 'http://localhost:4000/api/auth/logout', method: 'post' },
           user: { url: 'http://localhost:4000/api/auth/user/', method: 'get' },
           refresh: { url: 'http://localhost:4000/api/auth/refreshtoken', method: 'post' },
         }
-      }        
+      }
     },
     redirect: {
       home: '/',
@@ -146,12 +147,12 @@ export default {
 
   loading: {
     color: '#666'
-  },  
+  },
 
   toast: {
     position: 'top-right',
     duration: 3000,
-  },  
+  },
 
   env: {
     WEB_STATIC_FILES: process.env.WEB_STATIC_FILES,

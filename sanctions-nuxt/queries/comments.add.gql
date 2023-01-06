@@ -1,0 +1,9 @@
+mutation Mutation($commentInput: CommentInput!) {
+  addComment(commentInput: $commentInput) {
+    comment
+    createdAt
+    id
+    parentId
+    reputationObjectId
+  }
+}

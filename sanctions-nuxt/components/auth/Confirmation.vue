@@ -9,16 +9,16 @@
                     <label for="login" :class="{'p-error':v$.login.$invalid && loading}">Login (e-mail)</label>
                     <InputText type="text" id="login" v-model="v$.login.$model" :class="{'p-invalid':v$.login.$invalid && loading}"/>
                 </div>
-                <div class="form-group pt-3"> 
-                    <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
+                <div class="form-group pt-3">
+                    <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;">
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span class="text-center" style="width: 100%;">Confirm</span>                 
+                        <span class="text-center" style="width: 100%;">Confirm</span>
                     </Button>
                 </div>
-                <div class="form-group pt-1 text-center"> 
+                <div class="form-group pt-1 text-center">
                     <a href="/auth/register" class="px-1">New user</a>
                     <a href="/auth/requestrestore" class="px-1">Forgot password</a>
-                </div>                
+                </div>
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger pt-2" role="alert">Status: {{message}}</div>
                 </div>
@@ -40,28 +40,29 @@ import HomeButton from '@/components/core/HomeButton.vue'
 
 export default {
   setup(props){
+
     const state = reactive({
-        login: '',
-        token: null,
+      login: '',
+      token: null,
     })
 
     const rules = {
-        login: { required, email },
-        token: { required }   
+      login: { required, email },
+      token: { required }
     }
 
     let v$ = useVuelidate(rules, state)
 
     const router = useRouter()
-    const { $confirm, $toast } = useContext() // TODO
+    const { $confirm, $toast } = useContext()
 
     const loading = ref(false)
     const message = ref('')
 
 		onMounted(() => {
-		  state.token = props.token;			
+		  state.token = props.token;
 		})
-    
+
     const handleSubmit = (isFormValid) => {
       loading.value = true;
       if (!isFormValid) {
@@ -70,11 +71,11 @@ export default {
         return;
       }
 
-      if (state.login && state.token) {            
+      if (state.login && state.token) {
         $confirm(state.login, state.token).then((result) => {
           $toast.success('Your password is confirmed')
           router.push('/auth/login');
-        }, 
+        },
         error => {
           loading.value = false;
           message.value = (error.response && error.response?.data?.message) || error.response?.data?.status || error.message || error.toString();

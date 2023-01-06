@@ -9,11 +9,11 @@ export async function GetComments(reputationObjectId: string, first: number = 0,
     throw new GraphQLError('Reputation id is not set')
   }
 
-
   return await CommentsModel.find({reputationObjectId}).sort('id').skip(first).limit(rows)
 }
 
 export async function AddComment(reputationObjectId: string, parentId: string, comment: string, login: string) {
+
   if (!reputationObjectId || !login || !comment) {
     throw new GraphQLError('Nothing to add')
   }
