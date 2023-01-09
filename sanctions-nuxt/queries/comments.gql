@@ -6,4 +6,5 @@ query Comments($reputationObjectId: String!) {
     parentId
     reputationObjectId
   }
+  commentsTotal(reputationObjectId: $reputationObjectId)
 }
