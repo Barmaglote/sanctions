@@ -44,7 +44,7 @@ export default {
 
       let v$ = useVuelidate(rules, state)
 
-      const { $addComment, $toast, $emit } = useContext()
+      const { $addComment, $toast } = useContext()
       const handleSubmit = (isFormValid) => {
         loading.value = true;
         if (!isFormValid) {

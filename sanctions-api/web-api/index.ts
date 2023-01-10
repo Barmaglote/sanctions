@@ -37,7 +37,7 @@ const queriesDefs = `#graphql
     organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int
     profile(nickname: String): Profile        
     person(_id: String!): Person
-    comments(reputationObjectId: String!): [Comment],
+    comments(reputationObjectId: String!, lazyLoadEvent: LazyLoadEvent): [Comment],
     commentsTotal(reputationObjectId: String!): Int
   }
   type Mutation {
@@ -58,7 +58,7 @@ const resolvers = {
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login),
       person: (_, { _id } ) => GetPerson(_id),
-      comments: (_, { reputationObjectId } ) => GetComments(reputationObjectId),
+      comments: (_, { reputationObjectId, lazyLoadEvent } ) => GetComments(reputationObjectId, lazyLoadEvent),
       commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId)
     },
     Mutation: {

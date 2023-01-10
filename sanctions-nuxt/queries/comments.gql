@@ -1,5 +1,5 @@
-query Comments($reputationObjectId: String!) {
-  comments(reputationObjectId: $reputationObjectId) {
+query Comments($reputationObjectId: String!, $lazyLoadEvent: LazyLoadEvent) {
+  comments(reputationObjectId: $reputationObjectId, lazyLoadEvent: $lazyLoadEvent) {
     comment
     createdAt
     id

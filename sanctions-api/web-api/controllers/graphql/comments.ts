@@ -2,24 +2,27 @@ import { GraphQLError } from 'graphql'
 import CommentsModel from '../../models/comments/model.js'
 
 const STANDARD_PAGE = 50
+const STANDARD_SORTING_FIELD = 'createdAt'
 
-export async function GetComments(reputationObjectId: string, first: number = 0, rows: number = STANDARD_PAGE, sortField: string = 'createdAt', sortOrder: string = '-1') {
-
-  const sorting = {}
-  sorting[sortField] = sortOrder
+export async function GetComments(reputationObjectId: string, lazyLoadEvent = null) {
 
   if (!reputationObjectId) {
     throw new GraphQLError('Reputation id is not set')
   }
 
-  return await CommentsModel.find({reputationObjectId}).sort(sorting).skip(first).limit(rows)
+  const { sortField, sortOrder, first, rows } = lazyLoadEvent || { sortField: STANDARD_SORTING_FIELD, sortOrder: -1, first: 0, rows: STANDARD_PAGE }
+  const sorting = {}
+
+  if (sortField && sortOrder) {
+    sorting[sortField] = sortOrder === 'desc' ? -1 : sortOrder
+  } else {
+    sorting[STANDARD_SORTING_FIELD] = -1
+  }
+
+  return await CommentsModel.find({reputationObjectId}).sort({'createdAt': -1}).skip(first).limit(rows)
 }
 
-export async function GetCommentsTotal(reputationObjectId: string, first: number = 0, rows: number = STANDARD_PAGE, sortField: string = 'createdAt', sortOrder: string = '-1') {
-
-  const sorting = {}
-  sorting[sortField] = sortOrder
-
+export async function GetCommentsTotal(reputationObjectId: string) {
   if (!reputationObjectId) {
     throw new GraphQLError('Reputation id is not set')
   }
