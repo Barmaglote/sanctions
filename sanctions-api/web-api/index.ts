@@ -18,7 +18,7 @@ import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { GetComments, AddComment, GetCommentsTotal } from './controllers/graphql/comments.js'
+import { GetComments, AddComment, GetCommentsTotal, ComputeComments } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 
 dotenv.config()
@@ -71,6 +71,9 @@ const resolvers = {
     },
     Organization: {
       tags: ComputeTags
+    },
+    Comment: {
+      comments: ComputeComments
     }
   };
 

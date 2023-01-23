@@ -6,7 +6,7 @@ export const commentsSchema = new mongoose.Schema({
     required: true,
     lowercase: true    
   },  
-  parrentId: {
+  parentId: {
     type: String,
     lowercase: true
   },

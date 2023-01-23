@@ -1,37 +1,56 @@
 <template>
-    <div style="width: 100%">
-        <div class="card comment-item" v-if="comment && view === 'item'">
-			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
-			{{comment.comment}}
+  <div class="w-full p-1">
+    <div class="comment-item p-1 " :class="cssClass" v-if="comment && view === 'item'">
+      <div class="flex justify-content-between flex-wrap card-container">
+        <div class="flex align-items-center justify-content-center">
+          <div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
         </div>
-		<div class="person-grid-item card"  v-if="comment && view !== 'item'">
+        <div class="flex align-items-center justify-content-center" v-if="isLogged">
+          <Button icon="pi pi-thumbs-up" class="p-button-text" />
+          <Button icon="pi pi-thumbs-down" class="p-button-text" />
+        </div>
+      </div>
+      <div class="flex justify-content-start flex-wrap card-container">
+        {{comment.comment}}
+      </div>
+    </div>
+		<div class="person-grid-item p-3"  v-if="comment && view !== 'item'">
 			<div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
 			{{comment?.comment}}
 		</div>
-    </div>
+  </div>
 </template>
 
 <script>
 
 import { formatDate } from '~/models/date.helper'
-import { toRefs } from 'vue'
+import { toRefs, computed } from 'vue'
+import { useContext } from '@nuxtjs/composition-api'
+import Button from 'primevue/button'
 
 export default {
 
-	setup(props){
-      const { comment } = toRefs(props)
-      return { comment, formatDate }
-    },
-    props: {
-      	comment: {
-      	  type: Object,
-      	  default: () =>  {},
-      	},
-      	view: {
-      	  type: String,
-      	  default: () => 'item',
-      	}
-    }
+	setup(props, ctx){
+    const { $auth } = useContext()
+   	const isLogged = computed(() => $auth.loggedIn )
+    const { comment, cssClass } = toRefs(props)
+    return { comment, cssClass, formatDate, isLogged }
+  },
+  props: {
+    	comment: {
+    	  type: Object,
+    	  default: () =>  {},
+    	},
+    	view: {
+    	  type: String,
+    	  default: () => 'item',
+    	},
+    	cssClass: {
+    	  type: String,
+    	  default: () => '',
+    	}
+  },
+  components: { Button }
 }
 </script>
 

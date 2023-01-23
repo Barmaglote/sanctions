@@ -2,24 +2,14 @@ import { GraphQLError } from 'graphql'
 import CommentsModel from '../../models/comments/model.js'
 
 const STANDARD_PAGE = 50
-const STANDARD_SORTING_FIELD = 'createdAt'
 
 export async function GetComments(reputationObjectId: string, lazyLoadEvent = null) {
-
   if (!reputationObjectId) {
     throw new GraphQLError('Reputation id is not set')
   }
 
-  const { sortField, sortOrder, first, rows } = lazyLoadEvent || { sortField: STANDARD_SORTING_FIELD, sortOrder: -1, first: 0, rows: STANDARD_PAGE }
-  const sorting = {}
-
-  if (sortField && sortOrder) {
-    sorting[sortField] = sortOrder === 'desc' ? -1 : sortOrder
-  } else {
-    sorting[STANDARD_SORTING_FIELD] = -1
-  }
-
-  return await CommentsModel.find({reputationObjectId}).sort({'createdAt': -1}).skip(first).limit(rows)
+  const { first, rows } = lazyLoadEvent || { first: 0, rows: STANDARD_PAGE }
+  return await CommentsModel.find({reputationObjectId, parentId: null}).sort({'createdAt': -1}).skip(first).limit(rows)
 }
 
 export async function GetCommentsTotal(reputationObjectId: string) {
@@ -27,11 +17,10 @@ export async function GetCommentsTotal(reputationObjectId: string) {
     throw new GraphQLError('Reputation id is not set')
   }
 
-  return await CommentsModel.count({reputationObjectId})
+  return await CommentsModel.count({reputationObjectId, "parentId": null})
 }
 
 export async function AddComment(reputationObjectId: string, parentId: string, comment: string, login: string) {
-
   if (!reputationObjectId || !login || !comment) {
     throw new GraphQLError('Nothing to add')
   }
@@ -46,6 +35,8 @@ export async function AddComment(reputationObjectId: string, parentId: string, c
 
   try {
     var createdAt = new Date()
+    console.log(createdAt.toISOString())
+
     comments = await CommentsModel.create({ reputationObjectId, login, comment, parentId, createdAt: createdAt.toISOString() })
     await comments.save()
   } catch (error) {
@@ -53,4 +44,8 @@ export async function AddComment(reputationObjectId: string, parentId: string, c
   }
 
    return comments
+}
+
+export async function ComputeComments(parent) {
+  return await CommentsModel.find({parentId: parent.id })
 }

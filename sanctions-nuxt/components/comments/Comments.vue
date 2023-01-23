@@ -3,18 +3,29 @@
     	<DataView :value="comments" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="10" :totalRecords="total" :loading="loading">
 			<template #header>
         <div class="grid grid-nogutter">
-            <div class="lg:col-6" style="text-align: left">
-                <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Date" @change="onSortChange($event)"/>
-            </div>
-            <div class="lg:col-6 view-selector" style="text-align: right;">
-                <DataViewLayoutOptions v-model="layout" />
-            </div>
+        	<div class="lg:col-6" style="text-align: left">Comments</div>
+        	<div class="lg:col-6 view-selector" style="text-align: right;">
+          		<DataViewLayoutOptions v-model="layout" />
+        	</div>
         </div>
 			</template>
 
 			<template #list="slotProps">
-				<div class="col-12">
+				<div class="w-full px-2">
 					<bg-comment :comment="slotProps.data" view="item"></bg-comment>
+          <div v-if="slotProps.data?.comments?.length > 0" class="ml-5 p-0">
+          	<div v-for="comment in slotProps.data?.comments">
+          		<bg-comment :comment="comment" view="item"></bg-comment>
+          	</div>
+          </div>
+          <div v-if="currentParentCommentID !== slotProps.data.id && isLogged">
+            <Button label="Add a comment" class="p-button-text px-1" @click="currentParentCommentID = slotProps.data.id"/>
+          </div>
+					<bg-add-comment
+            class="py-2 ml-5 p-0"
+            v-if="isLogged && slotProps.data.id === currentParentCommentID"
+            :reputation-object-id="reputationObjectId"
+            :parentId="slotProps.data.id" @submit="lazyLoadComments"></bg-add-comment>
 				</div>
 			</template>
 
@@ -32,11 +43,18 @@
   import Rating from 'primevue/rating'
   import Dropdown from 'primevue/dropdown'
   import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
-  import { ref, toRefs } from 'vue'
+  import { ref, toRefs, computed } from 'vue'
   import Comment from "@/components/comments/Comment.vue"
+  import AddComment from "@/components/comments/AddComment.vue"
+  import { useContext } from '@nuxtjs/composition-api'
+  import Button from 'primevue/button'
 
   export default {
-	  components: { DataView, Rating, Dropdown, DataViewLayoutOptions, 'bg-comment': Comment },
+	  components: {
+      DataView, Rating, Dropdown, DataViewLayoutOptions, Button,
+      'bg-comment': Comment,
+      'bg-add-comment': AddComment
+    },
     props: {
       comments: {
         type: [],
@@ -45,48 +63,52 @@
       total: {
         type: Number,
         default: () => 0,
-      }
+      },
+      reputationObjectId: {
+        type: String,
+        default: () => null,
+      },
     },
-    emits: ['submit'],
+    emits: ['submit', 'addComment'],
     setup(props, ctx) {
 		  const sortKey = ref(null)
 		  const sortOrder = ref(-1)
 		  const sortField = ref('createdAt')
 		  const loading = ref(false)
 		  const layout = ref('list')
+		  const currentParentCommentID = ref(null)
 		  const lazyParams = ref({})
-		  const sortOptions = ref([
-        {label: 'New comments at the top', value: -1},
-        {label: 'Old comments at the top', value: 1},
-      ])
+   	  const table = ref(null)
+      const comment = ref('')
 
-      const table = ref(null)
+   	  const { $auth } = useContext()
+   	  const isLogged = computed(() => $auth.loggedIn )
 
 		  const lazyLoadComments = () => {
-			  loading.value = true
-        ctx.emit('submit', lazyParams)
-  		}
+		  	loading.value = true
+      	ctx.emit('submit', lazyParams)
+  	  }
+
+      const addComment = () => {
+        ctx.emit('addComment', {parentId: currentParentCommentID.value, comment: comment.value});
+        this.comment.value = '';
+      }
 
 		  const onPage = (event) => {
-        lazyParams.value = event;
-			  lazyParams.value.sortField = sortField.value
-			  lazyParams.value.sortOrder = sortOrder.value
-        lazyLoadComments();
-      }
+      	lazyParams.value = event;
+		  	lazyParams.value.sortField = sortField.value
+		  	lazyParams.value.sortOrder = sortOrder.value
+      	lazyLoadComments();
+    	}
 
-      const onSortChange = (event) => {
-		    lazyParams.value.sortOrder = event.value.value
-        lazyParams.value.sortField = sortField.value
-			  lazyParams.value.sortOrder = event.value.value
-        lazyParams.value.rows = 10
-        lazyParams.value.first = 0
-		  	lazyLoadComments();
-      }
+    	const { comments, total, reputationObjectId } = toRefs(props)
 
-      const { comments, total } = toRefs(props)
-		  return { comments, table, total, loading, onPage, onSortChange, sortKey, sortOrder, sortField, layout, sortOptions }
+		return {
+      comments, table, sortKey, sortOrder, sortField, layout, reputationObjectId, isLogged,
+      total, currentParentCommentID, comment, loading,
+      addComment, onPage, lazyLoadComments }
     },
-	  watchQuery: true
+	  watchQuery: true,
   }
 </script>
 
@@ -161,7 +183,6 @@
 	margin: .5rem;
 	border: 1px solid var(--surface-border);
 
-
 	.person-grid-item-top,
 	.person-grid-item-bottom {
 		display: flex;
@@ -215,6 +236,10 @@
 			width: 100%;
 		}
 	}
+}
+
+.sub-comment  {
+  border: 1px solid silver;
 }
 </style>
 

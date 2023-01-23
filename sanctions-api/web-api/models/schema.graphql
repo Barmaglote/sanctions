@@ -48,6 +48,7 @@ type Comment {
     parentId: String
     comment: String
     createdAt: DateTime
+    comments: [Comment]
 }
 
 type Person implements ReputationObject {

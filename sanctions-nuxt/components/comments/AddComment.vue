@@ -1,5 +1,5 @@
 <template>
-    <div class="card comment-container h-auto">
+    <div class="comment-container h-auto">
         <form name="form" @submit.prevent="handleSubmit(!v$.$invalid)">
           <div class="form-group">
             <TextArea type="text" id="comment" rows="5" class="h-full" :autoResize="true" v-model="v$.comment.$model" :class="{'p-invalid':v$.comment.$invalid && loading}"/>
@@ -52,9 +52,11 @@ export default {
           loading.value = false;
           return;
         }
+
         $addComment(state.comment, state.parentId, state.reputationObjectId).then(() => {
           $toast.success('Your comment is added');
           loading.value = false;
+          state.comment = '';
           ctx.emit('submit');
         },
         () => {
@@ -67,7 +69,7 @@ export default {
         });
       }
 
-      return { v$, loading, message, handleSubmit }
+      return { v$, loading, message, handleSubmit, state }
     },
     components: { TextArea, Button },
     props: {
@@ -75,7 +77,7 @@ export default {
         type: String,
         default: () => null,
       },
-      reputationObjectId: {
+      parentId: {
         type: String,
         default: () => null,
       }

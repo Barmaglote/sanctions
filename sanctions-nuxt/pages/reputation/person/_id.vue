@@ -2,8 +2,16 @@
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-6 col-offset-3">
       <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>
-      <bg-add-comment class="card_shadow" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
-      <bg-comments :comments="comments" class="card_shadow" v-if="comments && comments?.length > 0" :total="commentsTotal" @submit="refetch"></bg-comments>
+      <bg-comments
+        :comments="comments"
+        class="card_shadow"
+        v-if="comments && comments?.length > 0"
+        :total="commentsTotal"
+        @submit="refetch"
+        @addComment="addComment"
+        :reputation-object-id="id">
+      </bg-comments>
+      <bg-add-comment class="card card_shadow pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
     </div>
   </div>
 </template>
@@ -97,20 +105,20 @@
       return { id, isLogged, lastLazyLoadEvent }
     },
     methods: {
+      addComment({parentId, comment}) {
+        console.log(parentId, comment);
+      },
       refetch(lazyParams) {
-        if (lazyParams?.value) {
-          const { sortField, sortOrder, first, rows } = lazyParams.value
-          this.lastLazyLoadEvent.value = {
-            filters: null,
-            sortField, sortOrder, first, rows
-          }
-
-          this.$apollo.queries.comments.refresh()
-          this.$apollo.queries.commentsTotal.refresh()
-        } else {
-          this.$apollo.queries.comments.refetch()
-          this.$apollo.queries.commentsTotal.refetch()
+        this.lastLazyLoadEvent.value = {
+          filters: null,
+          sortField: null,
+          sortOrder: null,
+          first: lazyParams?.value?.first || 0,
+          rows: lazyParams?.value?.rows || 10
         }
+
+        this.$apollo.queries.comments.refetch()
+        this.$apollo.queries.commentsTotal.refetch()
       }
     }
   }

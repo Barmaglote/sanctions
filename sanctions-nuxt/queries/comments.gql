@@ -5,6 +5,11 @@ query Comments($reputationObjectId: String!, $lazyLoadEvent: LazyLoadEvent) {
     id
     parentId
     reputationObjectId
+    comments {
+      comment
+      createdAt
+      id
+    }
   }
   commentsTotal(reputationObjectId: $reputationObjectId)
 }
