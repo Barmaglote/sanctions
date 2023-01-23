@@ -1,17 +1,17 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-6 col-offset-3">
-      <bg-person :person="person" class="card_shadow" :tags="tags"></bg-person>
+      <bg-person :person="person" class="border-1 border-300 card p-5 my-1" :tags="tags"></bg-person>
       <bg-comments
         :comments="comments"
-        class="card_shadow"
+        class="border-1 border-300 card p-5 my-1"
         v-if="comments && comments?.length > 0"
         :total="commentsTotal"
         @submit="refetch"
         @addComment="addComment"
         :reputation-object-id="id">
       </bg-comments>
-      <bg-add-comment class="card card_shadow pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
+      <bg-add-comment class="border-1 border-300 card p-5 my-1 pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
     </div>
   </div>
 </template>
@@ -125,20 +125,7 @@
 </script>
 
 <style>
-.surface-ground {
+. {
   display: flex;
 }
-
-.tags-card {
-    position: fixed;
-    width: inherit;
-    padding: 0 1.5em 0 0 !important;
-}
-
-@media screen and (max-width: 576px) {
-.tags-card {
-    display: none;
-  }
-}
-
 </style>

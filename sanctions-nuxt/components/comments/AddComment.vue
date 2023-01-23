@@ -54,6 +54,7 @@ export default {
         }
 
         $addComment(state.comment, state.parentId, state.reputationObjectId).then(() => {
+          message.value = "";
           $toast.success('Your comment is added');
           loading.value = false;
           state.comment = '';

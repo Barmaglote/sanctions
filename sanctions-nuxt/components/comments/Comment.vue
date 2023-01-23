@@ -3,14 +3,14 @@
     <div class="comment-item p-1 " :class="cssClass" v-if="comment && view === 'item'">
       <div class="flex justify-content-between flex-wrap card-container">
         <div class="flex align-items-center justify-content-center">
-          <div class="comment-basic-info my-2">{{formatDate(comment?.createdAt)}}</div>
+          <div class="comment-basic-info">{{formatDate(comment?.createdAt)}}</div>
         </div>
         <div class="flex align-items-center justify-content-center" v-if="isLogged">
-          <Button icon="pi pi-thumbs-up" class="p-button-text" />
-          <Button icon="pi pi-thumbs-down" class="p-button-text" />
+          <Button icon="pi pi-thumbs-up" class="p-button-text py-0" />
+          <Button icon="pi pi-thumbs-down" class="p-button-text py-0" />
         </div>
       </div>
-      <div class="flex justify-content-start flex-wrap card-container">
+      <div class="flex justify-content-start flex-wrap card-container py-2">
         {{comment.comment}}
       </div>
     </div>

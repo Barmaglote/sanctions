@@ -15,11 +15,11 @@
 					<bg-comment :comment="slotProps.data" view="item"></bg-comment>
           <div v-if="slotProps.data?.comments?.length > 0" class="ml-5 p-0">
           	<div v-for="comment in slotProps.data?.comments">
-          		<bg-comment :comment="comment" view="item"></bg-comment>
+          		<bg-comment :comment="comment" view="item" class="border-left-2 border-yellow-500 m-2"></bg-comment>
           	</div>
           </div>
-          <div v-if="currentParentCommentID !== slotProps.data.id && isLogged">
-            <Button label="Add a comment" class="p-button-text px-1" @click="currentParentCommentID = slotProps.data.id"/>
+          <div v-if="currentParentCommentID !== slotProps.data.id && isLogged" class="p-2">
+            <Button label="Add a comment" class="p-button-outlined p-button-rounded" icon="pi pi-plus" @click="currentParentCommentID = slotProps.data.id"/>
           </div>
 					<bg-add-comment
             class="py-2 ml-5 p-0"
@@ -69,7 +69,7 @@
         default: () => null,
       },
     },
-    emits: ['submit', 'addComment'],
+    emits: ['submit'],
     setup(props, ctx) {
 		  const sortKey = ref(null)
 		  const sortOrder = ref(-1)
@@ -89,11 +89,6 @@
       	ctx.emit('submit', lazyParams)
   	  }
 
-      const addComment = () => {
-        ctx.emit('addComment', {parentId: currentParentCommentID.value, comment: comment.value});
-        this.comment.value = '';
-      }
-
 		  const onPage = (event) => {
       	lazyParams.value = event;
 		  	lazyParams.value.sortField = sortField.value
@@ -106,7 +101,7 @@
 		return {
       comments, table, sortKey, sortOrder, sortField, layout, reputationObjectId, isLogged,
       total, currentParentCommentID, comment, loading,
-      addComment, onPage, lazyLoadComments }
+      onPage, lazyLoadComments }
     },
 	  watchQuery: true,
   }
