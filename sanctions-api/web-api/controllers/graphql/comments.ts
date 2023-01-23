@@ -34,9 +34,7 @@ export async function AddComment(reputationObjectId: string, parentId: string, c
   }
 
   try {
-    var createdAt = new Date()
-    console.log(createdAt.toISOString())
-
+    var createdAt = new Date()  
     comments = await CommentsModel.create({ reputationObjectId, login, comment, parentId, createdAt: createdAt.toISOString() })
     await comments.save()
   } catch (error) {

@@ -8,7 +8,6 @@
         v-if="comments && comments?.length > 0"
         :total="commentsTotal"
         @submit="refetch"
-        @addComment="addComment"
         :reputation-object-id="id">
       </bg-comments>
       <bg-add-comment class="border-1 border-300 card p-5 my-1 pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
@@ -105,9 +104,6 @@
       return { id, isLogged, lastLazyLoadEvent }
     },
     methods: {
-      addComment({parentId, comment}) {
-        console.log(parentId, comment);
-      },
       refetch(lazyParams) {
         this.lastLazyLoadEvent.value = {
           filters: null,
@@ -123,9 +119,3 @@
     }
   }
 </script>
-
-<style>
-. {
-  display: flex;
-}
-</style>

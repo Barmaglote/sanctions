@@ -1,9 +1,9 @@
 <template>
-    <div class="surface-ground">          
+    <div class="border-1 border-300 card p-2 m-2">
         <div class="col-12 md:col-12 p-0">
           <bg-links :items="links" :subtitle="subtitle"></bg-links>
-        </div>                            
-    </div>              
+        </div>
+    </div>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
       }
 	  },
     components: { 'bg-links': Links },
-    setup() {      
+    setup() {
       const route = useRoute()
 		  const type = computed(() => route.value.params.type)
       const subtitle = 'links';
@@ -46,10 +46,10 @@ export default {
 
 <style>
     .surface-ground {
-      display: flex;  
+      display: flex;
     }
-    
-    .tags-card {	
+
+    .tags-card {
         position: fixed;
         padding: 1em !important;
         width: inherit;
