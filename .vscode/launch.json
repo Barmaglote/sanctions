@@ -29,14 +29,23 @@
       "env": {}
     },
     {
-      "name": "API-Login",
+      "name": "API-Login-Rest",
       "type": "clr",
       "request": "launch",
-      "program": "${workspaceFolder}/sanctions-api/login-api/start.cmd",
+      "program": "${workspaceFolder}/sanctions-api/login-api/start-rest.cmd",
       "cwd": "${workspaceFolder}/sanctions-api/login-api",
       "console": "integratedTerminal",
       "env": {}
     },
+    {
+      "name": "API-Login-gRPC",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-api/login-api/start-grpc.cmd",
+      "cwd": "${workspaceFolder}/sanctions-api/login-api",
+      "console": "integratedTerminal",
+      "env": {}
+    },    
     {
       "name": "API-Web",
       "type": "clr",

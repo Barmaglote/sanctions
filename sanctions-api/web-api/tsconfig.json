@@ -10,5 +10,6 @@
       "types": ["node"],
       "resolveJsonModule": true,
       "allowJs": true      
-    }
+    },
+    "exclude": ["dist", "/dist", "/start.cmd", "start.cmd", "node_modules", "/node_modules", "/test", "test"]
   }

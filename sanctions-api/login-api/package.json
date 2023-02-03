@@ -2,10 +2,11 @@
   "name": "sanctions-login-api",
   "version": "1.0.0",
   "description": "Login API for Sanctions",
-  "main": "app.js",
+  "main": "server-rest.js",
   "type": "module",
   "scripts": {
-    "monitor": "nodemon server.js",
+    "monitor-rest": "nodemon server-rest.js",
+    "monitor-grpc": "nodemon server-grpc.js",
     "test": "test"
   },
   "keywords": [
@@ -15,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@datalust/winston-seq": "^1.0.2",
+    "@grpc/grpc-js": "^1.8.5",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

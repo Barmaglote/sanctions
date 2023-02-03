@@ -20,9 +20,18 @@ import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/pro
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
-
+import loginClient from './grpc/clients/login.js';
 dotenv.config()
+
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
+console.log("1555s")
+
+loginClient.GetUser({login: 'evgeniy.danilchenko@gmail.com'}, (err, response) => {
+  if (err) {
+    logger.error(err)
+  };
+  console.log(response);
+});
 
 connectDB(process.env.MONGO_URI)
 
@@ -50,7 +59,7 @@ const queriesDefs = `#graphql
 const resolvers = {
     DateTime: dateTimeScalar,
     Query: {
-      links: (_, { type }) => GetLinks(type),
+      links: (_, { type }) => GetLinks(type),      
       tags: (_, { area }) => GetTags(area),
       persons: (_, { lazyLoadEvent }) => GetPersons(lazyLoadEvent),
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
@@ -82,6 +91,7 @@ const app = express();
 const server = new ApolloServer<ApolloContext>({
     typeDefs: [schema, queriesDefs],
     resolvers,
+    /*
     formatError: (formattedError, error) => {
       logger.error(error)
       if ( formattedError.extensions.code === ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED ) {
@@ -93,6 +103,7 @@ const server = new ApolloServer<ApolloContext>({
 
       return formattedError
     },
+    */
     plugins: [
       process.env.PRODUCTION === 'true'
         ? ApolloServerPluginLandingPageProductionDefault()
