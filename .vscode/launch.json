@@ -81,7 +81,8 @@
         "LOG-SEQ",
         "DB-MongoDB",
         "DB-Redis",
-        "API-Login",
+        "API-Login-Rest",
+        "API-Login-gRPC",
         "API-Web",
         "API-Mail",
         "FRONT-Nuxt"

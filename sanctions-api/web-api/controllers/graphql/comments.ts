@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import CommentsModel from '../../models/comments/model.js'
+import getUserByLogin from '../external/users.js'
 
 const STANDARD_PAGE = 50
 
@@ -46,4 +47,9 @@ export async function AddComment(reputationObjectId: string, parentId: string, c
 
 export async function ComputeComments(parent) {
   return await CommentsModel.find({parentId: parent.id })
+}
+ 
+
+export async function ComputeAuthor(parent) {
+  return await getUserByLogin(parent.login) 
 }

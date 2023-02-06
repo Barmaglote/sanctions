@@ -42,6 +42,11 @@ interface ReputationObject {
     foto: String
 }
 
+type UserInfo {
+    id: String
+    username: String
+}
+
 type Comment {
     id: String
     reputationObjectId: String
@@ -49,6 +54,7 @@ type Comment {
     comment: String
     createdAt: DateTime
     comments: [Comment]
+    author: UserInfo
 }
 
 type Person implements ReputationObject {

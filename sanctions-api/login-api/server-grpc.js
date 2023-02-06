@@ -32,7 +32,10 @@ var loginService = protoDescriptor.LoginService;
 const getUser = async (call, callback) => {
 
   const login = call.request.login
+
+  console.log(login)
   const user = await User.findOne({ login }).exec()
+
   callback(null, user);
 }
 

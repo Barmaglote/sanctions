@@ -18,20 +18,12 @@ import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { GetComments, AddComment, GetCommentsTotal, ComputeComments } from './controllers/graphql/comments.js'
+import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
-import loginClient from './grpc/clients/login.js';
+
 dotenv.config()
 
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
-console.log("1555s")
-
-loginClient.GetUser({login: 'evgeniy.danilchenko@gmail.com'}, (err, response) => {
-  if (err) {
-    logger.error(err)
-  };
-  console.log(response);
-});
 
 connectDB(process.env.MONGO_URI)
 
@@ -82,7 +74,8 @@ const resolvers = {
       tags: ComputeTags
     },
     Comment: {
-      comments: ComputeComments
+      comments: ComputeComments,
+      author: ComputeAuthor
     }
   };
 
