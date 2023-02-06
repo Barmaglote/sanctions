@@ -9,6 +9,10 @@ query Comments($reputationObjectId: String!, $lazyLoadEvent: LazyLoadEvent) {
       comment
       createdAt
       id
+      author {
+        id
+        username
+      }
     }
     author {
       id
