@@ -4,6 +4,7 @@ import logger from './helpers/logger.js'
 import User from './models/users/model.js'
 import { connectDB } from './models/db.js'
 import dotenv from 'dotenv'
+import fs from 'fs';
 
 dotenv.config('')
 
@@ -52,7 +53,13 @@ const getGrpcServer = () => {
 const main = () => {
   var server = getGrpcServer()
 
-  server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
+  let credentials = grpc.ServerCredentials.createSsl(
+    fs.readFileSync('./certs/host/ca.crt'), [{
+    cert_chain: fs.readFileSync('./certs/host/server.crt'),
+    private_key: fs.readFileSync('./certs/host/server.key')
+  }], true);
+
+  server.bindAsync('0.0.0.0:50051', credentials, (err, port) => {
     logger.info('Starting LoginAPI gRPC-Server')
     if (err != null) {
       return logger.error(err);

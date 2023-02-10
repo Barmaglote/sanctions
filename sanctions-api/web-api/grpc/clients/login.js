@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import grpc from 'grpc';
 import protoLoader from '@grpc/proto-loader';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -62,6 +63,13 @@ const cacheInterceptor = (options, nextCall) => {
     });
 };
 */
+
+const credentials = grpc.credentials.createSsl(
+  fs.readFileSync(__dirname + '/certs/login/ca.crt'),
+  fs.readFileSync(__dirname + '/certs/login/client.key'),
+  fs.readFileSync(__dirname + '/certs/login/client.crt')
+);
+
 
 let loginProto = grpc.loadPackageDefinition(packageDefinition).login;
 //const loginClient = new loginProto.LoginService('0.0.0.0:50051', grpc.credentials.createInsecure(), { interceptors: [cacheInterceptor] });

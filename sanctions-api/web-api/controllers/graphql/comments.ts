@@ -51,5 +51,5 @@ export async function ComputeComments(parent) {
  
 
 export async function ComputeAuthor(parent) {
-  return await getUserByLogin(parent.login) 
+  return await getUserByLogin(parent?.login) 
 }

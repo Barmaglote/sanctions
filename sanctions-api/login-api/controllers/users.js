@@ -256,7 +256,8 @@ const CreateChangePasswordToken = (username, login, callback) => {
   DeleteChangePasswordTokensByLogin(login)
   const token = crypto.randomBytes(128).toString('hex')
   ChangePasswordTokenRepository.createAndSave({ token, login }).then((item) => {
-    if (!item) return
+    if (!item) return;
+    // TODO: Check, probably item.id
     ChangePasswordTokenRepository.expire(token.entityId, CHANGE_PASSWORD_TOKEN_TTL)
     callback(username, login, token)
   })
