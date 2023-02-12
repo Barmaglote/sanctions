@@ -1,13 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config('')
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import logger from './helpers/logger.js'
 import User from './models/users/model.js'
 import { connectDB } from './models/db.js'
-import dotenv from 'dotenv'
+import { createLogger } from './helpers/logger.js'
+import { ObjectId } from 'mongodb'
 import fs from 'fs';
 
-dotenv.config('')
-
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 logger.info('Starting LoginAPI gRPC-Server')
 connectDB(process.env.MONGO_URI)
 
@@ -31,18 +32,18 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition).login;
 var loginService = protoDescriptor.LoginService;
 
 const getUser = async (call, callback) => {
+  const id = call.request.id
+  if (!id) {
+    callback(null, { id: null, login: null, username: null});  
+  };
 
-  const login = call.request.login
+  const user = await User.findOne({ _id: new ObjectId(id) }).exec()
 
-  console.log(login)
-  const user = await User.findOne({ login }).exec()
-
-  callback(null, user);
+  callback(null, {id: user.id, login: user.login, username: user.username});
 }
 
 const getGrpcServer = () => {
   const grpcServer = new grpc.Server();
-
   grpcServer.addService(loginService.service, {
     GetUser: getUser
   })
@@ -54,13 +55,9 @@ const main = () => {
   var server = getGrpcServer()
 
   let credentials = grpc.ServerCredentials.createSsl(
-    fs.readFileSync('./certs/host/ca.crt'), [{
-    cert_chain: fs.readFileSync('./certs/host/server.crt'),
-    private_key: fs.readFileSync('./certs/host/server.key')
-  }], true);
+    fs.readFileSync('./certs/host/ca.crt'));
 
-  server.bindAsync('0.0.0.0:50051', credentials, (err, port) => {
-    logger.info('Starting LoginAPI gRPC-Server')
+  server.bindAsync('0.0.0.0:50051', credentials /*grpc.ServerCredentials.createInsecure()*/, (err, port) => {
     if (err != null) {
       return logger.error(err);
     }
