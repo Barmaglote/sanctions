@@ -54,10 +54,7 @@ const getGrpcServer = () => {
 const main = () => {
   var server = getGrpcServer()
 
-  let credentials = grpc.ServerCredentials.createSsl(
-    fs.readFileSync('./certs/host/ca.crt'));
-
-  server.bindAsync('0.0.0.0:50051', credentials /*grpc.ServerCredentials.createInsecure()*/, (err, port) => {
+  server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err != null) {
       return logger.error(err);
     }

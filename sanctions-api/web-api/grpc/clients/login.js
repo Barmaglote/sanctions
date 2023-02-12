@@ -19,11 +19,7 @@ const packageDefinition = protoLoader.loadSync(
     }
 );
 
-const credentials = grpc.credentials.createSsl(
-    fs.readFileSync(__dirname + '/certs/login/ca.crt')
-);
-
 let loginProto = grpc.loadPackageDefinition(packageDefinition).login;
-const loginClient = new loginProto.LoginService('0.0.0.0:50051', credentials /*grpc.credentials.createInsecure()*/);
+const loginClient = new loginProto.LoginService('0.0.0.0:50051', grpc.credentials.createInsecure());
  
 export default loginClient;
