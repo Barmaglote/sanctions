@@ -1,4 +1,7 @@
 import loginClient from '../../grpc/clients/login.js';
+import { createLogger } from '../../helpers/logger.js';
+
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 const getRPCDeadline = (rpcType) => {
     let timeAllowed = 5000
@@ -17,15 +20,23 @@ const getRPCDeadline = (rpcType) => {
     return new Date(Date.now() + timeAllowed)
 }
 
-const getUserByLogin = async (login) => {
-    var user = new Promise((resolve, reject) => loginClient.GetUser({login}, {params: login, deadline: getRPCDeadline(1)}, (err, response) => {
+
+const getUserById = async (id) => {
+    if (!id) {
+        return null;
+    }
+
+    var user = new Promise((resolve, reject) => loginClient.GetUser({id}, {deadline: getRPCDeadline(2)}, (err, response) => {
         if(err) {
-          return reject(err)
+            logger.error(err);
+            reject(err)
+            return;
         }
-        resolve(response)        
+        
+        resolve(response)
       }))
 
     return await user;
 }
 
-export default getUserByLogin;
+export default getUserById;

@@ -1,5 +1,7 @@
-import logger from './../helpers/logger.js'
+import { createLogger } from './../helpers/logger.js'
 import mongoose from 'mongoose'
+
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 mongoose.connection.on('connected', () => {
   logger.info('Mongoose connected to MongoDB')

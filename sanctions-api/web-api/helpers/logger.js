@@ -1,7 +1,7 @@
 import winston from 'winston';
 import { SeqTransport } from '@datalust/winston-seq';
 
-const logger = winston.createLogger({
+export function createLogger(logAddr, logKey) { return winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.errors({ stack: true }),
@@ -13,13 +13,12 @@ const logger = winston.createLogger({
       format: winston.format.simple()
     }),
     new SeqTransport({
-      serverUrl: process.env.SEQ_LOG_ADDR,
-      apiKey: process.env.SEQ_LOG_KEY,
+      serverUrl: logAddr,
+      apiKey: logKey,
       onError: e => { console.error(e) },
       handleExceptions: true,
       handleRejections: true
     })
   ]
 })
-
-export default logger
+}

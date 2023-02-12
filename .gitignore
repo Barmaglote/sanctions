@@ -146,3 +146,6 @@ sanctions-api/web-api/certs/login/client.key
 sanctions-api/login-api/certs/host/ca.crt
 sanctions-api/login-api/certs/host/server.crt
 sanctions-api/login-api/certs/host/server.key
+sanctions-api/web-api/grpc/clients/certs/login/ca.crt
+sanctions-api/web-api/grpc/clients/certs/login/client.crt
+sanctions-api/web-api/grpc/clients/certs/login/client.key

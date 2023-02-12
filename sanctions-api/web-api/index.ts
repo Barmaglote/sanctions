@@ -1,8 +1,9 @@
 import dotenv from 'dotenv'
+dotenv.config()
 import cors from 'cors'
 import express from 'express'
 import corsOptionsDelegate from './helpers/cors.js'
-import logger from './helpers/logger.js'
+import { createLogger } from './helpers/logger.js'
 import { ApolloServer } from '@apollo/server';
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
@@ -21,7 +22,7 @@ import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 
-dotenv.config()
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 logger.info(`Starting WebAPI Server, port: ${process.env.PORT}`)
 
@@ -65,7 +66,7 @@ const resolvers = {
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login),
-      addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.login)
+      addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id)
     },
     Person: {
       tags: ComputeTags
@@ -84,7 +85,6 @@ const app = express();
 const server = new ApolloServer<ApolloContext>({
     typeDefs: [schema, queriesDefs],
     resolvers,
-    /*
     formatError: (formattedError, error) => {
       logger.error(error)
       if ( formattedError.extensions.code === ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED ) {
@@ -96,7 +96,6 @@ const server = new ApolloServer<ApolloContext>({
 
       return formattedError
     },
-    */
     plugins: [
       process.env.PRODUCTION === 'true'
         ? ApolloServerPluginLandingPageProductionDefault()

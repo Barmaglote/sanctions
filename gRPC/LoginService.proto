@@ -1,9 +1,13 @@
 service LoginService {
-	rpc GetUser(string login) returns (User) {}
+	rpc GetUser(userid) returns (User) {}
 }
 
 message User {
-	string login = 1;
-	string id = 2;
+	string id = 1;
+	string login = 2;
 	string username = 3;
+}
+
+message UserRequest {
+	string id = 1;
 }

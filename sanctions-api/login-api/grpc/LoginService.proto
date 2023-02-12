@@ -6,11 +6,11 @@ service LoginService {
 }
 
 message User {
-	string login = 1;
-	string id = 2;
+	string id = 1;
+	string login = 2;
 	string username = 3;
 }
 
 message UserRequest {
-	string login = 1;
+	string id = 1;
 }

@@ -10,10 +10,9 @@ export const commentsSchema = new mongoose.Schema({
     type: String,
     lowercase: true
   },
-  login: {
+  authorId: {
     type: String,
-    required: true,
-    lowercase: true
+    required: true
   },
   comment: {
     type: String,

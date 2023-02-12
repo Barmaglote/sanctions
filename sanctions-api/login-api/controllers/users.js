@@ -5,8 +5,9 @@ import User from './../models/users/model.js'
 import crypto from 'node:crypto'
 import { ChangePasswordTokenRepository } from '../repository/redis/ChangePasswordTokenRepository.js'
 import request from 'request'
-import logger from '../helpers/logger.js'
+import { createLogger } from '../helpers/logger.js'
 
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 const CHANGE_PASSWORD_TOKEN_TTL = 10 * 60 * 1000 // 10 min // TODO: move to .env
 
 export async function Register (req, res) {
@@ -209,13 +210,13 @@ export async function Login (req, res) {
       return
     }
 
-    const payload = { login: user.login, username: user.username }
+    const payload = { login: user.login, username: user.username, id: user.id }
     const accessToken = GenerateAccessToken(payload)
     const refreshToken = GenerateRefreshToken(payload)
 
     Send(res, 200, { status: 'success', accessToken, refreshToken, user: { login: user.login, username: user.username } })
   } catch (e) {
-    console.log(e)
+    logger.error(e)
     Send(res, 500, { status: 'failed' })
   }
 };
@@ -233,7 +234,7 @@ export async function RefreshAccessToken (req, res) {
       return
     }
 
-    const accessToken = GenerateAccessToken({ login: user.login, username: user.username })
+    const accessToken = GenerateAccessToken({ login: user.login, username: user.username, id: user.id })
     Send(res, 200, { status: 'success', accessToken })
   })
 };
