@@ -21,3 +21,4 @@ query Comments($reputationObjectId: String!, $lazyLoadEvent: LazyLoadEvent) {
   }
   commentsTotal(reputationObjectId: $reputationObjectId)
 }
+

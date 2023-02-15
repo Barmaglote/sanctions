@@ -101,6 +101,12 @@ type Profile {
     info: String
 }
 
+type Like {
+    reputationObjectId: String!
+    authorId: String!
+    isPositive: Boolean
+}
+
 input ProfileInput {
     login: String
     nickname: String
@@ -113,8 +119,14 @@ input CommentInput {
     parentId: String
 }
 
+input LikeInput {
+    reputationObjectId: String!
+    isPositive: Boolean!
+}
+
 type Mutation {
   addProfile(nickname: String!): Profile
   updateProfile(profile: ProfileInput!): Profile
   addComment(commentInput: CommentInput!): Comment
+  addLike(likeInput: LikeInput!): Like
 }

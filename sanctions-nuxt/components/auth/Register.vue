@@ -50,12 +50,12 @@
                         </template>
                     </Password>
                 </div>
-                <div class="form-group pt-3"> 
-                    <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;"> 
+                <div class="form-group pt-3">
+                    <Button type="submit" label="Submit" class="mt-2" :disabled="loading" style="width: 100%;">
                         <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-                        <span>Register</span>                    
+                        <span>Register</span>
                     </Button>
-                </div>         
+                </div>
                 <div class="form-group">
                     <div v-if="message" class="alert alert-danger pt-2" role="alert">Status: {{message}}</div>
                 </div>
@@ -77,7 +77,7 @@ import Divider from 'primevue/divider/Divider'
 import HomeButton from '@/components/core/HomeButton.vue'
 
 export default {
-  setup() { 
+  setup() {
     const state = reactive({
         login: '',
         password: '',
@@ -88,8 +88,8 @@ export default {
     const rules = {
         login: { required, email },
         password: { required },
-        confirmation: { required },          
-        username: { required } 
+        confirmation: { required },
+        username: { required }
     }
 
     let v$ = useVuelidate(rules, state)
@@ -98,13 +98,13 @@ export default {
     const router = useRouter()
     const loading = ref(false)
     const submitted = ref(false)
-    const message = ref('')    
+    const message = ref('')
 
     onMounted(() => {
       if ($auth.loggedIn) {
-        router.push('/auth/profile')  
+        router.push('/auth/profile')
       }
-    })    
+    })
 
     const handleSubmit = (isFormValid) => {
         loading.value = true
@@ -114,23 +114,23 @@ export default {
             return
         }
 
-        submitted.value = true         
-        
+        submitted.value = true
+
         $register(new User(state.login, state.username, state.password)).then(
           user => {
             $auth.setUser(user)
-            router.push('/auth/registered');    
-        }, 
+            router.push('/auth/registered');
+        },
           error => {
             loading.value = false;
-            message.value = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();                  
+            message.value = (error.response && error.response.data.message) || error.response.data.status || error.message || error.toString();
             $toast.error(message.value)
-        })            
+        })
     }
-    
+
     return { state, v$, handleSubmit, loading, submitted, message }
 
   },
-  components: { InputText, Password, Button, Divider, 'bg-home-button': HomeButton }, 
+  components: { InputText, Password, Button, Divider, 'bg-home-button': HomeButton },
 }
 </script>

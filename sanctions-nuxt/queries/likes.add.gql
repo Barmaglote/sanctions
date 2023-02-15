@@ -1,0 +1,7 @@
+mutation Mutation($likeInput: LikeInput!) {
+  addLike(likeInput: $likeInput) {
+    authorId
+    isPositive
+    reputationObjectId
+  }
+}

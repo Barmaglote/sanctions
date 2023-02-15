@@ -7,7 +7,12 @@
 	            <div class="person-name">{{person.titleeng}}</div>
 	            <div class="person-name-rus">{{person.titlerus}}</div>
 	            <div class="person-description">{{person.description}}</div>
-	            <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
+              <div class="col-6">
+                <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
+              </div>
+              <div class="col-6">
+                <bg-likes :reputation-object-id="reputationObjectId"></bg-likes>
+              </div>
 	            <i class="pi pi-tag person-category-icon"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
 	        </div>
         </div>
@@ -27,7 +32,7 @@
 				<div class="person-description">{{person?.description}}</div>
 				<Rating :modelValue="person?.rating" :readonly="true" :cancel="false"></Rating>
 			</div>
-		</div>				
+		</div>
     </div>
 </template>
 
@@ -36,15 +41,17 @@ import TagHelper from '@/models/tag.helper'
 import { useTagsStore } from '@/store/tags'
 import { onMounted, ref, computed } from 'vue'
 import Rating from 'primevue/rating'
+import Likes from "@/components/likes/Likes.vue"
 
 export default {
-	components: { Rating }, 
+	components: { Rating, 'bg-likes': Likes },
 	setup({ tags }){
+
         const tagHelper = ref(null)
-        const tagsStore = useTagsStore();        	
+        const tagsStore = useTagsStore();
 		if (tags && tags.length > 0) {
 			tagsStore.setTags(tags);
-		}        
+		}
 
 		onMounted(() => {
 			tagHelper.value = new TagHelper(tagsStore.tags)
@@ -61,18 +68,22 @@ export default {
         return { getTagNames, WEB_STATIC_FILES }
     },
     props: {
-      	person: {
+      person: {
       	  type: Object,
       	  default: () =>  {},
-      	}, 
+      	},
 	  	view: {
 			type: String,
 			default: 'item'
 	  	},
-		tags: {
-                type: [],
-                default: () => [],
-        },
+      reputationObjectId: {
+        type: String,
+        default: () => null,
+      },
+		  tags: {
+        type: [],
+        default: () => [],
+      },
     }
 }
 </script>

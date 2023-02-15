@@ -1,0 +1,5 @@
+query LikesInfo($reputationObjectId: String!) {
+  likes(reputationObjectId: $reputationObjectId)
+  dislikes(reputationObjectId: $reputationObjectId)
+}
+

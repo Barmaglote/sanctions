@@ -98,10 +98,8 @@
 
     	const { comments, total, reputationObjectId } = toRefs(props)
 
-		return {
-      comments, table, sortKey, sortOrder, sortField, layout, reputationObjectId, isLogged,
-      total, currentParentCommentID, comment, loading,
-      onPage, lazyLoadComments }
+		  return {  comments, table, sortKey, sortOrder, sortField, layout, reputationObjectId, isLogged,
+                total, currentParentCommentID, comment, loading, onPage, lazyLoadComments }
     },
 	  watchQuery: true,
   }

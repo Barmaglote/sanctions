@@ -21,6 +21,7 @@ import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/pro
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
+import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId } from './controllers/graphql/likes.js'
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -40,12 +41,16 @@ const queriesDefs = `#graphql
     profile(nickname: String): Profile        
     person(_id: String!): Person
     comments(reputationObjectId: String!, lazyLoadEvent: LazyLoadEvent): [Comment],
-    commentsTotal(reputationObjectId: String!): Int
+    commentsTotal(reputationObjectId: String!): Int,
+    like(reputationObjectId: String!): Like,
+    likes(reputationObjectId: String!): Int,
+    dislikes(reputationObjectId: String!): Int
   }
   type Mutation {
     addProfile(nickname: String): Profile
     updateProfile(profile: ProfileInput): Profile
     addComment(commentInput: CommentInput!): Comment
+    addLike(likeInput: LikeInput!): Like
   }
 `;
 
@@ -61,12 +66,16 @@ const resolvers = {
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login),
       person: (_, { _id } ) => GetPerson(_id),
       comments: (_, { reputationObjectId, lazyLoadEvent } ) => GetComments(reputationObjectId, lazyLoadEvent),
-      commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId)
+      commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),
+      like: (_, { reputationObjectId }, { user } ) => GetLike(reputationObjectId, user?.id),
+      likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
+      dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login),
-      addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id)
+      addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
+      addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id)
     },
     Person: {
       tags: ComputeTags

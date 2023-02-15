@@ -51,6 +51,5 @@ export async function ComputeComments(parent) {
 
 export async function ComputeAuthor(parent) {
   if (!parent?.authorId) { return null; } 
-  console.log("ComputeAuthor", parent?.authorId)  
   return await getUserById(parent?.authorId)
 }

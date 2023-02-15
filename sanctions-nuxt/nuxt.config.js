@@ -51,6 +51,7 @@ export default {
   plugins: [
     '@/plugins/webapi/profile.service.js',
     '@/plugins/webapi/comments.service.js',
+    '@/plugins/webapi/likes.service.js',
     '@/plugins/local/menu.service.js',
     '@/plugins/webapi/links.service.js',
     '@/plugins/webapi/persons.service.js',
