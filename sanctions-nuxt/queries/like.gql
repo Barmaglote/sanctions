@@ -1,0 +1,7 @@
+query LikeInfo($reputationObjectId: String!) {
+  like(reputationObjectId: $reputationObjectId) {
+    reputationObjectId
+    authorId
+    isPositive
+  }
+}

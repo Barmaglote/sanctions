@@ -35,6 +35,7 @@ export default {
     'primeflex/primeflex.css',
     '@/styles/overrides.scss',
     '@/styles/styles.scss',
+    'primeicons/primeicons.css'
   ],
 
   publicRuntimeConfig: {
