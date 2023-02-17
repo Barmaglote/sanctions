@@ -12,15 +12,15 @@
 
 			<template #list="slotProps">
 				<div class="w-full px-2">
-					<bg-comment :comment="slotProps.data" view="item"></bg-comment>
-          <div v-if="slotProps.data?.comments?.length > 0" class="ml-5 p-0">
+					<bg-comment :comment="slotProps.data" view="item" :reputation-object-id="reputationObjectId"></bg-comment>
+          <div v-if="slotProps.data?.comments?.length > 0" class="ml-5 p-2">
           	<div v-for="comment in slotProps.data?.comments">
-          		<bg-comment :comment="comment" view="item" class="border-left-2 border-yellow-500 m-2"></bg-comment>
+          		<bg-comment :comment="comment" view="item" class="border-left-2 border-yellow-500 m-2" :reputation-object-id="reputationObjectId"></bg-comment>
           	</div>
           </div>
-          <div v-if="currentParentCommentID !== slotProps.data.id && isLogged" class="p-2">
-            <Button label="Add a comment" class="p-button-outlined p-button-rounded" icon="pi pi-plus" @click="currentParentCommentID = slotProps.data.id"/>
-          </div>
+          <div v-if="currentParentCommentID !== slotProps.data.id && isLogged" class="p-2 flex">
+            <Button label="Add a comment" class="p-button-text" icon="pi pi-plus" @click="currentParentCommentID = slotProps.data.id"/>
+          </div>-
 					<bg-add-comment
             class="py-2 ml-5 p-0"
             v-if="isLogged && slotProps.data.id === currentParentCommentID"
@@ -31,7 +31,7 @@
 
 			<template #grid="slotProps">
 				<div class="col-12 md:col-4">
-					<bg-comment :comment="slotProps.data" view="card"></bg-comment>
+					<bg-comment :comment="slotProps.data" view="card" :reputation-object-id="reputationObjectId"></bg-comment>
 				</div>
 			</template>
 		</DataView>
@@ -48,12 +48,14 @@
   import AddComment from "@/components/comments/AddComment.vue"
   import { useContext } from '@nuxtjs/composition-api'
   import Button from 'primevue/button'
+  import Likes from "@/components/likes/Likes.vue"
 
   export default {
 	  components: {
       DataView, Rating, Dropdown, DataViewLayoutOptions, Button,
       'bg-comment': Comment,
-      'bg-add-comment': AddComment
+      'bg-add-comment': AddComment,
+      'bg-likes': Likes
     },
     props: {
       comments: {

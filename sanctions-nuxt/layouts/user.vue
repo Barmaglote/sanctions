@@ -1,12 +1,12 @@
 <template>
     <div>
       <main>
-        <Nuxt/>        
-      </main>      
+        <Nuxt/>
+      </main>
     </div>
 </template>
 
-<script lang="ts">  
+<script lang="ts">
     export default {
 		  setup() {}
     }

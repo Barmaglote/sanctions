@@ -6,8 +6,7 @@
           <div class="comment-basic-info flex"><span class="font-semibold">{{ comment?.author?.username }}</span>&nbsp;<span class="">{{formatDate(comment?.createdAt)}}</span></div>
         </div>
         <div class="flex align-items-center justify-content-center" v-if="isLogged">
-          <Button icon="pi pi-thumbs-up" class="p-button-text py-0" />
-          <Button icon="pi pi-thumbs-down" class="p-button-text py-0" />
+          <bg-likes :reputation-object-id="comment.id" :isLikingLocked="isLikingLocked" v-if="comment?.id"></bg-likes>
         </div>
       </div>
       <div class="flex justify-content-start flex-wrap card-container py-2">
@@ -27,6 +26,7 @@ import { formatDate } from '~/models/date.helper'
 import { toRefs, computed } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
 import Button from 'primevue/button'
+import Likes from "@/components/likes/Likes.vue"
 
 export default {
 
@@ -48,9 +48,13 @@ export default {
     	cssClass: {
     	  type: String,
     	  default: () => '',
-    	}
+    	},
+      isLikingLocked: {
+    	  type: Boolean,
+    	  default: () => false,
+    	},
   },
-  components: { Button }
+  components: { Button, 'bg-likes': Likes }
 }
 </script>
 

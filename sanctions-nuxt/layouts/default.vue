@@ -2,8 +2,8 @@
     <div>
 	    <bg-menu/>
       <main>
-        <Nuxt/>        
-      </main>      
+        <Nuxt/>
+      </main>
       <p-scrolltop :threshold="100"></p-scrolltop>
     </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
     import MainMenu from '@/components/core/MainMenu.vue';
     import ScrollTop from 'primevue/scrolltop';
-  
+
     export default {
 		setup() {
 
@@ -54,14 +54,14 @@ $bgColor: #111;
 
 .striped {
   position: relative;
- 
+
   &::before, &::after {
     content: "";
     display: block;
     position: absolute;
     z-index: -1;
   }
-  
+
   &::before {
     height: 75%;
     width: 50%;
@@ -75,7 +75,7 @@ $bgColor: #111;
       transparent $size*2
     );
   }
-  
+
   &::after {
     height: 120%;
     width: 70%;
@@ -84,7 +84,7 @@ $bgColor: #111;
     background: $stripeColor;
     z-index: -2;
   }
-  
+
 }
 
 .mainbackground{

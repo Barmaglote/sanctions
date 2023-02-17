@@ -2,28 +2,28 @@
 	<div class="card">
     	<DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="50" :totalRecords="totalRecords" :loading="loading">
 			<template #header>
-                <div class="grid grid-nogutter">
-                    <div class="lg:col-6" style="text-align: left">
-                        <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
-                    </div>
-                    <div class="lg:col-6 view-selector" style="text-align: right;">
-                        <DataViewLayoutOptions v-model="layout" />
-                    </div>
-                </div>
+        <div class="grid grid-nogutter">
+            <div class="lg:col-6" style="text-align: left">
+                <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
+            </div>
+            <div class="lg:col-6 view-selector" style="text-align: right;">
+                <DataViewLayoutOptions v-model="layout" />
+            </div>
+        </div>
 			</template>
 
 			<template #list="slotProps">
 				<div class="col-12">
 					<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }">
-						<bg-person :person="slotProps.data" view="item"></bg-person>
+						<bg-person :person="slotProps.data" view="item" :isLikingLocked="true"></bg-person>
 					</nuxt-link>
 				</div>
 			</template>
 
 			<template #grid="slotProps">
-					<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }" class="col-12 md:col-4">
-						<bg-person :person="slotProps.data" view="card"></bg-person>
-					</nuxt-link>					
+				<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }" class="col-12 md:col-4">
+					<bg-person :person="slotProps.data" view="card" :isLikingLocked="true"></bg-person>
+				</nuxt-link>
 			</template>
 		</DataView>
 	</div>
@@ -42,13 +42,13 @@
   import Person from "@/components/persons/Person.vue"
 
   export default {
-	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender, 'bg-person': Person }, 
+	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender, 'bg-person': Person },
     props: {
       search: {
         type: String,
         default: null,
       }
-    },	
+    },
     setup(props) {
 		const { $fetchPersons } = useContext()
 		const tagsStore = useTagsStore();
@@ -82,13 +82,13 @@
 			loading.value = true;
 
 			filters.value.tags.value = ''
-			const tags = tagsStore.Selected.map(x => x.key) 
+			const tags = tagsStore.Selected.map(x => x.key)
 
 			if (tags && tags.length > 0) {
 				filters.value.tags.value = tags;
 			}
 
-			lazyParams.value.filters = filters.value		
+			lazyParams.value.filters = filters.value
 
 			$fetchPersons(lazyParams).then(data => {
 				items.value = data.data.result
@@ -119,8 +119,8 @@
 		});
 
         const onSortChange = (event) => {
-			lazyParams.value.sortOrder = event.value.value 
-			sortOrder.value = event.value.value			
+			lazyParams.value.sortOrder = event.value.value
+			sortOrder.value = event.value.value
 
 			lazyLoadPersons();
         }
@@ -166,7 +166,7 @@
 	.p-dropdown {
 	    width: 100%;
 	    font-weight: normal;
-	}	
+	}
 }
 
 ::v-deep(.p-dataview .p-dataview-header){

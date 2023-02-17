@@ -3,14 +3,14 @@
     <div class="likes w-1em text-base font-semibold text-green-300">
       {{ state?.likes | shortNumber }}
     </div>
-    <Button class="p-button-text py-0" @click="handleSubmit(true)" :disabled="state.like != null" v-if="isLogged">
+    <Button class="p-button-text py-0 px-2" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
       <thumb-up v-if="state.like && state.like.isPositive === true"/>
       <thumb-up-outline v-else/>
     </Button>
     <div class="likes w-1em text-base font-semibold text-red-300">
       {{ state?.dislikes | shortNumber }}
     </div>
-    <Button class="p-button-text py-0" @click="handleSubmit(true)" :disabled="state.like != null" v-if="isLogged">
+    <Button class="p-button-text py-0 px-2" @click="handleSubmit(false)" :disabled="state.like != null || !isLogged || isLikingLocked">
       <thumb-down v-if="state.like && state.like.isPositive === false"/>
       <thumb-down-outline v-else/>
     </Button>
@@ -34,6 +34,10 @@
       reputationObjectId: {
         type: String,
         default: () => null
+      },
+      isLikingLocked: {
+        type: Boolean,
+        default: () => false
       }
     },
     setup({ reputationObjectId }) {
@@ -56,7 +60,7 @@
       }
 
       const fecthLike = (reputationObjectId) => {
-        if (!isLogged) return;
+        if (!isLogged.value || isLogged.value === false) return;
         $getLikeInfo(reputationObjectId).then((result) => {
           if (!result || !result.data) { return }
           state.like = result.data?.like;
@@ -69,7 +73,7 @@
       })
 
       const handleSubmit = (isPositive) => {
-        if (!isLogged) return;
+        if (!isLogged.value || isLogged.value === false) return;
         $addLike(reputationObjectId, isPositive).then((result) => {
           state.like = result.data?.addLike;
           fecthLikes(reputationObjectId);

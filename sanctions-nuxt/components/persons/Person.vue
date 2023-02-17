@@ -1,38 +1,40 @@
 <template>
     <div style="width: 100%">
-        <div class="card person-list-item" v-if="person && view === 'item'">
-	        <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
-	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
-	        <div class="person-list-detail">
-	            <div class="person-name">{{person.titleeng}}</div>
-	            <div class="person-name-rus">{{person.titlerus}}</div>
-	            <div class="person-description">{{person.description}}</div>
+      <div class="card person-list-item mb-1" v-if="person && view === 'item'">
+	      <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
+	      <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
+	      <div class="person-list-detail">
+	          <div class="person-name">{{person.titleeng}}</div>
+	          <div class="person-name-rus">{{person.titlerus}}</div>
+	          <div class="person-description">{{person.description}}</div>
+            <div class="flex">
               <div class="col-6">
+                <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked"></bg-likes>
+              </div>
+              <div class="col-6 flex justify-content-end">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
               </div>
-              <div class="col-6">
-                <bg-likes :reputation-object-id="reputationObjectId"></bg-likes>
-              </div>
-	            <i class="pi pi-tag person-category-icon"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
-	        </div>
-        </div>
-		<div class="person-grid-item card"  v-if="person && view !== 'item'">
-			<div class="person-grid-item-top">
-				<div>
-					<i class="pi pi-tag person-category-icon"></i>
-					<span class="person-category">{{getTagNames(person?.tag)}}</span>
-				</div>
-				<span class="person-badge">{{person?.dob}}</span>
-			</div>
-			<div class="person-grid-item-content">
-				<img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-grid" :alt="person?.titleeng"/>
-				<img v-else :src="'/fotos/'+ person?.gender + '-user-icon.png'" :alt="person?.titleeng" class="photo-grid photo-default" />
-				<div class="person-name">{{person?.titleeng}}</div>
-				<div class="person-name-rus">{{person?.titlerus}}</div>
-				<div class="person-description">{{person?.description}}</div>
-				<Rating :modelValue="person?.rating" :readonly="true" :cancel="false"></Rating>
-			</div>
-		</div>
+            </div>
+	          <i class="pi pi-tag person-category-icon"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
+	      </div>
+      </div>
+		  <div class="person-grid-item card"  v-if="person && view !== 'item'">
+		  	<div class="person-grid-item-top">
+		  		<div>
+		  			<i class="pi pi-tag person-category-icon"></i>
+		  			<span class="person-category">{{getTagNames(person?.tag)}}</span>
+		  		</div>
+		  		<span class="person-badge">{{person?.dob}}</span>
+		  	</div>
+		  	<div class="person-grid-item-content">
+		  		<img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-grid" :alt="person?.titleeng"/>
+		  		<img v-else :src="'/fotos/'+ person?.gender + '-user-icon.png'" :alt="person?.titleeng" class="photo-grid photo-default" />
+		  		<div class="person-name">{{person?.titleeng}}</div>
+		  		<div class="person-name-rus">{{person?.titlerus}}</div>
+		  		<div class="person-description">{{person?.description}}</div>
+		  		<Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
+		  	</div>
+		  </div>
     </div>
 </template>
 
@@ -46,10 +48,10 @@ import Likes from "@/components/likes/Likes.vue"
 export default {
 	components: { Rating, 'bg-likes': Likes },
 	setup({ tags }){
+    const tagHelper = ref(null)
+    const tagsStore = useTagsStore();
 
-        const tagHelper = ref(null)
-        const tagsStore = useTagsStore();
-		if (tags && tags.length > 0) {
+    if (tags && tags.length > 0) {
 			tagsStore.setTags(tags);
 		}
 
@@ -64,17 +66,16 @@ export default {
 		const WEB_STATIC_FILES = computed(() => {
 			return process.env.WEB_STATIC_FILES
 		})
-
-        return { getTagNames, WEB_STATIC_FILES }
+      return { getTagNames, WEB_STATIC_FILES }
     },
     props: {
       person: {
-      	  type: Object,
-      	  default: () =>  {},
-      	},
+      	type: Object,
+      	default: () =>  {},
+      },
 	  	view: {
-			type: String,
-			default: 'item'
+			  type: String,
+			  default: 'item'
 	  	},
       reputationObjectId: {
         type: String,
@@ -84,6 +85,10 @@ export default {
         type: [],
         default: () => [],
       },
+      isLikingLocked: {
+        type: Boolean,
+        default: () => false
+      }
     }
 }
 </script>

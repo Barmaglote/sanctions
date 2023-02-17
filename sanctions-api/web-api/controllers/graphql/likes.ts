@@ -38,8 +38,6 @@ export async function GetDislikesByReputationObjectId(reputationObjectId: string
     throw new GraphQLError('Object is not set')
   }
 
-  if  (reputationObjectId == "62ffba3b6a9f4c2a32250dba") return 153654;
-
   return await LikesModel.countDocuments({reputationObjectId, isPositive: false}).exec();
 }
 
