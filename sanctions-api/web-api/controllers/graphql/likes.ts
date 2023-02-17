@@ -2,7 +2,6 @@ import LikesModel from '../../models/likes/model.js'
 import { GraphQLError } from 'graphql'
 
 export async function AddLike(reputationObjectId: string, isPositive: boolean, authorId: string) {
-  console.log("webapi AddLike", reputationObjectId, authorId)
   if (!reputationObjectId || !authorId) {
     throw new GraphQLError('Nothing to add')
   }
