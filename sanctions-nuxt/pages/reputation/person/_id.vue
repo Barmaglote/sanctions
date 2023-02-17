@@ -1,6 +1,6 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
-    <div class="col-6 col-offset-3">
+    <div class="col-12 md:col-6 md:col-offset-3">
       <bg-person :person="person" class="border-1 border-300 card p-5 my-1" :tags="tags" :reputation-object-id="id"></bg-person>
       <bg-comments
         :comments="comments"

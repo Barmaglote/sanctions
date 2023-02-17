@@ -26,15 +26,9 @@ export async function AddLike(reputationObjectId: string, isPositive: boolean, a
 }
 
 export async function GetLikesByReputationObjectId(reputationObjectId: string) {
-
-  console.log("reputationObjectId 01", reputationObjectId);
-
   if (!reputationObjectId) {
     throw new GraphQLError('Object is not set')
   }
-
-  console.log("reputationObjectId 02");
-  console.log("reputationObjectId 03", await LikesModel.countDocuments({reputationObjectId, isPositive: true}).exec());
 
   return await LikesModel.countDocuments({reputationObjectId, isPositive: true}).exec();
 }
@@ -44,11 +38,12 @@ export async function GetDislikesByReputationObjectId(reputationObjectId: string
     throw new GraphQLError('Object is not set')
   }
 
+  if  (reputationObjectId == "62ffba3b6a9f4c2a32250dba") return 153654;
+
   return await LikesModel.countDocuments({reputationObjectId, isPositive: false}).exec();
 }
 
 export async function GetLike(reputationObjectId: string, authorId: string) {
-  authorId = "62ffba3b6a9f4c2a32250dba"
 
   if (!reputationObjectId || !authorId) {
     throw new GraphQLError('Nothing to search')
