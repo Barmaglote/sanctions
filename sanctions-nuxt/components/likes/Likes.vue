@@ -1,14 +1,14 @@
 <template>
   <div class="flex">
     <div class="likes w-1em text-base font-semibold text-green-300">
-      {{ state?.likes }}
+      {{ state?.likes | shortNumber }}
     </div>
     <Button class="p-button-text py-0" @click="handleSubmit(true)" :disabled="state.like != null" v-if="isLogged">
       <thumb-up v-if="state.like && state.like.isPositive === true"/>
       <thumb-up-outline v-else/>
     </Button>
     <div class="likes w-1em text-base font-semibold text-red-300">
-      {{ state?.dislikes }}
+      {{ state?.dislikes | shortNumber }}
     </div>
     <Button class="p-button-text py-0" @click="handleSubmit(true)" :disabled="state.like != null" v-if="isLogged">
       <thumb-down v-if="state.like && state.like.isPositive === false"/>
