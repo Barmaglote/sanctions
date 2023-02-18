@@ -13,6 +13,7 @@ query GetOrganizations($lazyLoadEvent: LazyLoadEvent) {
     }
     titleeng
     titlerus
+    country
   }
-  organizationsTotal(lazyLoadEvent: $lazyLoadEvent)  
+  organizationsTotal(lazyLoadEvent: $lazyLoadEvent)
 }

@@ -16,6 +16,7 @@ query GetPersons($lazyLoadEvent: LazyLoadEvent) {
     }
     titleeng
     titlerus
+    country
   }
   personsTotal(lazyLoadEvent: $lazyLoadEvent)
 }

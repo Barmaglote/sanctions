@@ -37,6 +37,7 @@
     "primeicons": "^5.0.0",
     "primevue": "^2.10.0",
     "vue": "^2.7.14",
+    "vue-country-flag": "^2.3.2",
     "vue-material-design-icons": "^5.2.0",
     "vue-server-renderer": "^2.7.14",
     "vue-template-compiler": "^2.7.14",

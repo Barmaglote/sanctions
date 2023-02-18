@@ -63,7 +63,7 @@ export default {
     '@/plugins/webapi/web.api.js',
     '@/plugins/loginapi/login.api.js',
     '@/plugins/graphql/apollo-client.js',
-    '@/plugins/filters/numbers.js',
+    '@/plugins/filters/numbers.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

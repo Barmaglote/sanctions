@@ -4,7 +4,14 @@
 	      <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
 	      <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
 	      <div class="person-list-detail">
-	          <div class="person-name">{{person.titleeng}}</div>
+            <div class="flex">
+              <div class="col-9 px-0 align-content-start">
+	              <div class="person-name">{{person.titleeng}}</div>
+              </div>
+              <div class="col-3 px-0 flex justify-content-end">
+	              <div class="person-country"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
+              </div>
+            </div>
 	          <div class="person-name-rus">{{person.titlerus}}</div>
 	          <div class="person-description">{{person.description}}</div>
             <div class="flex">
@@ -44,9 +51,10 @@ import { useTagsStore } from '@/store/tags'
 import { onMounted, ref, computed } from 'vue'
 import Rating from 'primevue/rating'
 import Likes from "@/components/likes/Likes.vue"
+import CountryFlag from 'vue-country-flag'
 
 export default {
-	components: { Rating, 'bg-likes': Likes },
+	components: { Rating, 'bg-likes': Likes, CountryFlag },
 	setup({ tags }){
     const tagHelper = ref(null)
     const tagsStore = useTagsStore();

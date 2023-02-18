@@ -8,7 +8,7 @@ query GetPerson($_id: String!) {
     rating
     tag
     tags {
-      area      
+      area
       children {
         data
         icon
@@ -23,5 +23,6 @@ query GetPerson($_id: String!) {
     }
     titleeng
     titlerus
+    country
   }
 }
