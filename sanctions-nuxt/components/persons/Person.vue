@@ -1,9 +1,22 @@
 <template>
     <div style="width: 100%">
-      <div class="card person-list-item mb-1" v-if="person && view === 'item'">
-	      <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
-	      <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
-	      <div class="person-list-detail">
+      <div class="card person-list-item mb-1 p-0" v-if="!person?.titleeng">
+        <div class="col-2 flex justify-content-center">
+          <Skeleton shape="circle" size="50px" class="photo-list photo-default" />
+        </div>
+        <div class="col-10 flex justify-content-start flex-wrap">
+          <Skeleton height="2rem" class="mb-2"></Skeleton>
+          <Skeleton class="mb-2"></Skeleton>
+          <Skeleton height="4rem" class="mb-2"></Skeleton>
+        </div>
+      </div>
+      <div class="card person-list-item mb-1 p-0" v-if="person && view === 'item'">
+        <div class="col-2 flex justify-content-center">
+          <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
+	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
+        </div>
+        <div class="col-10 flex justify-content-start">
+	        <div class="person-list-detail">
             <div class="flex">
               <div class="col-9 px-0 align-content-start">
 	              <div class="person-name">{{person.titleeng}}</div>
@@ -23,7 +36,8 @@
               </div>
             </div>
 	          <i class="pi pi-tag person-category-icon"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
-	      </div>
+	        </div>
+        </div>
       </div>
 		  <div class="person-grid-item card"  v-if="person && view !== 'item'">
 		  	<div class="person-grid-item-top">
@@ -52,12 +66,14 @@ import { onMounted, ref, computed } from 'vue'
 import Rating from 'primevue/rating'
 import Likes from "@/components/likes/Likes.vue"
 import CountryFlag from 'vue-country-flag'
+import Skeleton from 'primevue/skeleton';
 
 export default {
-	components: { Rating, 'bg-likes': Likes, CountryFlag },
+	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton },
 	setup({ tags }){
     const tagHelper = ref(null)
-    const tagsStore = useTagsStore();
+    const tagsStore = useTagsStore()
+    const loading = ref(true)
 
     if (tags && tags.length > 0) {
 			tagsStore.setTags(tags);
@@ -74,30 +90,31 @@ export default {
 		const WEB_STATIC_FILES = computed(() => {
 			return process.env.WEB_STATIC_FILES
 		})
-      return { getTagNames, WEB_STATIC_FILES }
+
+    return { getTagNames, WEB_STATIC_FILES, loading }
+  },
+  props: {
+    person: {
+    	type: Object,
+    	default: () =>  {},
     },
-    props: {
-      person: {
-      	type: Object,
-      	default: () =>  {},
-      },
-	  	view: {
-			  type: String,
-			  default: 'item'
-	  	},
-      reputationObjectId: {
-        type: String,
-        default: () => null,
-      },
-		  tags: {
-        type: [],
-        default: () => [],
-      },
-      isLikingLocked: {
-        type: Boolean,
-        default: () => false
-      }
+		view: {
+		  type: String,
+		  default: 'item'
+		},
+    reputationObjectId: {
+      type: String,
+      default: () => null,
+    },
+	  tags: {
+      type: [],
+      default: () => [],
+    },
+    isLikingLocked: {
+      type: Boolean,
+      default: () => false
     }
+  }
 }
 </script>
 
@@ -140,7 +157,6 @@ export default {
 	img {
 		width: 50px;
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		margin-right: 2rem;
 	}
 
 	.person-list-detail {

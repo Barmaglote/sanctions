@@ -149,7 +149,14 @@ export default {
   },
 
   loading: {
-    color: '#666'
+    color: '#666',
+    height: '5px'
+  },
+
+  loadingIndicator: {
+    name: 'circle',
+    color: '#3B8070',
+    background: 'white'
   },
 
   toast: {
