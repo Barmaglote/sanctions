@@ -12,14 +12,16 @@
       </div>
       <div class="card person-list-item mb-1 p-0" v-if="person && view === 'item'">
         <div class="col-2 flex justify-content-center">
-          <img v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"/>
+          <ImagePreview :preview="true" v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"></ImagePreview>
 	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
         </div>
         <div class="col-10 flex justify-content-start">
 	        <div class="person-list-detail">
             <div class="flex">
               <div class="col-9 px-0 align-content-start">
-	              <div class="person-name">{{person.titleeng}}</div>
+                <nuxt-link :to="{ path: `/reputation/person/${person._id}` }">
+	                <div class="person-name no-underline hover:underline">{{person.titleeng}}</div>
+                </nuxt-link>
               </div>
               <div class="col-3 px-0 flex justify-content-end">
 	              <div class="person-country"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
@@ -67,9 +69,10 @@ import Rating from 'primevue/rating'
 import Likes from "@/components/likes/Likes.vue"
 import CountryFlag from 'vue-country-flag'
 import Skeleton from 'primevue/skeleton';
+import ImagePreview from 'primevue/imagepreview';
 
 export default {
-	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton },
+	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton, ImagePreview },
 	setup({ tags }){
     const tagHelper = ref(null)
     const tagsStore = useTagsStore()
@@ -155,7 +158,7 @@ export default {
 	width: 100%;
 
 	img {
-		width: 50px;
+		width: 75px;
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 	}
 

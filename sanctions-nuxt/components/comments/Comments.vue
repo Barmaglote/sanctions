@@ -20,7 +20,7 @@
           </div>
           <div v-if="currentParentCommentID !== slotProps.data.id && isLogged" class="p-2 flex">
             <Button label="Add a comment" class="p-button-text" icon="pi pi-plus" @click="currentParentCommentID = slotProps.data.id"/>
-          </div>-
+          </div>
 					<bg-add-comment
             class="py-2 ml-5 p-0"
             v-if="isLogged && slotProps.data.id === currentParentCommentID"

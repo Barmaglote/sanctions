@@ -1,9 +1,12 @@
 <template>
   <div class="w-full p-1">
-    <div class="comment-item p-1 " :class="cssClass" v-if="comment && view === 'item'">
+    <div class="comment-item p-1" :class="cssClass" v-if="comment && view === 'item'">
       <div class="flex justify-content-between flex-wrap card-container">
         <div class="flex align-items-center justify-content-center">
-          <div class="comment-basic-info flex"><span class="font-semibold">{{ comment?.author?.username }}</span>&nbsp;<span class="">{{formatDate(comment?.createdAt)}}</span></div>
+          <div class="comment-basic-info flex">
+            <span class="font-semibold underline"><nuxt-link :to="{ path: `/user/profiles/${comment?.author?.id}` }">{{ comment?.author?.username }}</nuxt-link></span>&nbsp;
+            <span class="">{{formatDate(comment?.createdAt)}}</span>
+          </div>
         </div>
         <div class="flex align-items-center justify-content-center" v-if="isLogged">
           <bg-likes :reputation-object-id="comment.id" :isLikingLocked="isLikingLocked" v-if="comment?.id"></bg-likes>
@@ -21,7 +24,6 @@
 </template>
 
 <script>
-
 import { formatDate } from '~/models/date.helper'
 import { toRefs, computed } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'

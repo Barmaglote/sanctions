@@ -1,5 +1,5 @@
 export class Profile {
     nickname: String
-    login: String
+    userId: String
     info: String
 }

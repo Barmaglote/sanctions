@@ -5,42 +5,43 @@ import sanitizer from 'sanitizer'
 
 const EMPTY_PROFILE = {
   nickname: null,
-  login: null,
+  userId: null,
   info: null
 }
 
-export async function GetProfile(nickname: String, login: String) {
-  let profile = null
+export async function GetProfile(userId: String, currentUserId: String) {
+  let profile = EMPTY_PROFILE
 
-  if (nickname) {
-    profile = await ProfileModel.findOne({ "nickname": nickname.trim().toLowerCase() })
+  if (userId) {
+    profile = await ProfileModel.findOne({ "userId": userId.trim() })
   }
 
-  if (!nickname && login) {
-    profile = await ProfileModel.findOne({ "login": login.trim().toLowerCase() })
+  if (!userId && currentUserId) {
+    profile = await ProfileModel.findOne({ "userId": currentUserId.trim() })
   }
 
   return profile
 }
 
-export async function AddProfile(nickname: String, login: String) {
-  if (!nickname || !login) {
+export async function AddProfile(nickname: String, userId: String) {
+
+  if (!nickname || !userId || !userId) {
     return EMPTY_PROFILE
   }
 
   nickname = nickname.trim().toLowerCase()
-  login = login.trim().toLowerCase()
+  userId = userId.trim()
 
   let profile = await ProfileModel.findOne({ nickname })
-  if (profile && profile.login?.trim().toLowerCase() === login) {
+  if (profile && profile.userId?.trim() === userId) {
     return profile
   }
 
-  if (profile && profile.login?.trim().toLowerCase() !== login) {
+  if (profile && profile.userId?.trim() !== userId) {
     throw new GraphQLError('Profile name is occupied already')
   }
 
-  profile = await ProfileModel.findOne({ login })
+  profile = await ProfileModel.findOne({ userId })
   if (profile) {
     try {
       profile.nickname = nickname.toString()
@@ -51,7 +52,7 @@ export async function AddProfile(nickname: String, login: String) {
     }
   } else {
     try {
-      profile = await ProfileModel.create({ login, nickname })
+      profile = await ProfileModel.create({ userId, nickname })
       await profile.save()
     } catch (error) {  
       throw new GraphQLError('Unable to create profile')
@@ -61,17 +62,17 @@ export async function AddProfile(nickname: String, login: String) {
   return profile || EMPTY_PROFILE
 }
 
-export async function UpdateProfile(profile: Profile, currentlogin: String) {
-  if (!profile || !profile.nickname || !profile.login || !currentlogin || profile.login.toLowerCase().trim() !== currentlogin.toLowerCase().trim()) {
+export async function UpdateProfile(profile: Profile, currentUserId: String) {
+  if (!profile || !profile.nickname || !profile?.userId || !currentUserId || profile.userId.toLowerCase().trim() !== currentUserId.toLowerCase().trim()) {
     throw new GraphQLError('Unable to update profile')
   }
 
-  let { nickname, login, info } = profile
+  let { nickname, userId, info } = profile
 
   nickname = nickname.trim().toLowerCase()
-  login = login.trim().toLowerCase()
+  userId = userId.trim().toLowerCase()
   info = sanitizer.sanitize(info)
-  const filter = { login }
+  const filter = { userId }
   const update = { info, nickname }
 
   profile = await ProfileModel.findOneAndUpdate(filter, update, { new: true })

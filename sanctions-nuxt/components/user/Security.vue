@@ -1,12 +1,11 @@
 <template>
-    <div>
-        Security
-    </div>
+  <div>
+    Security
+  </div>
 </template>
-  
+
 <script>
   export default {
   }
 </script>
-  
-  
+

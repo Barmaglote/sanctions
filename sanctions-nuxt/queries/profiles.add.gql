@@ -1,7 +1,7 @@
-mutation Mutation($nickname: String) {
+mutation Mutation($nickname: String!) {
   addProfile(nickname: $nickname) {
-    info
-    login
+    userId
     nickname
+    info
   }
 }

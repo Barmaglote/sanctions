@@ -1,7 +1,7 @@
 query GetProfile($nickname: String) {
   profile(nickname: $nickname) {
-    info
+    userId
     nickname
-    login
+    info
   }
 }

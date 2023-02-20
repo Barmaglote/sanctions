@@ -99,7 +99,7 @@ input LazyLoadEvent {
 }
 
 type Profile {
-    login: String
+    userId: String
     nickname: String
     info: String
 }
@@ -111,7 +111,7 @@ type Like {
 }
 
 input ProfileInput {
-    login: String
+    userId: String
     nickname: String
     info: String
 }

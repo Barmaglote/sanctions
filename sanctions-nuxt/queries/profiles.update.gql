@@ -1,7 +1,7 @@
-mutation UpdateProfile($profile: ProfileInput) {
+mutation UpdateProfile($profile: ProfileInput!) {
   updateProfile (profile: $profile) {
-    info
-    login
+    userId
     nickname
+    info
   }
 }

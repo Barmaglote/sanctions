@@ -3,9 +3,9 @@
     <bg-home-button/>
     <img id="profile-img" src="@/assets/avatar_2x.png" class="profile-img-card mb-4"/>
     You have logged in as <strong style="font-weight: 700;">{{$auth.user?.username}}</strong>
-    <div class="mt-3 text-center">    
+    <div class="mt-3 text-center">
       <Button label="Logout" icon="pi pi-sign-out" iconPos="right" @click="logout"></Button>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     const router = useRouter()
     const { $auth, $logout } = useContext()
 
-    onMounted(() => {    
+    onMounted(() => {
       if (!$auth.user || !$auth.loggedIn) {
        router.push('/auth/login');
       }

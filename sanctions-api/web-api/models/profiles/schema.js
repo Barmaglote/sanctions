@@ -1,25 +1,21 @@
 import mongoose from 'mongoose'
 
-const EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
 const NICKNAME = /^[a-z]{1}[a-z\d]{3,25}$/i
 const INFO = /^[\w\s\d]{0,250}$/i
 
 const profileSchema = new mongoose.Schema({
-  login: {
+  userId: {
     type: String,
     required: true,
-    lowercase: true,
     minlength: 5,
-    validate: {
-      validator: v => EMAIL.test(v),
-      message: props => `${props.value} is not correct email`
-    }
+    unique: true
   },
   nickname: {
     type: String,
     required: true,
     minlength: 3,
     maxlength: 25,
+    unique: true,
     validate: {
       validator: v => NICKNAME.test(v),
       message: props => `${props.value} is not correct nickname`

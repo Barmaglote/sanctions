@@ -1,12 +1,12 @@
 <template>
-  <div class="card card-container">
+  <div class="card card-container card_shadow">
     <label for="nickname" class="py-2" :class="{'p-error':v$.nickname.$invalid && loading}">Nickname</label>
-    <div class="text-center p-flex flex-row flex-1" style="display: flex;">    	
+    <div class="text-center p-flex flex-row flex-1" style="display: flex;">
       <form name="form" @submit.prevent="handleSubmit(!v$.$invalid)">
         <InputText id="nickname" type="text" v-model="v$.nickname.$model" />
         <Button type="submit" icon="pi pi-user-plus" class="mx-2 px-5">
          <i class="pi pi-spin pi-spinner mr-2" style="font-size: 1rem" v-show="loading"></i>
-         <i class="pi pi-user-plus mr-2" style="font-size: 1rem"></i> 
+         <i class="pi pi-user-plus mr-2" style="font-size: 1rem"></i>
         </Button>
       </form>
       <div class="form-group">
@@ -29,23 +29,23 @@ import { required } from 'vuelidate/lib/validators'
 import { useVuelidate } from "@vuelidate/core"
 import { useContext, useRouter } from '@nuxtjs/composition-api'
 
-export default {  
-  setup(){ 
+export default {
+  setup(){
     const profileStore = useProfileStore()
     const state = reactive({
         nickname: ''
     })
 
     const rules = {
-        nickname: { required } 
+        nickname: { required }
     }
 
     let v$ = useVuelidate(rules, state)
-    
+
     const loading = ref(false)
     const submitted = ref(false)
-    const message = ref('')    
-   
+    const message = ref('')
+
     let ctx = null;
 
 		onMounted(() => {
@@ -66,7 +66,7 @@ export default {
       loading.value = false
       if (profileStore?.profile?.nickname) {
         router.push('/user/profile')
-      }      
+      }
     }
 
     return { state, v$, handleSubmit, loading, submitted, message }

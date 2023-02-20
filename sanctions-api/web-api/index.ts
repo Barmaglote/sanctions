@@ -63,7 +63,7 @@ const resolvers = {
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
-      profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.login),
+      profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.id),
       person: (_, { _id } ) => GetPerson(_id),
       comments: (_, { reputationObjectId, lazyLoadEvent } ) => GetComments(reputationObjectId, lazyLoadEvent),
       commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),
@@ -72,8 +72,8 @@ const resolvers = {
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId)
     },
     Mutation: {
-      addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.login),
-      updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.login),
+      addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
+      updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
       addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id)
     },

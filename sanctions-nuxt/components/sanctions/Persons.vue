@@ -14,9 +14,7 @@
 
 			<template #list="slotProps">
 				<div class="col-12">
-					<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }">
-						<bg-person :person="slotProps.data" view="item" :isLikingLocked="true"></bg-person>
-					</nuxt-link>
+					<bg-person :person="slotProps.data" view="item"></bg-person>
 				</div>
 			</template>
 
@@ -188,9 +186,8 @@
 	width: 100%;
 
 	img {
-		width: 50px;
+		width: 75px;
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		margin-right: 2rem;
 	}
 
 	.person-list-detail {
