@@ -13,12 +13,20 @@ export async function GetComments(reputationObjectId: string, lazyLoadEvent = nu
   return await CommentsModel.find({reputationObjectId, parentId: null}).sort({'createdAt': -1}).skip(first).limit(rows)
 }
 
-export async function GetCommentsTotal(reputationObjectId: string) {
+export async function GetCommentsTotal(reputationObjectId: string, onlyParent: boolean = true) {
   if (!reputationObjectId) {
     throw new GraphQLError('Reputation id is not set')
   }
+  
+  if (onlyParent === true) {
+    return await CommentsModel.count({reputationObjectId, "parentId": null})
+  } else {
+    return await CommentsModel.count({reputationObjectId})
+  }  
+}
 
-  return await CommentsModel.count({reputationObjectId, "parentId": null})
+export async function GetCommentsTotalForParent(parent) {
+  return GetCommentsTotal(parent._id, false);
 }
 
 export async function AddComment(reputationObjectId: string, parentId: string, comment: string, authorId: string) {
@@ -47,7 +55,6 @@ export async function AddComment(reputationObjectId: string, parentId: string, c
 export async function ComputeComments(parent) {
   return await CommentsModel.find({parentId: parent.id })
 }
- 
 
 export async function ComputeAuthor(parent) {
   if (!parent?.authorId) { return null; } 

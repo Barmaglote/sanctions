@@ -30,8 +30,9 @@
 	          <div class="person-name-rus">{{person.titlerus}}</div>
 	          <div class="person-description">{{person.description}}</div>
             <div class="flex">
-              <div class="col-6">
+              <div class="col-6 flex">
                 <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked"></bg-likes>
+                <bg-comment-info :total="person.commentsTotal" class="ml-2"></bg-comment-info>
               </div>
               <div class="col-6 flex justify-content-end">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
@@ -70,9 +71,10 @@ import Likes from "@/components/likes/Likes.vue"
 import CountryFlag from 'vue-country-flag'
 import Skeleton from 'primevue/skeleton';
 import ImagePreview from 'primevue/imagepreview';
+import CommentInfo from '@/components/comments/CommentInfo.vue';
 
 export default {
-	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton, ImagePreview },
+	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton, ImagePreview, 'bg-comment-info': CommentInfo },
 	setup({ tags }){
     const tagHelper = ref(null)
     const tagsStore = useTagsStore()

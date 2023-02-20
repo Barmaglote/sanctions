@@ -59,13 +59,13 @@
 		const layout = ref('list')
 		const lazyParams = ref({})
 		const sortOptions = ref([
-            {label: 'Evil High to Low', value: -1},
-            {label: 'Evil Low to High', value: 1},
-        ])
+      {label: 'Evil High to Low', value: -1},
+      {label: 'Evil Low to High', value: 1},
+    ])
 		const filters = ref({
-            'title': {value: '', matchMode: 'contains'},
+      'title': {value: '', matchMode: 'contains'},
 			'tags': {value: '', matchMode: 'in'},
-        })
+    })
 
 		const table = ref(null)
 		const tagHelper = ref(null)
@@ -96,32 +96,31 @@
 		}
 
 		const onPage = (event) => {
-            lazyParams.value = event;
+      lazyParams.value = event;
 			lazyParams.value.sortField = sortField.value
 			lazyParams.value.sortOrder = sortOrder.value
 
-            lazyLoadPersons();
-        }
+      lazyLoadPersons();
+    }
 
 		onMounted(() => {
 			lazyParams.value = {
-            	first: 0,
-            	rows: table?.value?.rows,
-            	sortField:  sortField.value,
-            	sortOrder: sortOrder.value,
-            	filters: filters.value
-        	};
+        first: 0,
+        rows: table?.value?.rows,
+        sortField:  sortField.value,
+        sortOrder: sortOrder.value,
+        filters: filters.value
+      };
 
 			tagHelper.value = new TagHelper(tagsStore.tags)
 			lazyLoadPersons();
-		});
+    });
 
-        const onSortChange = (event) => {
-			lazyParams.value.sortOrder = event.value.value
-			sortOrder.value = event.value.value
-
-			lazyLoadPersons();
-        }
+    const onSortChange = (event) => {
+		  lazyParams.value.sortOrder = event.value.value
+		  sortOrder.value = event.value.value
+		  lazyLoadPersons();
+    }
 
 		const getTagNames = (keys) => {
 			return tagHelper.value.getTagNames(keys)
@@ -137,11 +136,11 @@
 		})
 
 		watch(() => props.search, (newValue, oldValue) => {
-      		if (newValue != oldValue) {
+      if (newValue != oldValue) {
 				filters.value.title = props.search
 				lazyLoadPersons()
 			}
-    	});
+    });
 
 		return { items, tagsStore, table, totalRecords, loading, onPage, onSortChange, getTagNames, WEB_STATIC_FILES, sortKey, sortOrder, sortField, layout, sortOptions }
     },

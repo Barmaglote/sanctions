@@ -19,7 +19,7 @@ import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
-import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor } from './controllers/graphql/comments.js'
+import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId } from './controllers/graphql/likes.js'
 
@@ -78,7 +78,8 @@ const resolvers = {
       addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id)
     },
     Person: {
-      tags: ComputeTags
+      tags: ComputeTags,
+      commentsTotal: GetCommentsTotalForParent
     },
     Organization: {
       tags: ComputeTags

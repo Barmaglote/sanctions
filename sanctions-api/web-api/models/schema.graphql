@@ -41,6 +41,7 @@ interface ReputationObject {
     rating: Int
     foto: String
     country: COUNTRY
+    commentsTotal: Int!
 }
 
 type UserInfo {
@@ -71,6 +72,7 @@ type Person implements ReputationObject {
     dob: String
     gender: String
     country: COUNTRY
+    commentsTotal: Int!
 }
 
 type Organization {
@@ -83,6 +85,7 @@ type Organization {
     rating: Int
     foto: String
     country: COUNTRY
+    commentsTotal: Int!
 }
 
 input Filters {
