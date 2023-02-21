@@ -88,6 +88,8 @@ type Organization {
     commentsTotal: Int!
 }
 
+union CommentOrOrganizationOrPersons = Comment | Organization | Person
+
 input Filters {
     tags: [String]
     title: String
@@ -111,6 +113,15 @@ type Like {
     reputationObjectId: String!
     authorId: String!
     isPositive: Boolean
+    reputationObjectType: REPUTATION_OBJECT_TYPE 
+    reputationObject: CommentOrOrganizationOrPersons
+}
+
+type LikeFeed {
+    reputationObjectId: String!
+    authorId: String!
+    isPositive: Boolean
+    reputationObjectType: REPUTATION_OBJECT_TYPE 
 }
 
 input ProfileInput {
@@ -128,6 +139,7 @@ input CommentInput {
 input LikeInput {
     reputationObjectId: String!
     isPositive: Boolean!
+    reputationObjectType: REPUTATION_OBJECT_TYPE 
 }
 
 type Mutation {
@@ -135,6 +147,13 @@ type Mutation {
   updateProfile(profile: ProfileInput!): Profile
   addComment(commentInput: CommentInput!): Comment
   addLike(likeInput: LikeInput!): Like
+}
+
+enum REPUTATION_OBJECT_TYPE {
+    org
+    per
+    com
+    pos
 }
 
 enum COUNTRY {

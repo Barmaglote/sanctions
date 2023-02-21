@@ -18,10 +18,11 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
+import { GetReputationObject } from './controllers/graphql/reputation.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
-import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId } from './controllers/graphql/likes.js'
+import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -44,7 +45,8 @@ const queriesDefs = `#graphql
     commentsTotal(reputationObjectId: String!): Int,
     like(reputationObjectId: String!): Like,
     likes(reputationObjectId: String!): Int,
-    dislikes(reputationObjectId: String!): Int
+    dislikes(reputationObjectId: String!): Int,
+    likesFeed(userId: String!, page: Int): [Like]
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -69,13 +71,14 @@ const resolvers = {
       commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),
       like: (_, { reputationObjectId }, { user } ) => GetLike(reputationObjectId, user?.id),
       likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
-      dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId)
+      dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
+      likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
-      addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id)
+      addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType)
     },
     Person: {
       tags: ComputeTags,
@@ -87,7 +90,17 @@ const resolvers = {
     Comment: {
       comments: ComputeComments,
       author: ComputeAuthor
-    }
+    },
+    Like: {
+      reputationObject: GetReputationObject
+    },
+    CommentOrOrganizationOrPersons: {
+      __resolveType: obj => {
+        if (obj.gender) return "Person";
+        if (obj.comment) return "Comment";
+        return "Organization";
+      }
+    },
   };
 
 const app = express();

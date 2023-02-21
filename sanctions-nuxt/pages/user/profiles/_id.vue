@@ -1,7 +1,20 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-12 md:col-6 md:col-offset-3">
-      <bg-user-header :user-id="id || userid" v-if="(id || userid) != null" ></bg-user-header>
+      <bg-user-header :user-id="id || userid" v-if="(id || userid) != null"></bg-user-header>
+      <div class="shadow-1">
+        <TabView>
+	        <TabPanel header="Likes">
+		        <bg-likes-feed :user-id="id || userid" v-if="(id || userid) != null"/>
+	        </TabPanel>
+	        <TabPanel header="Post">
+		        Content II
+	        </TabPanel>
+	        <TabPanel header="Comments">
+		        Content III
+	        </TabPanel>
+        </TabView>
+      </div>
     </div>
   </div>
 </template>
@@ -11,6 +24,9 @@
   import { useRoute } from '@nuxtjs/composition-api'
   import Header from '@/components/user/Header.vue'
   import { useContext } from '@nuxtjs/composition-api'
+  import TabView from 'primevue/tabview'
+  import TabPanel from 'primevue/tabpanel'
+  import LikesFeed from '@/components/user/LikesFeed.vue'
 
   export default {
     head() {
@@ -32,7 +48,9 @@
       return { id, 'userid': $auth?.user?.id }
     },
     components: {
-      'bg-user-header': Header
+      'bg-user-header': Header,
+      'bg-likes-feed': LikesFeed,
+      TabView, TabPanel
     }
   }
 </script>

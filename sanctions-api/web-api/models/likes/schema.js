@@ -17,5 +17,14 @@ export const likesSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     required: false
-  },  
+  },
+  reputationObjectType: {
+    type: String,
+    enum: [
+      'org',
+      'per',
+      'com',
+      'pos'
+    ]
+  }  
 });

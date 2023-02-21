@@ -1,6 +1,6 @@
 <template>
     <div style="width: 100%">
-      <div class="card p-5 flex flex-wrap card_shadow">
+      <div class="card p-5 flex flex-wrap shadow-1">
         <div class="text-4xl font-bold w-full">
           @{{ profile?.nickname }}
         </div>
@@ -23,8 +23,6 @@
 
 
       const fetchProfile = () => {
-        console.log(userId)
-
         $fetchPublicProfile(userId).then((result) => {
           profile.value = result?.data?.profile;
         })

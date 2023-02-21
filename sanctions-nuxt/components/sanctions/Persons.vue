@@ -3,12 +3,12 @@
     	<DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="50" :totalRecords="totalRecords" :loading="loading">
 			<template #header>
         <div class="grid grid-nogutter">
-            <div class="lg:col-6" style="text-align: left">
-                <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
-            </div>
-            <div class="lg:col-6 view-selector" style="text-align: right;">
-                <DataViewLayoutOptions v-model="layout" />
-            </div>
+          <div class="lg:col-6" style="text-align: left">
+              <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
+          </div>
+          <div class="lg:col-6 view-selector" style="text-align: right;">
+              <DataViewLayoutOptions v-model="layout" />
+          </div>
         </div>
 			</template>
 

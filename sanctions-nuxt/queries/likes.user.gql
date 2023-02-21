@@ -1,0 +1,28 @@
+query LikesFeed($userId: String!, $page: Int) {
+  likesFeed(userId: $userId, page: $page) {
+    authorId
+    isPositive
+    reputationObjectId
+    reputationObjectType
+    reputationObject {
+      ... on Comment {
+        comment
+        id
+        author {
+          username
+          id
+        }
+      }
+      ... on Organization {
+        titleeng
+        _id
+        titlerus
+      }
+      ... on Person {
+        titleeng
+        titlerus
+        _id
+      }
+    }
+  }
+}

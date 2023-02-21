@@ -35,12 +35,16 @@
         type: String,
         default: () => null
       },
+      reputationObjectType: {
+        type: String,
+        default: () => null
+      },
       isLikingLocked: {
         type: Boolean,
         default: () => false
       }
     },
-    setup({ reputationObjectId }) {
+    setup({ reputationObjectId, reputationObjectType }) {
       const { $addLike, $getLikesInfo, $getLikeInfo, $auth } = useContext()
 
       const isLogged = computed(() => $auth.loggedIn )
@@ -74,7 +78,7 @@
 
       const handleSubmit = (isPositive) => {
         if (!isLogged.value || isLogged.value === false) return;
-        $addLike(reputationObjectId, isPositive).then((result) => {
+        $addLike(reputationObjectId, isPositive, reputationObjectType).then((result) => {
           state.like = result.data?.addLike;
           fecthLikes(reputationObjectId);
         });

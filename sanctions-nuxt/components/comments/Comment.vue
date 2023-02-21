@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="flex align-items-center justify-content-center" v-if="isLogged">
-          <bg-likes :reputation-object-id="comment.id" :isLikingLocked="isLikingLocked" v-if="comment?.id"></bg-likes>
+          <bg-likes :reputation-object-id="comment.id" :isLikingLocked="isLikingLocked" v-if="comment?.id" :reputation-object-type="'com'"></bg-likes>
         </div>
       </div>
       <div class="flex justify-content-start flex-wrap card-container py-2">

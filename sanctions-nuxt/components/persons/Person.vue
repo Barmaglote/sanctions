@@ -31,7 +31,7 @@
 	          <div class="person-description">{{person.description}}</div>
             <div class="flex">
               <div class="col-6 flex">
-                <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked"></bg-likes>
+                <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'per'"></bg-likes>
                 <bg-comment-info :total="person.commentsTotal" class="ml-2"></bg-comment-info>
               </div>
               <div class="col-6 flex justify-content-end">
