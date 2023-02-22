@@ -115,6 +115,7 @@ type Like {
     isPositive: Boolean
     reputationObjectType: REPUTATION_OBJECT_TYPE 
     reputationObject: CommentOrOrganizationOrPersons
+    createdAt: DateTime
 }
 
 type LikeFeed {

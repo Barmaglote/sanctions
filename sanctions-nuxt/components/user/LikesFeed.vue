@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <div class="flex flex-wrap">
-      <div v-for="like, i in likes" :id="i" class="my-1 flex flex-wrap py-1">
+      <div v-for="like, i in likes" :id="i" class="my-1 flex flex-wrap py-1 w-full">
         <bg-like-feed-item :like="like"></bg-like-feed-item>
       </div>
     </div>
