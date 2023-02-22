@@ -56,7 +56,7 @@ type Comment {
     comment: String
     createdAt: DateTime
     comments: [Comment]
-    author: UserInfo,
+    author: UserInfo
     authorId: String
 }
 

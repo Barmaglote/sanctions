@@ -5,23 +5,38 @@ query LikesFeed($userId: String!, $page: Int) {
     reputationObjectId
     reputationObjectType
     reputationObject {
+      __typename
       ... on Comment {
-        comment
         id
-        author {
-          username
-          id
-        }
+        reputationObjectId
+        parentId
+        comment
+        createdAt
+        authorId
       }
       ... on Organization {
-        titleeng
         _id
         titlerus
+        titleeng
+        description
+        tag
+        rating
+        foto
+        country
+        commentsTotal
       }
       ... on Person {
-        titleeng
-        titlerus
         _id
+        titlerus
+        titleeng
+        description
+        tag
+        rating
+        foto
+        dob
+        gender
+        country
+        commentsTotal
       }
     }
   }

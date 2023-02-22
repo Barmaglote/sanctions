@@ -7,16 +7,12 @@ export async function GetReputationObject(parent) {
   }
 
   let reputationObject = null;
-
-  console.log("GetReputationObject");
   
   if (parent.reputationObjectType === 'per') {
-    console.log("per", parent.reputationObjectId)
     reputationObject = await PersonModel.findOne({ _id: parent.reputationObjectId })
   }
 
   if (parent.reputationObjectType === 'com') {
-    console.log("com", parent.reputationObjectId)
     reputationObject = await CommentsModel.findOne({ _id: parent.reputationObjectId })
   }
     

@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <div class="flex flex-wrap">
-      <div v-for="like, i in likes" :id="i" class="my-1">
+      <div v-for="like, i in likes" :id="i" class="my-1 flex flex-wrap py-1">
         <bg-like-feed-item :like="like"></bg-like-feed-item>
       </div>
     </div>
@@ -27,22 +27,14 @@
         $getLikesFeed(userId, page.value++ ).then((result) => {
           if (!result?.data?.likesFeed) { return }
           likes.value = [...likes.value, ...JSON.parse(JSON.stringify(result.data.likesFeed))]
-          console.log(result.data.likesFeed)
         })
-      }
-
-      const reputationObject = {
-        'per': 'Person',
-        'org': 'Organization',
-        'com': 'Comment',
-        'pos': 'Post'
       }
 
       onMounted(() => {
         fetchLikes()
       })
 
-      return { loading, fetchLikes, likes, reputationObject }
+      return { loading, fetchLikes, likes }
     },
     props: {
       userId: {

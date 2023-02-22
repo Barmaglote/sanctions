@@ -1,0 +1,22 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "CommentOrOrganizationOrPersons",
+        "possibleTypes": [
+          {
+            "name": "Comment"
+          },
+          {
+            "name": "Organization"
+          },
+          {
+            "name": "Person"
+          }
+        ]
+      }
+    ]
+  }
+}
+
