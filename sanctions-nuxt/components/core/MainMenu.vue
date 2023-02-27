@@ -7,42 +7,46 @@
                 </nuxt-link>
 			</template>
 			<template #end>
-                <div class="menu-end-container">
-                  <bg-user-menu/>
-		              <bg-search-input/>
-                </div>
+        <div class="menu-end-container">
+          <bg-post-button v-if="isLogged"/>
+          <bg-user-menu/>
+		      <bg-search-input/>
+        </div>
 			</template>
 		</menu-bar>
 	</div>
 </template>
 
-<script>  
+<script>
 import Menubar from 'primevue/menubar'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
 import SearchInput from '@/components/core/SearchInput.vue'
 import UserMenu from '@/components/core/UserMenu.vue';
+import PostButton from '../comments/PostButton.vue';
 
 export default {
     setup() {
         const items = ref([])
 
-        const { $getMenu } = useContext();
+        const { $getMenu, $auth } = useContext();
+        const isLogged = computed(() => $auth.loggedIn )
 
         onMounted(() => {
             $getMenu().then(data => {
             items.value = data;
-            });    
+            });
         })
 
         return {
-            items
+            items, isLogged
         }
     },
     components: {
         "menu-bar": Menubar,
         "bg-search-input": SearchInput,
-        "bg-user-menu": UserMenu
+        "bg-user-menu": UserMenu,
+        "bg-post-button": PostButton
     }
 }
 </script>
@@ -61,7 +65,7 @@ export default {
 }
 
 .title-container{
-  display:flex; 
+  display:flex;
   align-items: center;
   font-weight: 700;
   padding-right: 1em;

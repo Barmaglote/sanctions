@@ -189,7 +189,7 @@ export default {
     clientConfigs: {
       default: '~/plugins/graphql/apollo-client.js'
     }
-  }
+  },
 }
 
 

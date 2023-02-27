@@ -7,11 +7,14 @@
 	        <TabPanel header="Likes">
 		        <bg-likes-feed :user-id="id || userid" v-if="(id || userid) != null"/>
 	        </TabPanel>
-	        <TabPanel header="Post">
-		        Content II
-	        </TabPanel>
 	        <TabPanel header="Comments">
-		        Content III
+            <bg-comments-feed
+              class="my-1"
+              :user-id="id || userid">
+            </bg-comments-feed>
+	        </TabPanel>
+	        <TabPanel header="Repeats">
+		        Content II
 	        </TabPanel>
         </TabView>
       </div>
@@ -27,6 +30,7 @@
   import TabView from 'primevue/tabview'
   import TabPanel from 'primevue/tabpanel'
   import LikesFeed from '@/components/user/LikesFeed.vue'
+  import CommentsFeed from '~/components/user/CommentsFeed.vue'
 
   export default {
     head() {
@@ -50,6 +54,7 @@
     components: {
       'bg-user-header': Header,
       'bg-likes-feed': LikesFeed,
+      'bg-comments-feed': CommentsFeed,
       TabView, TabPanel
     }
   }

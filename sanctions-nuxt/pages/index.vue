@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-nogutter surface-section bg-text-800">
-    <div class="col-12 md:col-6 px-6 text-center md:text-left flex align-items-center responsive-text">
+    <div class="h-full col-12 md:col-6 px-6 text-center md:text-left flex align-items-center responsive-text">
         <section>
             <span class="block text-5xl font-bold mb-1">Stop the war in Ukraine!</span>
             <div class="text-5xl text-primary font-bold mb-3">Russian opposition stands together with Ukraine</div>
             <p class="mt-0 mb-4 text-1xl text-700 line-height-3">We support initiative of <a href="https://acf.international/" target="_blank">ACF.International</a> to put sanctions against Putin's regime. Please take a look on proposed sanction list</p>
-            
+
             <p-button label="People" type="button" class="mr-3 p-button-raised" @click="$router.push('/sanctions/persons/list')"></p-button>
             <p-button label="Organizations" type="button" class="p-button-outlined" @click="$router.push('/sanctions/organizations/list')"></p-button>
         </section>
@@ -14,9 +14,9 @@
         <section>
           <div class="striped">
             <img class="framed" src="/images/pexels-photo-11291271.jpeg" alt="random image">
-          </div>            
+          </div>
         </section>
-    </div>    
+    </div>
 </div>
 </template>
 
@@ -58,14 +58,14 @@ $bgColor: #111;
 
 .striped {
   position: relative;
- 
+
   &::before, &::after {
     content: "";
     display: block;
     position: absolute;
     z-index: -1;
   }
-  
+
   &::before {
     height: 75%;
     width: 50%;
@@ -79,7 +79,7 @@ $bgColor: #111;
       transparent $size*2
     );
   }
-  
+
   &::after {
     height: 120%;
     width: 70%;
@@ -87,7 +87,7 @@ $bgColor: #111;
     right: -20%;
     background: $stripeColor;
     z-index: -2;
-  }  
+  }
 }
 
 .mainbackground{

@@ -1,0 +1,23 @@
+query Comments($reputationObjectId: String!, $lazyLoadEvent: LazyLoadEvent) {
+  comments(reputationObjectId: $reputationObjectId, lazyLoadEvent: $lazyLoadEvent) {
+    comment
+    createdAt
+    id
+    parentId
+    reputationObjectId
+    comments {
+      comment
+      createdAt
+      id
+      author {
+        id
+        username
+      }
+    }
+    author {
+      id
+      username
+    }
+  }
+}
+
