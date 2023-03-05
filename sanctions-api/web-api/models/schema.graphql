@@ -125,6 +125,12 @@ type LikeFeed {
     reputationObjectType: REPUTATION_OBJECT_TYPE 
 }
 
+input SubscribtionInput {
+    reputationObjectId: String!
+    reputationObjectType: REPUTATION_OBJECT_TYPE!
+    userId: String!
+}
+
 input ProfileInput {
     userId: String
     nickname: String
@@ -148,13 +154,14 @@ type Mutation {
   updateProfile(profile: ProfileInput!): Profile
   addComment(commentInput: CommentInput!): Comment
   addLike(likeInput: LikeInput!): Like
+  updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
 }
 
 enum REPUTATION_OBJECT_TYPE {
-    org
-    per
-    com
-    pos
+    org #organization
+    per #person
+    com #comment
+    pos #post
 }
 
 enum COUNTRY {

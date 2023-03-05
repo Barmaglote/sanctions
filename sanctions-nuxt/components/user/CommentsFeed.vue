@@ -3,16 +3,6 @@
     <div class="flex flex-wrap p-3">
       <div v-for="commentOfUser, i in comments" :id="i" class="my-1 flex flex-wrap py-1 w-full">
         <bg-comment :comment="commentOfUser" view="item" :reputation-object-id="userId"></bg-comment>
-        <!--
-        <div v-if="commentOfUser.comments?.length > 0" class="ml-5 p-2">
-          <div v-for="comment in commentOfUser.comments">
-          	<bg-comment :comment="comment" view="item" class="border-left-2 border-yellow-500 m-2" :reputation-object-id="reputationObjectId"></bg-comment>
-          </div>
-        </div>
-        <div v-if="currentParentCommentID !== slotProps.data.id && isLogged" class="p-2 flex">
-          <Button label="Add a comment" class="p-button-text" icon="pi pi-plus" @click="currentParentCommentID = slotProps.data.id"/>
-        </div>
-        -->
       </div>
       <div class="w-full h-4rem flex justify-content-center" v-if="isMoreAvailable" >
         <Button @click="fetchComments" label="More" class="p-button-text w-full" v-if="!loading"></Button>
@@ -51,11 +41,8 @@
       const fetchComments = () => {
         if (loading.value === true || isMoreAvailable.value === false) return;
         loading.value = true;
-        console.log(lastLazyLoadEvent);
+        lastLazyLoadEvent.value.first = lastLazyLoadEvent.value.rows * page.value++;
         $getComments(userId, lastLazyLoadEvent.value).then((result) => {
-
-          console.log(result);
-
           if (!result?.data?.comments || result?.data?.comments.length < 10) {
             isMoreAvailable.value = false;
           }

@@ -1,0 +1,3 @@
+query isSubscribed($userId: String!, $reputationObjectId: String!) {
+  isSubscribed(userId: $userId, reputationObjectId: $reputationObjectId)
+}

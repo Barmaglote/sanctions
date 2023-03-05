@@ -1,6 +1,6 @@
 <template>
   <div class="flex align-content-center flex-wrap">
-    <Button class="p-button-text py-0 px-2" @click="display=true" :disabled="!isLogged">
+    <Button class="p-button-text py-1" @click="display=true" :disabled="!isLogged">
       <comment-edit-outline></comment-edit-outline>
     </Button>
 

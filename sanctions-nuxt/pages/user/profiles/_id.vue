@@ -13,7 +13,7 @@
               :user-id="id || userid">
             </bg-comments-feed>
 	        </TabPanel>
-	        <TabPanel header="Repeats">
+	        <TabPanel header="Subscribtion">
 		        Content II
 	        </TabPanel>
         </TabView>

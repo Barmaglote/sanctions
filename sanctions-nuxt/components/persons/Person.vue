@@ -11,9 +11,12 @@
         </div>
       </div>
       <div class="card person-list-item mb-1 p-0" v-if="person && view === 'item'">
-        <div class="col-2 flex justify-content-center">
+        <div class="col-2 flex justify-content-center flex-column">
+          <div class="flex justify-content-center">
           <ImagePreview :preview="true" v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"></ImagePreview>
 	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
+          </div>
+          <div class="flex justify-content-center"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
         </div>
         <div class="col-10 flex justify-content-start">
 	        <div class="person-list-detail">
@@ -24,7 +27,7 @@
                 </nuxt-link>
               </div>
               <div class="col-3 px-0 flex justify-content-end">
-	              <div class="person-country"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
+                <bg-subcribe-button class="ml-2" :reputation-object-id="person._id" :reputation-object-type="'per'"></bg-subcribe-button>
               </div>
             </div>
 	          <div class="person-name-rus">{{person.titlerus}}</div>
@@ -72,9 +75,16 @@ import CountryFlag from 'vue-country-flag'
 import Skeleton from 'primevue/skeleton';
 import ImagePreview from 'primevue/imagepreview';
 import CommentInfo from '@/components/comments/CommentInfo.vue';
+import SubcribeButton from '@/components/subcribes/SubcribeButton.vue';
 
 export default {
-	components: { Rating, 'bg-likes': Likes, CountryFlag, Skeleton, ImagePreview, 'bg-comment-info': CommentInfo },
+	components: { Rating,
+    'bg-likes': Likes,
+    CountryFlag,
+    Skeleton,
+    ImagePreview,
+    'bg-subcribe-button': SubcribeButton,
+    'bg-comment-info': CommentInfo },
 	setup({ tags }){
     const tagHelper = ref(null)
     const tagsStore = useTagsStore()

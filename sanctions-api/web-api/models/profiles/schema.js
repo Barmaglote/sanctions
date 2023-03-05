@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const NICKNAME = /^[a-z]{1}[a-z\d]{3,25}$/i
 const INFO = /^[\w\s\d]{0,250}$/i
+const MAX_SUBSCRIBTIONS = 200;
 
 const profileSchema = new mongoose.Schema({
   userId: {
@@ -28,6 +29,18 @@ const profileSchema = new mongoose.Schema({
     validate: {
       validator: v => INFO.test(v),
       message: props => `${props.value} is not correct info`
+    }
+  },
+  subscribtions: {    
+    type: [{
+      objectId: String,
+      objectType: String
+    }],
+    required: false,
+    maxlength: MAX_SUBSCRIBTIONS,
+    validate: {
+      validator: v => v.length <= MAX_SUBSCRIBTIONS,
+      message: props => `Too many subscribtions`
     }
   }
 })

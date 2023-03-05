@@ -23,6 +23,7 @@ import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
+import { UpdateSubscribtion, IsSubscribed } from './controllers/graphql/subscribtions.js';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -46,13 +47,15 @@ const queriesDefs = `#graphql
     like(reputationObjectId: String!): Like,
     likes(reputationObjectId: String!): Int,
     dislikes(reputationObjectId: String!): Int,
-    likesFeed(userId: String!, page: Int): [Like]
+    likesFeed(userId: String!, page: Int): [Like],
+    isSubscribed(userId: String!, reputationObjectId: String!): Boolean
   }
   type Mutation {
     addProfile(nickname: String): Profile
     updateProfile(profile: ProfileInput): Profile
     addComment(commentInput: CommentInput!): Comment
     addLike(likeInput: LikeInput!): Like
+    updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
   }
 `;
 
@@ -72,13 +75,15 @@ const resolvers = {
       like: (_, { reputationObjectId }, { user } ) => GetLike(reputationObjectId, user?.id),
       likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
-      likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page)
+      likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page),
+      isSubscribed: (_, { userId, reputationObjectId } ) => IsSubscribed(userId, reputationObjectId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
-      addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType)
+      addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType),
+      updateSubscribtion: (_, { subscribtionInput }, { user }) => UpdateSubscribtion(subscribtionInput, user?.id)
     },
     Person: {
       tags: ComputeTags,

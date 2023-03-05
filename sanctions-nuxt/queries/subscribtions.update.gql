@@ -1,0 +1,3 @@
+mutation UpudateSubscribtion($subscribtionInput: SubscribtionInput!) {
+  updateSubscribtion(subscribtionInput: $subscribtionInput)
+}

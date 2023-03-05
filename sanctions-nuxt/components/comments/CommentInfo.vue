@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-content-center">
     <div class="w-1rem text-base font-semibold">{{ total | shortNumber }}</div>
-    <comment-text-outline></comment-text-outline>
+    <comment-text-outline fillColor="#FF0000"></comment-text-outline>
   </div>
 </template>
 

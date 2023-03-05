@@ -4,12 +4,12 @@
       <div class="flex justify-content-between flex-wrap card-container">
         <div class="flex align-items-center justify-content-center">
           <div class="comment-basic-info flex">
-            <span class="font-semibold underline"><nuxt-link :to="{ path: `/user/profiles/${comment?.author?.id}` }">{{ comment?.author?.username }}</nuxt-link></span>&nbsp;
+            <span class="font-semibold underline"><nuxt-link :to="{ path: `/user/profiles/${comment?.author?.id}` }">{{ reputationObjectId === userId ? 'You' : comment?.author?.username }}</nuxt-link></span>&nbsp;
             <span class="">{{comment?.createdAt | shortDate}}</span>
           </div>
         </div>
         <div class="flex align-items-center justify-content-center" v-if="isLogged">
-          <bg-likes :reputation-object-id="comment.id" :isLikingLocked="isLikingLocked" v-if="comment?.id" :reputation-object-type="'com'"></bg-likes>
+          <bg-likes :reputation-object-id="comment?.id" :isLikingLocked="isLikingLocked" v-if="comment?.id" :reputation-object-type="'com'"></bg-likes>
         </div>
       </div>
       <div class="flex justify-content-start flex-wrap card-container py-2">
@@ -34,8 +34,9 @@ export default {
 	setup(props){
     const { $auth } = useContext()
    	const isLogged = computed(() => $auth.loggedIn )
-    const { comment, cssClass } = toRefs(props)
-    return { comment, cssClass, isLogged }
+   	const userId = computed(() => $auth.user?.id )
+    const { comment, cssClass, reputationObjectId } = toRefs(props)
+    return { comment, cssClass, isLogged, userId, reputationObjectId }
   },
   props: {
     	comment: {
@@ -54,6 +55,10 @@ export default {
     	  type: Boolean,
     	  default: () => false,
     	},
+      reputationObjectId: {
+        type: String,
+        default: () => null
+      }
   },
   components: { Button, 'bg-likes': Likes }
 }

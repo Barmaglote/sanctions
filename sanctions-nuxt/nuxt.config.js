@@ -60,6 +60,7 @@ export default {
     '@/plugins/webapi/organizations.service.js',
     '@/plugins/loginapi/auth.service.js',
     '@/plugins/loginapi/token.service.js',
+    '@/plugins/webapi/subscribtion.service.js',
     '@/plugins/webapi/web.api.js',
     '@/plugins/loginapi/login.api.js',
     '@/plugins/graphql/apollo-client.js',

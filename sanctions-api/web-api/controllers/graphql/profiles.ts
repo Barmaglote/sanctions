@@ -25,7 +25,7 @@ export async function GetProfile(userId: String, currentUserId: String) {
 
 export async function AddProfile(nickname: String, userId: String) {
 
-  if (!nickname || !userId || !userId) {
+  if (!nickname || !userId) {
     return EMPTY_PROFILE
   }
 
@@ -33,11 +33,11 @@ export async function AddProfile(nickname: String, userId: String) {
   userId = userId.trim()
 
   let profile = await ProfileModel.findOne({ nickname })
-  if (profile && profile.userId?.trim() === userId) {
+  if (profile && profile.userId === userId) {
     return profile
   }
 
-  if (profile && profile.userId?.trim() !== userId) {
+  if (profile && profile.userId !== userId) {
     throw new GraphQLError('Profile name is occupied already')
   }
 
