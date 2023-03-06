@@ -1,0 +1,3 @@
+query GetSubscribersTotal($reputationObjectId: String!) {
+  getSubscribersTotal(reputationObjectId: $reputationObjectId)
+}

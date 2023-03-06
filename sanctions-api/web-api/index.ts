@@ -23,7 +23,7 @@ import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
-import { UpdateSubscribtion, IsSubscribed } from './controllers/graphql/subscribtions.js';
+import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal } from './controllers/graphql/subscribtions.js';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -49,6 +49,7 @@ const queriesDefs = `#graphql
     dislikes(reputationObjectId: String!): Int,
     likesFeed(userId: String!, page: Int): [Like],
     isSubscribed(userId: String!, reputationObjectId: String!): Boolean
+    getSubscribersTotal(reputationObjectId: String!): Int
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -76,7 +77,8 @@ const resolvers = {
       likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
       likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page),
-      isSubscribed: (_, { userId, reputationObjectId } ) => IsSubscribed(userId, reputationObjectId)
+      isSubscribed: (_, { userId, reputationObjectId } ) => IsSubscribed(userId, reputationObjectId),
+      getSubscribersTotal: (_, { reputationObjectId } ) => GetSubscribersTotal(reputationObjectId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),

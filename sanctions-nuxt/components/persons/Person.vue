@@ -17,6 +17,7 @@
 	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
           </div>
           <div class="flex justify-content-center"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
+          <bg-subcribers-total :reputation-object-id="person._id"></bg-subcribers-total>
         </div>
         <div class="col-10 flex justify-content-start">
 	        <div class="person-list-detail">
@@ -76,6 +77,7 @@ import Skeleton from 'primevue/skeleton';
 import ImagePreview from 'primevue/imagepreview';
 import CommentInfo from '@/components/comments/CommentInfo.vue';
 import SubcribeButton from '@/components/subcribes/SubcribeButton.vue';
+import SubscribersTotal from '@/components/subcribes/SubscribersTotal.vue';
 
 export default {
 	components: { Rating,
@@ -84,6 +86,7 @@ export default {
     Skeleton,
     ImagePreview,
     'bg-subcribe-button': SubcribeButton,
+    'bg-subcribers-total': SubscribersTotal,
     'bg-comment-info': CommentInfo },
 	setup({ tags }){
     const tagHelper = ref(null)

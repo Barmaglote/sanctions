@@ -2,10 +2,17 @@ import { GraphQLError } from 'graphql'
 import ProfileModel from '../../models/profiles/model.js'
 import { SubscribtionInput } from '../../models/profiles/subscribtionInput.js'
 
-const EMPTY_SUBSCRIBTION = {
-  nickname: null,
-  userId: null,
-  info: null
+export async function GetSubscribersTotal(reputationObjectId: String) {
+
+  if (!reputationObjectId) {
+    throw new GraphQLError('Reputation objetst is not found');  
+  }
+
+  console.log(reputationObjectId)
+
+  const amount = await ProfileModel.count({ "subscribtions.objectId": reputationObjectId })
+
+  return amount;
 }
 
 export async function IsSubscribed(userId: String, reputationObjectId: String) {
@@ -19,7 +26,7 @@ export async function IsSubscribed(userId: String, reputationObjectId: String) {
   return profile.subscribtions.some(s => s.objectId === reputationObjectId);
 }
 
-export async function UpdateSubscribtion(subscribtionInput, currentUserId: string) {
+export async function UpdateSubscribtion(subscribtionInput: SubscribtionInput, currentUserId: string) {
   if (!subscribtionInput || !subscribtionInput.userId || !subscribtionInput.reputationObjectId || !subscribtionInput.reputationObjectType) {
     return false
   }
@@ -34,13 +41,11 @@ export async function UpdateSubscribtion(subscribtionInput, currentUserId: strin
     throw new GraphQLError('Profile is not exits. Create profile before.')
   }
 
-  if (!profile.subscribtions || profile.subscribtions.length === 0) {
+  if (profile.subscribtions == null || profile.subscribtions.length === 0) {
     profile.subscribtions = []
   }
 
   let result = false; 
-
-  console.log(subscribtionInput.reputationObjectId);
 
   if (profile.subscribtions.some(x => x.objectId === subscribtionInput.reputationObjectId)) {
     profile.subscribtions = profile.subscribtions.filter(x => x.objectId !== subscribtionInput.reputationObjectId);
