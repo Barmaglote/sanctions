@@ -76,8 +76,8 @@ import CountryFlag from 'vue-country-flag'
 import Skeleton from 'primevue/skeleton';
 import ImagePreview from 'primevue/imagepreview';
 import CommentInfo from '@/components/comments/CommentInfo.vue';
-import SubcribeButton from '@/components/subcribes/SubcribeButton.vue';
-import SubscribersTotal from '@/components/subcribes/SubscribersTotal.vue';
+import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
+import SubscribersTotal from '@/components/subscribes/SubscribersTotal.vue';
 
 export default {
 	components: { Rating,

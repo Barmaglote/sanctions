@@ -1,0 +1,20 @@
+query GetSubscribtions($userId: String!) {
+  getSubscribtions(userId: $userId) {
+    objectId
+    objectType
+    reputationObject {
+      ... on Organization {
+        _id
+        description
+        titleeng
+        foto
+      }
+      ... on Person {
+        _id
+        titleeng
+        description
+        foto
+      }
+    }
+  }
+}

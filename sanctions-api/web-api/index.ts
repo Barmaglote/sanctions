@@ -18,12 +18,12 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
 import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
-import { GetReputationObject } from './controllers/graphql/reputation.js'
+import { GetReputationObject, GetReputationObjectForSubscribtion } from './controllers/graphql/reputation.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
-import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal } from './controllers/graphql/subscribtions.js';
+import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal, GetSubscribtions } from './controllers/graphql/subscribtions.js';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -50,6 +50,7 @@ const queriesDefs = `#graphql
     likesFeed(userId: String!, page: Int): [Like],
     isSubscribed(userId: String!, reputationObjectId: String!): Boolean
     getSubscribersTotal(reputationObjectId: String!): Int
+    getSubscribtions(userId: String!): [Subscribtion]
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -78,7 +79,8 @@ const resolvers = {
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
       likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page),
       isSubscribed: (_, { userId, reputationObjectId } ) => IsSubscribed(userId, reputationObjectId),
-      getSubscribersTotal: (_, { reputationObjectId } ) => GetSubscribersTotal(reputationObjectId)
+      getSubscribersTotal: (_, { reputationObjectId } ) => GetSubscribersTotal(reputationObjectId),
+      getSubscribtions: (_, { userId, lazyLoadEvent } ) => GetSubscribtions(userId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
@@ -98,8 +100,17 @@ const resolvers = {
       comments: ComputeComments,
       author: ComputeAuthor
     },
+    Subscribtion: {
+      reputationObject: GetReputationObjectForSubscribtion
+    },
     Like: {
       reputationObject: GetReputationObject
+    },
+    ReputationObjects: {
+      __resolveType: obj => {
+        if (obj.gender) return "Person";
+        return "Organization";
+      }
     },
     CommentOrOrganizationOrPersons: {
       __resolveType: obj => {

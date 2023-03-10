@@ -8,13 +8,10 @@
 		        <bg-likes-feed :user-id="id || userid" v-if="(id || userid) != null"/>
 	        </TabPanel>
 	        <TabPanel header="Comments">
-            <bg-comments-feed
-              class="my-1"
-              :user-id="id || userid">
-            </bg-comments-feed>
+            <bg-comments-feed class="my-1" :user-id="id || userid"></bg-comments-feed>
 	        </TabPanel>
-	        <TabPanel header="Subscribtion">
-		        Content II
+	        <TabPanel header="Subscribtions">
+		        <bg-subscribtions-feed class="my-1" :user-id="id || userid"></bg-subscribtions-feed>
 	        </TabPanel>
         </TabView>
       </div>
@@ -31,6 +28,7 @@
   import TabPanel from 'primevue/tabpanel'
   import LikesFeed from '@/components/user/LikesFeed.vue'
   import CommentsFeed from '~/components/user/CommentsFeed.vue'
+  import SubscribtionsFeed from '~/components/user/SubcribtionsFeed.vue'
 
   export default {
     head() {
@@ -55,6 +53,7 @@
       'bg-user-header': Header,
       'bg-likes-feed': LikesFeed,
       'bg-comments-feed': CommentsFeed,
+      'bg-subscribtions-feed': SubscribtionsFeed,
       TabView, TabPanel
     }
   }

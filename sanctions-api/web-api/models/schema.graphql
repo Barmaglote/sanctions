@@ -89,6 +89,7 @@ type Organization {
 }
 
 union CommentOrOrganizationOrPersons = Comment | Organization | Person
+union ReputationObjects = Organization | Person
 
 input Filters {
     tags: [String]
@@ -123,6 +124,12 @@ type LikeFeed {
     authorId: String!
     isPositive: Boolean
     reputationObjectType: REPUTATION_OBJECT_TYPE 
+}
+
+type Subscribtion {
+    objectId: String! 
+    objectType: String!
+    reputationObject: ReputationObjects
 }
 
 input SubscribtionInput {

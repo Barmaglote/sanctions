@@ -5,14 +5,23 @@ import { SubscribtionInput } from '../../models/profiles/subscribtionInput.js'
 export async function GetSubscribersTotal(reputationObjectId: String) {
 
   if (!reputationObjectId) {
-    throw new GraphQLError('Reputation objetst is not found');  
+    throw new GraphQLError('Reputation object is not found');  
   }
-
-  console.log(reputationObjectId)
 
   const amount = await ProfileModel.count({ "subscribtions.objectId": reputationObjectId })
 
   return amount;
+}
+
+export async function GetSubscribtions(userId: String) {
+
+  if (!userId) {
+    throw new GraphQLError('User id is not found')  
+  }
+
+  const profile = await ProfileModel.findOne({ userId })
+
+  return profile === null ? [] : profile.subscribtions
 }
 
 export async function IsSubscribed(userId: String, reputationObjectId: String) {

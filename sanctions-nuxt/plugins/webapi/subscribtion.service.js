@@ -1,5 +1,6 @@
 import SUBSCRIBTION_UPDATE_MUTATION from '@/queries/subscribtions.update';
 import SUBSCRIBTION_IS_SUBSCRIBED_QUERY from '@/queries/subscribtions';
+import SUBSCRIBTION_SUBSCRIBTIONS_QUERY from '@/queries/subscribtions.get';
 import SUBSCRIBTION_SUBSCRIBERS_TOTAL_QUERY from '@/queries/subscribtions.total';
 
 export default ({ app }, inject) => {
@@ -38,6 +39,20 @@ export default ({ app }, inject) => {
     const { data } = await app.apolloProvider.defaultClient.query({
         query: SUBSCRIBTION_SUBSCRIBERS_TOTAL_QUERY,
         variables: { reputationObjectId },
+        context: {
+            headers: {
+                Authorization: app.$auth.strategy.token.get()
+            }
+        }
+    });
+
+    return { data };
+  });
+
+  inject('getSubscribtions', async (userId) => {
+    const { data } = await app.apolloProvider.defaultClient.query({
+        query: SUBSCRIBTION_SUBSCRIBTIONS_QUERY,
+        variables: { userId },
         context: {
             headers: {
                 Authorization: app.$auth.strategy.token.get()

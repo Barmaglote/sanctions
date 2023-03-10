@@ -1,6 +1,6 @@
 <template>
   <div class="flex" v-if="state.isSubscribed !== null">
-    <ToggleButton v-if="isLogged" v-model="state.isSubscribed" @click="updateSubscribtion(reputationObjectId, reputationObjectType)" :disabled="!isLogged" onLabel="Unsubscribe" offLabel="Subscribe" onIcon="pi pi-check" offIcon="pi pi-times">
+    <ToggleButton class="w-full" v-if="isLogged" v-model="state.isSubscribed" @click="updateSubscribtion(reputationObjectId, reputationObjectType)" :disabled="!isLogged" onLabel="Unread" offLabel="Read" onIcon="pi pi-check" offIcon="pi pi-times">
     </ToggleButton>
   </div>
 </template>
