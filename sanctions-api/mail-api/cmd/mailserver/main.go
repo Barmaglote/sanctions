@@ -4,6 +4,7 @@ import (
 	"barmaglote/mail-api/internal/app/mailserver"
 	"flag"
 	"log"
+	"sync"
 
 	"github.com/BurntSushi/toml"
 	"github.com/joho/godotenv"
@@ -21,7 +22,11 @@ func init() {
 }
 
 func main() {
+	log.Println("Mail server is starting")
 	flag.Parse()
+
+	httpServerExitDone := &sync.WaitGroup{}
+	httpServerExitDone.Add(1)
 
 	config := mailserver.NewConfig()
 	_, err := toml.DecodeFile(configPath, config)
@@ -31,7 +36,16 @@ func main() {
 	}
 
 	s := mailserver.New(config)
-	if err := s.Start(); err != nil {
-		log.Fatal(err)
+	defer stop(s)
+
+	if err := s.Start(httpServerExitDone); err != nil {
+		log.Println("Error during start")
 	}
+
+	httpServerExitDone.Wait()
+}
+
+func stop(s *mailserver.MailServer) {
+	s.Stop()
+	log.Println("Mail server is stopped")
 }

@@ -61,7 +61,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sanctions-api/mail-api/start.cmd",
       "cwd": "${workspaceFolder}/sanctions-api/mail-api",
-      "console": "integratedTerminal",
+      "console": "externalTerminal",
       "env": {}
     },
     {

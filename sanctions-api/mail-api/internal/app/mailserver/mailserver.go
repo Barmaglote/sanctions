@@ -50,21 +50,26 @@ type MailServer struct {
 	tmpls       map[string]*template.Template
 	tmplsConfig map[string]*TemplateConfig
 	env         *EnvConfig
+	instance    *http.Server
 }
 
 func New(config *Config) *MailServer {
+	router := gin.Default()
+
 	return &MailServer{
 		config:      config,
 		logger:      logrus.New(),
-		router:      gin.Default(),
+		router:      router,
 		queue:       make(chan *Msg, config.MailBufferSize),
 		tmpls:       map[string]*template.Template{},
 		tmplsConfig: map[string]*TemplateConfig{},
 		env:         NewEnv(),
+		instance:    &http.Server{Addr: config.BindAddr, Handler: router},
 	}
 }
 
-func (s *MailServer) Start() error {
+func (s *MailServer) Start(wg *sync.WaitGroup) error {
+
 	if err := s.configureLogger(); err != nil {
 		return err
 	}
@@ -77,9 +82,18 @@ func (s *MailServer) Start() error {
 		return err
 	}
 
-	s.logger.WithField("application", "mailapi").Info("Mail server is starting")
+	go func() {
+		defer wg.Done()
+		s.logger.WithField("application", "mailapi").Info("Mail server is starting")
+		if err := s.instance.ListenAndServe(); err != http.ErrServerClosed {
+			s.logger.WithField("application", "mailapi").Info("Mail server is unable to start")
+			s.instance.Close()
+		}
 
-	return http.ListenAndServe(s.config.BindAddr, s.router)
+		s.logger.WithField("application", "mailapi").Info("Mail server is started")
+	}()
+
+	return nil
 }
 
 func (s *MailServer) configureLogger() error {
@@ -148,6 +162,16 @@ func sendMessage(s *MailServer) gin.HandlerFunc {
 		}
 		c.String(200, "Success")
 	}
+}
+
+func (s *MailServer) Stop() {
+	s.logger.WithField("application", "mailapi").Info("Server has recieved signal to stop")
+	if err := s.instance.Close(); err != nil {
+		s.logger.WithField("application", "mailapi").Error("Server is unable to close connections")
+	}
+
+	notify(s.queue, s)
+	close(s.queue)
 }
 
 func notify(c chan *Msg, s *MailServer) {
