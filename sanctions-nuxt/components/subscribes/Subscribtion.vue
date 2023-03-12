@@ -5,7 +5,10 @@
       <Avatar v-if="!subscribtion?.reputationObject?.foto" icon="pi pi-user" size="large" shape="circle"/>
     </div>
     <div class="col-8 flex flex-wrap">
-      <div class="text-lg w-full">{{ subscribtion.reputationObject?.titleeng }}</div>
+      <div class="text-lg w-full">
+        <nuxt-link class="font-semibold underline" :to="{ path: `/reputation/${subscribtion.objectType === 'per' ? 'person' : 'organization'}/${subscribtion?.reputationObject?._id}` }">
+          {{ subscribtion.reputationObject?.titleeng }}
+        </nuxt-link></div>
       <div class="text-sm w-full">{{ subscribtion.reputationObject?.description }}</div>
     </div>
     <div class="col-3">
