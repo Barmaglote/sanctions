@@ -41,9 +41,6 @@
           if (result?.data?.getSubscribtions === null || result?.data?.getSubscribtions.length === 0) { return }
 
           items.value = [...items.value, ...JSON.parse(JSON.stringify(result.data.getSubscribtions))]
-
-          console.log(items);
-
         }).catch(e => {
           console.log(e)
         }).finally(x => {

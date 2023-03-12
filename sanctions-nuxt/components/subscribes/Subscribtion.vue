@@ -1,12 +1,12 @@
 <template>
   <div class="m-0 grid w-full">
-    <div class="col-2">
+    <div class="col-1">
       <Avatar v-if="subscribtion?.reputationObject?.foto" size="large" shape="circle" :image="`${WEB_STATIC_FILES}/fotos/sanctions/${subscribtion.objectType === 'per' ? 'persons' : 'organizations'}/${subscribtion?.reputationObject?.foto}`"/>
       <Avatar v-if="!subscribtion?.reputationObject?.foto" icon="pi pi-user" size="large" shape="circle"/>
     </div>
-    <div class="col-7 flex flex-wrap">
-      <div class="text-lg">{{ subscribtion.reputationObject?.titleeng }}</div>
-      <div class="text-sm">{{ subscribtion.reputationObject?.description }}</div>
+    <div class="col-8 flex flex-wrap">
+      <div class="text-lg w-full">{{ subscribtion.reputationObject?.titleeng }}</div>
+      <div class="text-sm w-full">{{ subscribtion.reputationObject?.description }}</div>
     </div>
     <div class="col-3">
       <bg-subcribe-button class="ml-2" :reputation-object-id="subscribtion.reputationObject._id" :reputation-object-type="subscribtion.objectType"></bg-subcribe-button>

@@ -1,7 +1,7 @@
-<template>          
-    <div class="p-0 p-text-center p-flex justify-content-center">
-      <bg-confirmation :token="token"/>
-    </div>                            
+<template>
+    <div class="p-0 p-text-center p-flex justify-content-center card-container_horizontal_center">
+      <bg-confirmation :token="token" class="shadow-1"/>
+    </div>
 </template>
 
 <script>
@@ -29,7 +29,7 @@
         return route.value.query.token
       })
 
-      return { token } 
+      return { token }
     },
     layout: 'auth',
     components: { 'bg-confirmation': PasswordConfirmation },
@@ -38,6 +38,6 @@
 
 <style>
 .surface-ground {
-  display: flex;  
+  display: flex;
 }
 </style>

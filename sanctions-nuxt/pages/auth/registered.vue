@@ -1,7 +1,7 @@
-<template>          
-    <div class="p-0 p-text-center p-flex justify-content-center">
-        <bg-registered/>
-    </div>                            
+<template>
+    <div class="p-0 p-text-center p-flex justify-content-center card-container_horizontal_center">
+        <bg-registered class="shadow-1"/>
+    </div>
 </template>
 
 <script>
