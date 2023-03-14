@@ -1,5 +1,6 @@
 query GetOrganizations($lazyLoadEvent: LazyLoadEvent) {
   organizations(lazyLoadEvent: $lazyLoadEvent) {
+    _id
     description
     foto
     rating

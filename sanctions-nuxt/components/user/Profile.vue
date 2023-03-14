@@ -4,8 +4,8 @@
       <bg-create-profile :store="store"/>
     </div>
     <div v-if="profile?.userId" class="h-full">
-      <TabMenu :model="items" :activeIndex.sync="active"/>
-      <div class="p-grid h-full py-3">
+      <TabMenu :model="items" :activeIndex.sync="active" class="fixed w-full"/>
+      <div class="p-grid h-full py-7">
         <div class="col-6 col-offset-3 surface-0 p-5 card_shadow">
           <bg-personal v-if="active === 1"></bg-personal>
           <bg-setting v-if="active === 2"></bg-setting>

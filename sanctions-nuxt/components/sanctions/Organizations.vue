@@ -13,21 +13,30 @@
 		   </template>
 
 		   <template #list="slotProps">
-			   <div class="col-12">
-				   <div class="element-list-item flex flex-wrap">
-					   <img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps.data.foto}`" class="photo-list" :alt="slotProps.data.titleeng"/>
-					   <img v-else src="/fotos/firma.png" :alt="slotProps.data.titleeng" class="photo-list photo-default"/>
-					   <div class="element-list-detail">
-						   <div class="element-name">{{slotProps.data.titleeng}}</div>
-						   <div class="element-name-rus">{{slotProps.data.titlerus}}</div>
-						   <div class="element-description">{{slotProps.data.description}}</div>
-						   <Rating v-model="slotProps.data.rating" :readonly="true" :cancel="false"></Rating>
-						   <i class="pi pi-tag element-category-icon"></i><span class="element-category">{{getTagNames(slotProps.data.tag)}}</span>
-					   </div>
-					   <div class="element-list-action">
-					   </div>
-				   </div>
-			   </div>
+				  <div class="flex w-full">
+            <div class="col-1 flex flex-wrap justify-content-center align-items-center">
+					   <img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps.data.foto}`" class="photo-list max-w-5rem max-h-5rem" :alt="slotProps.data.titleeng"/>
+					   <img v-else src="/fotos/firma.png" :alt="slotProps.data.titleeng" class="photo-list photo-default max-w-5rem max-h-5rem"/>
+            </div>
+            <div class="col-11">
+					    <div class="element-list-detail w-full">
+                <div class="flex w-full">
+                  <div class="col-10">
+						        <div class="element-name">{{slotProps.data.titleeng}}</div>
+						        <div class="element-name-rus">{{slotProps.data.titlerus}}</div>
+                  </div>
+                  <div class="col-2">
+                    <bg-subscribe-button class="ml-2" :reputation-object-id="slotProps.data._id" :reputation-object-type="'org'"></bg-subscribe-button>
+                  </div>
+                </div>
+                <div class="col-12 flex flex-wrap w-full flex-column">
+						      <div class="element-description">{{slotProps.data.description}}</div>
+						      <div><Rating v-model="slotProps.data.rating" :readonly="true" :cancel="false"></Rating></div>
+                  <div><i class="pi pi-tag element-category-icon"></i><span class="element-category">{{getTagNames(slotProps.data.tag)}}</span></div>
+                </div>
+					    </div>
+            </div>
+				  </div>
 		   </template>
 
 		   <template #grid="slotProps">
@@ -67,9 +76,12 @@
   import { computed, onMounted, ref, watch } from 'vue'
   import TagHelper from '@/models/tag.helper'
   import { useContext } from '@nuxtjs/composition-api'
+  import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
 
   export default {
-	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender },
+	  components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender,
+      'bg-subscribe-button': SubcribeButton
+    },
     props: {
       search: {
         type: String,

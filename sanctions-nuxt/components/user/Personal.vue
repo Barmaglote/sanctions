@@ -1,7 +1,53 @@
 <template>
     <div class="flex-column">
       <h2>Personal</h2>
-      <Divider align="left"><h4>Info</h4></Divider>
+      <Divider align="left"><h4>Age & Education</h4></Divider>
+      <div class="flex">
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">My birthday</div>
+          <div><Calendar v-model="profile.birthday" :inline="false"/></div>
+        </div>
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">My education</div>
+          <div><bg-education-selector class="w-15rem h-3rem align-items-center" v-model="profile.education"></bg-education-selector></div>
+        </div>
+      </div>
+      <Divider align="left"><h4>Family</h4></Divider>
+      <div class="flex">
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Marital status</div>
+          <div><bg-marital-status-selector v-model="profile.marital"></bg-marital-status-selector></div>
+        </div>
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Children</div>
+          <div class="w-full p-2"><bg-children-selector v-model="profile.children"></bg-children-selector></div>
+        </div>
+      </div>
+      <Divider align="left"><h4>Work</h4></Divider>
+      <div class="flex">
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Position</div>
+          <div><bg-work-position-selector v-model="profile.workposition"></bg-work-position-selector></div>
+        </div>
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Work status</div>
+          <div class="w-full p-2"><bg-work-status-selector v-model="profile.marital"></bg-work-status-selector></div>
+        </div>
+      </div>
+      <Divider align="left"><h4>Area & Income</h4></Divider>
+      <div class="flex">
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Polulation of my area</div>
+          <div><bg-place-selector></bg-place-selector></div>
+        </div>
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">I belongs to</div>
+          <div><bg-income-selector></bg-income-selector></div>
+        </div>
+      </div>
+      <Divider align="left"><h4>Race & Info</h4></Divider>
+      <div class="w-full py-1">Race</div>
+      <bg-race-selector></bg-race-selector>
       <div class="w-full py-1">I discribe myself as</div>
       <Textarea v-model="profile.info" :autoResize="true" rows="5" cols="30" class="border-blue-500 w-full"/>
       <Divider align="left"><h4>Country & Location</h4></Divider>
@@ -28,6 +74,17 @@
       </div>
       <Divider align="left"><h4>Interests</h4></Divider>
       <bg-interests-selector></bg-interests-selector>
+      <Divider align="left"><h4>Religion & Politics</h4></Divider>
+      <div class="flex">
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Religion</div>
+          <div class="w-full p-2"><bg-religion-selector></bg-religion-selector></div>
+        </div>
+        <div class="col-6 flex flex-wrap">
+          <div class="w-full py-1">Political preferences</div>
+          <div class="w-full py-2"><bg-political-orientation-selector></bg-political-orientation-selector></div>
+        </div>
+      </div>
       <Divider></Divider>
       <div class="flex justify-content-end flex-wrap py-2">
         <Button label="Save" class="p-button-info" @click="update()"/>
@@ -45,7 +102,18 @@
   import CountrySelector from '../core/CountrySelector.vue';
   import SexSelector from '../core/SexSelector.vue';
   import SexOrientationSelector from '../core/SexOrientationSelector.vue';
+  import ReligionSelector from '../core/ReligionSelector.vue';
   import InterestsSelector from '../core/InterestsSelector.vue';
+  import PoliticalOrientationSelector from '../core/PoliticalOrientationSelector.vue';
+  import EducationSelector from '../core/EducationSelector.vue';
+  import PlaceSelector from '../core/PlaceSelector.vue';
+  import IncomeSelector from '../core/IncomeSelector.vue';
+  import Calendar from 'primevue/calendar';
+  import MaritalStatusSelector from '../core/MaritalStatusSelector.vue';
+  import WorkStatusSelector from '../core/WorkStatusSelector.vue';
+  import ChildrenSelector from '../core/ChildrenSelector.vue';
+  import WorkPositionSelector from '../core/WorkPositionSelector.vue';
+  import RaceSelector from '../core/RaceSelector.vue';
 
   export default {
     setup() {
@@ -67,11 +135,21 @@
 
       return { profile, profileStore, update }
     },
-    components: { Button, Textarea, Divider,
+    components: { Button, Textarea, Divider, Calendar,
       'bg-country-selector': CountrySelector,
       'bg-sex-selector': SexSelector,
       'bg-sex-orientation-selector': SexOrientationSelector,
-      'bg-interests-selector': InterestsSelector
+      'bg-interests-selector': InterestsSelector,
+      'bg-religion-selector': ReligionSelector,
+      'bg-political-orientation-selector': PoliticalOrientationSelector,
+      'bg-education-selector': EducationSelector,
+      'bg-place-selector': PlaceSelector,
+      'bg-income-selector': IncomeSelector,
+      'bg-marital-status-selector': MaritalStatusSelector,
+      'bg-work-status-selector': WorkStatusSelector,
+      'bg-children-selector': ChildrenSelector,
+      'bg-work-position-selector': WorkPositionSelector,
+      'bg-race-selector': RaceSelector
     },
   }
 </script>

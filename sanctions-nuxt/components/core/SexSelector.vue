@@ -9,7 +9,7 @@
       <label for="sex2" class="my-0">Female</label>
     </div>
     <div class="field-radiobutton flex align-items-center">
-      <RadioButton inputId="sex2" name="sex" value="3" v-model="sex" />
+      <RadioButton inputId="sex3" name="sex" value="3" v-model="sex" />
       <label for="sex3" class="my-0">Non-binary</label>
     </div>
   </div>
