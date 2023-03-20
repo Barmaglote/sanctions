@@ -1,5 +1,5 @@
 <template>
-  <Dropdown v-model="childValue" :options="options" optionLabel="name" placeholder="Select" @change="$emit('input', childValue?.code)"/>
+  <Dropdown v-model="childValue" :options="options" optionLabel="name" :placeholder="placeholder" @change="$emit('input', childValue?.code)"/>
 </template>
 
 <script>
@@ -7,18 +7,10 @@ import Dropdown from 'primevue/dropdown';
 import { onMounted, ref } from 'vue';
 
 export default {
-  setup({value}) {
+  setup({value, values, placeholder}) {
 
     let childValue = ref(null);
-    const options = ref([
-      {name: 'Poor', code: 'i0'},
-  		{name: 'Low-middle', code: 'i1'},
-  		{name: 'Middle', code: 'i2'},
-  		{name: 'Upper-middle', code: 'i3'},
-  		{name: 'Rich', code: 'i4'},
-    ]);
-
-    const placeholder = ref("Select");
+    const options = ref(values);
 
     onMounted(( ) => {
       if (!value) { return }
@@ -33,6 +25,14 @@ export default {
     value: {
       type: String,
       default: null
+    },
+    placeholder: {
+      type: String,
+      default: null
+    },
+    values: {
+      type: Array,
+      default: []
     }
   },
   components: {

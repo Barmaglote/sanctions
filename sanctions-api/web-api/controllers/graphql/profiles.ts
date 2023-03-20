@@ -73,9 +73,9 @@ export async function UpdateProfile(profile: Profile, currentUserId: String) {
   userId = userId.trim().toLowerCase()
   info = sanitizer.sanitize(info)
   const filter = { userId }
-  const update = { info, nickname }
+  ///const update = { info, nickname }
 
-  profile = await ProfileModel.findOneAndUpdate(filter, update, { new: true })
+  profile = await ProfileModel.findOneAndUpdate(filter, profile, { new: true })
 
   return profile || EMPTY_PROFILE  
 }

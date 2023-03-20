@@ -31,45 +31,45 @@
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Work status</div>
-          <div class="w-full p-2"><bg-work-status-selector v-model="profile.marital"></bg-work-status-selector></div>
+          <div class="w-full p-2"><bg-work-status-selector v-model="profile.work"></bg-work-status-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Area & Income</h4></Divider>
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Polulation of my area</div>
-          <div><bg-place-selector></bg-place-selector></div>
+          <div><bg-place-selector v-model="profile.place"></bg-place-selector></div>
         </div>
         <div class="col-6 flex flex-wrap">
-          <div class="w-full py-1">I belongs to</div>
-          <div><bg-income-selector></bg-income-selector></div>
+          <div class="w-full py-1">I belong to</div>
+          <div><bg-income-selector v-model="profile.income"></bg-income-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Race & Info</h4></Divider>
       <div class="w-full py-1">Race</div>
-      <bg-race-selector></bg-race-selector>
+      <bg-race-selector v-model="profile.race" class="p-2"></bg-race-selector>
       <div class="w-full py-1">I discribe myself as</div>
       <Textarea v-model="profile.info" :autoResize="true" rows="5" cols="30" class="border-blue-500 w-full"/>
       <Divider align="left"><h4>Country & Location</h4></Divider>
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My citizenship</div>
-          <div><bg-country-selector class="w-15rem h-3rem align-items-center"></bg-country-selector></div>
+          <div><bg-country-selector class="w-15rem h-3rem align-items-center" v-model="profile.citizenship"></bg-country-selector></div>
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My current location</div>
-          <div><bg-country-selector class="w-15rem h-3rem align-items-center"></bg-country-selector></div>
+          <div><bg-country-selector class="w-15rem h-3rem align-items-center" v-model="profile.location"></bg-country-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Sex & Orientation</h4></Divider>
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Sex</div>
-          <div class="w-full p-2"><bg-sex-selector></bg-sex-selector></div>
+          <div class="w-full p-2"><bg-sex-selector v-model="profile.gender"></bg-sex-selector></div>
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Orientation</div>
-          <div class="w-full p-2"><bg-sex-orientation-selector></bg-sex-orientation-selector></div>
+          <div class="w-full p-2"><bg-sex-orientation-selector v-model="profile.orientation"></bg-sex-orientation-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Interests</h4></Divider>
@@ -78,11 +78,11 @@
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Religion</div>
-          <div class="w-full p-2"><bg-religion-selector></bg-religion-selector></div>
+          <div class="w-full p-2"><bg-religion-selector v-model="profile.religion"></bg-religion-selector></div>
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Political preferences</div>
-          <div class="w-full py-2"><bg-political-orientation-selector></bg-political-orientation-selector></div>
+          <div class="w-full py-2"><bg-political-orientation-selector v-model="profile.politicalstand"></bg-political-orientation-selector></div>
         </div>
       </div>
       <Divider></Divider>
@@ -129,8 +129,46 @@
       });
 
       const update = async () => {
-        const { info, userId, nickname } = profile.value
-        await profileStore.updateProfile({ info, userId, nickname }, ctx)
+        const {
+          info,
+          userId,
+          nickname,
+          education,
+          marital,
+          children,
+          workposition,
+          work,
+          place,
+          income,
+          race,
+          citizenship,
+          location,
+          gender,
+          orientation,
+          religion,
+          politicalstand
+
+        } = profile.value
+
+        await profileStore.updateProfile({
+          info,
+          userId,
+          nickname,
+          education,
+          marital,
+          children,
+          workposition,
+          work,
+          place,
+          income,
+          race,
+          citizenship,
+          location,
+          gender,
+          orientation,
+          religion,
+          politicalstand
+        }, ctx)
       }
 
       return { profile, profileStore, update }

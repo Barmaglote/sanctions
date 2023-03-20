@@ -80,7 +80,7 @@ const resolvers = {
       likesFeed: (_, { userId, page } ) => GetLikesFeed(userId, page),
       isSubscribed: (_, { userId, reputationObjectId } ) => IsSubscribed(userId, reputationObjectId),
       getSubscribersTotal: (_, { reputationObjectId } ) => GetSubscribersTotal(reputationObjectId),
-      getSubscribtions: (_, { userId, lazyLoadEvent } ) => GetSubscribtions(userId)
+      getSubscribtions: (_, { userId } ) => GetSubscribtions(userId)
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),

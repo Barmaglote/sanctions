@@ -3,5 +3,20 @@ mutation UpdateProfile($profile: ProfileInput!) {
     userId
     nickname
     info
+    education
+    marital
+    children
+    workposition
+    work
+    place
+    income
+    race
+    citizenship
+    location
+    gender
+    orientation
+    religion
+    politicalstand
+    __typename
   }
 }

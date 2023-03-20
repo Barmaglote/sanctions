@@ -8,7 +8,15 @@ export const useProfileStore = defineStore("profile", {
         info: null,
         nickname: null,
         _id: null,
-        userId: null
+        userId: null,
+        education: null,
+        children: null,
+        marital: null,
+        workposition: null,
+        work: null,
+        place: null,
+        income: null,
+        race: null
       }
     }
   },

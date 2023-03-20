@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-import { useContext } from '@nuxtjs/composition-api'
 
 export const useTagsStore = defineStore("tags", {
     state: () => {
@@ -27,6 +26,6 @@ export const useTagsStore = defineStore("tags", {
         },
         Selected: (state) => {
             return state.selected
-        }    
+        }
     },
 })

@@ -104,12 +104,6 @@ input LazyLoadEvent {
     rows: Int!
 }
 
-type Profile {
-    userId: String
-    nickname: String
-    info: String
-}
-
 type Like {
     reputationObjectId: String!
     authorId: String!
@@ -138,12 +132,6 @@ input SubscribtionInput {
     userId: String!
 }
 
-input ProfileInput {
-    userId: String
-    nickname: String
-    info: String
-}
-
 input CommentInput {
     comment: String!
     reputationObjectId: String!
@@ -164,12 +152,128 @@ type Mutation {
   updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
 }
 
+type Profile {
+    userId: String
+    nickname: String
+    info: String
+    education: EDUCATION_TYPE
+    marital: MARITAL_STATUS
+    children: CHILDREN_STATUS
+    workposition: WORK_POSITION
+    work: WORK_STATUS
+    place: PLACE_STATUS
+    income: INCOME_STATUS    
+    race: RACE
+}
+
+input ProfileInput {
+    userId: String
+    nickname: String
+    info: String
+    education: EDUCATION_TYPE
+    marital: MARITAL_STATUS
+    children: CHILDREN_STATUS
+    workposition: WORK_POSITION
+    work: WORK_STATUS
+    place: PLACE_STATUS
+    income: INCOME_STATUS
+    race: RACE
+    citizenship: COUNTRY
+    location: COUNTRY
+    gender: GENDER_OPTION
+    orientation: ORIENTATION_OPTION
+    religion: RELIGION_OPTION
+    politicalstand: POLITICAL_STAND_OPTION
+}
+
 enum REPUTATION_OBJECT_TYPE {
     org #organization
     per #person
     com #comment
     pos #post
 }
+
+enum EDUCATION_TYPE {
+    non #No formal education
+    prm #Primary education
+    snd #Secondary education or high school 
+    ged #GED
+    voc #Vocational qualification
+    bsc #Bachelor's degree 
+    msc #Master's degree
+    phd #Doctorate or higher
+}
+
+enum MARITAL_STATUS {
+    s   #Single
+    m   #Married
+    d   #Divorced/Separated
+    w   #Widowed
+    c   #Common-Law/Live-in
+}
+
+enum WORK_POSITION {
+    int #Intern
+    spc #Specialist
+    led #Lead/Senior specialist
+    man #Manager
+    top #Top-manager
+    own #Business owner 
+}
+
+enum WORK_STATUS {
+    non #None
+    prt #Part-time
+    ful #Full-time 
+}
+
+enum CHILDREN_STATUS {
+    c0   #0
+    c1   #1
+    c2   #2+
+}
+
+enum PLACE_STATUS {
+    p0   #Less 1000
+    p1   #1 001 - 10 0000
+    p2   #10 001 - 100 000
+    p3   #100 001 - 1 000 000
+    p4   #1 000 001 - 10 000 000
+    p5   #10 000 001+
+}
+
+enum INCOME_STATUS {
+    i0   #Poor
+    i1   #Low-middle
+    i2   #Middle
+    i3   #Upper-Middle
+    i4   #Rich
+}
+
+enum RACE {
+    asn   #Asian
+    blk   #Black
+    lat   #Latinos
+    red   #Red
+    wht   #White
+    met   #Metisdock
+}
+
+enum GENDER_OPTION {
+
+}
+
+enum ORIENTATION_OPTION {
+    
+}
+
+enum RELIGION_OPTION {
+    
+}
+
+enum POLITICAL_STAND_OPTION {
+    
+}  
 
 enum COUNTRY {
     AT

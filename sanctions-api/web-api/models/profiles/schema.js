@@ -11,6 +11,90 @@ const profileSchema = new mongoose.Schema({
     minlength: 5,
     unique: true
   },
+  education: {
+    type: String,
+    required: false,
+    enum: ['non', 'prm', 'snd', 'ged', 'voc', 'bcs', 'msc', 'phd'],
+    default: null    
+  },
+  marital: {
+    type: String,
+    required: false,
+    enum: ['s', 'm', 'd', 'w', 'c'],
+    default: null
+  },
+  children: {
+    type: String,
+    required: false,
+    enum: ['c0', 'c1', 'c2'],
+    default: null
+  },
+  workposition: {
+    type: String,
+    required: false,
+    enum: ['int', 'spc', 'led', 'man', 'top', 'own'],
+    default: null
+  },  
+  work: {
+    type: String,
+    required: false,
+    enum: ['non', 'prt', 'ful'],
+    default: null
+  },
+  place: {
+    type: String,
+    required: false,
+    enum: ['p0', 'p1', 'p2', 'p3', 'p4', 'p5'],
+    default: null
+  },
+  income: {
+    type: String,
+    required: false,
+    enum: ['i0', 'i1', 'i2', 'i3', 'i4'],
+    default: null
+  },
+  race: {
+    type: String,
+    required: false,
+    enum: ['asn', 'blk', 'wht', 'red', 'lat', 'met'],
+    default: null
+  },  
+  citizenship: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },    
+  location: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },    
+  gender: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },    
+  orientation: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },    
+  religion: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },
+  politicalstand: {
+    type: String,
+    required: false,
+    enum: [],
+    default: null
+  },        
   nickname: {
     type: String,
     required: true,

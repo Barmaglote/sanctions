@@ -1,23 +1,40 @@
 <template>
-  <Dropdown v-model="position" :options="positions" optionLabel="name" placeholder="Select position" @change="$emit('input', position?.code)"/>
+  <Dropdown v-model="childValue" :options="options" optionLabel="name" :placeholder="placeholder" @change="$emit('input', childValue?.code)"/>
 </template>
 
 <script>
 import Dropdown from 'primevue/dropdown';
+import { onMounted, ref } from 'vue';
 
 export default {
-  data() {
-  	return {
-  		position: null,
-  		positions: [
-  			{name: 'Intern', code: '0'},
-  			{name: 'Specialist', code: '1'},
-  			{name: 'Lead/Senior specialist', code: '2'},
-  			{name: 'Manager', code: '3'},
-  			{name: 'Top-manager', code: '4'},
-        {name: 'Business owner', code: '5'},
-  		]
-  	}
+  setup({value}) {
+
+    let childValue = ref(null);
+    const options = ref([
+      {name: 'Intern', code: 'int'},
+  		{name: 'Specialist', code: 'spc'},
+  		{name: 'Lead/Senior specialist', code: 'led'},
+  		{name: 'Manager', code: 'man'},
+  		{name: 'Top-manager', code: 'top'},
+      {name: 'Business owner', code: 'own'},
+    ]);
+
+    const placeholder = ref("Select");
+
+    onMounted(( ) => {
+      if (!value) { return }
+      const founded = options.value.filter((x) => x.code === value);
+      if (founded && founded.length > 0) {
+        childValue.value = founded[0];
+      }
+    });
+    return { options, childValue, placeholder }
+  },
+  props: {
+    value: {
+      type: String,
+      default: null
+    }
   },
   components: {
     Dropdown
