@@ -1,6 +1,7 @@
 mutation UpdateProfile($profile: ProfileInput!) {
   updateProfile (profile: $profile) {
     userId
+    birthday
     nickname
     info
     education
@@ -17,6 +18,7 @@ mutation UpdateProfile($profile: ProfileInput!) {
     orientation
     religion
     politicalstand
+    interests
     __typename
   }
 }

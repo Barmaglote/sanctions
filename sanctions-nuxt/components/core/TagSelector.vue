@@ -1,6 +1,6 @@
 <template>
-    <div v-if="nodes.length > 0">    
-        <Tree :value="nodes" selectionMode="checkbox" :selectionKeys.sync="selectedKeys" @node-select="onNodeSelect" @node-unselect="onNodeUnselect"></Tree>
+    <div v-if="nodes.length > 0">
+        <Tree :value="nodes" selectionMode="checkbox" :selectionKeys.sync="selectedKeys" @node-select="onNodeSelect" @node-unselect="onNodeUnselect" ></Tree>
     </div>
 </template>
 
@@ -18,18 +18,18 @@ export default {
         const onNodeSelect = (node) => {
             if (node.children) {
                 node.children.forEach(item => {
-                    tagsStore.addSelectedTag(item);    
-                });                
+                    tagsStore.addSelectedTag(item);
+                });
             } else {
                 tagsStore.addSelectedTag(node);
-            }            
+            }
         }
 
         const onNodeUnselect = (node) => {
             if (node.children) {
                 node.children.forEach(item => {
-                    tagsStore.deleteSelectedTag(item);    
-                });                
+                    tagsStore.deleteSelectedTag(item);
+                });
             } else {
                 tagsStore.deleteSelectedTag(node);
             }
@@ -44,7 +44,7 @@ export default {
             items: {
                 type: [],
                 default: () => [],
-        }, 
+        },
     }
 }
 </script>

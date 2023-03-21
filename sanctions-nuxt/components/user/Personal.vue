@@ -5,11 +5,14 @@
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My birthday</div>
-          <div><Calendar v-model="profile.birthday" :inline="false"/></div>
+          <div>
+            <Calendar v-model="birthday" :inline="false" :showButtonBar="true" :showIcon="true" :showTime="false" :timeOnly="false" class="w-auto align-items-center">
+            </Calendar>
+          </div>
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My education</div>
-          <div><bg-education-selector class="w-15rem h-3rem align-items-center" v-model="profile.education"></bg-education-selector></div>
+          <div><bg-education-selector class="w-7rem align-items-center" v-model="profile.education"></bg-education-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Family</h4></Divider>
@@ -54,11 +57,11 @@
       <div class="flex">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My citizenship</div>
-          <div><bg-country-selector class="w-15rem h-3rem align-items-center" v-model="profile.citizenship"></bg-country-selector></div>
+          <div><bg-country-selector class="w-12rem h-3rem align-items-center" v-model="profile.citizenship"></bg-country-selector></div>
         </div>
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My current location</div>
-          <div><bg-country-selector class="w-15rem h-3rem align-items-center" v-model="profile.location"></bg-country-selector></div>
+          <div><bg-country-selector class="w-12rem h-3rem align-items-center" v-model="profile.location"></bg-country-selector></div>
         </div>
       </div>
       <Divider align="left"><h4>Sex & Orientation</h4></Divider>
@@ -73,7 +76,7 @@
         </div>
       </div>
       <Divider align="left"><h4>Interests</h4></Divider>
-      <bg-interests-selector></bg-interests-selector>
+      <bg-interests-selector v-model="profile.interests"></bg-interests-selector>
       <Divider align="left"><h4>Religion & Politics</h4></Divider>
       <div class="flex">
         <div class="col-6 flex flex-wrap">
@@ -95,7 +98,7 @@
 <script>
   import Button from 'primevue/button'
   import { useProfileStore } from '@/store/profiles'
-  import { computed, onMounted } from 'vue';
+  import { computed, onMounted, watch, ref } from 'vue';
   import { useContext } from '@nuxtjs/composition-api'
   import Textarea from 'primevue/textarea'
   import Divider from 'primevue/divider';
@@ -118,14 +121,23 @@
   export default {
     setup() {
       const profileStore = useProfileStore()
+      const { $toast } = useContext()
+      const birthday = ref(null)
 
       const profile = computed(() => {
+        if (profileStore?.Profile && !birthday.value) {
+          birthday.value = profileStore?.Profile.birthday && (new Date(profileStore?.Profile.birthday))?.toLocaleDateString()
+        }
 			  return profileStore?.Profile;
 		  })
+
+
 
       let ctx = null;
       onMounted(() => {
         ctx = useContext()
+        console.log(profile.birthday)
+        birthday.value = profile?.birthday && (new Date(profile?.birthday))?.toLocaleDateString()
       });
 
       const update = async () => {
@@ -146,13 +158,14 @@
           gender,
           orientation,
           religion,
-          politicalstand
-
+          politicalstand,
+          interests
         } = profile.value
 
         await profileStore.updateProfile({
           info,
           userId,
+          birthday: birthday.value,
           nickname,
           education,
           marital,
@@ -167,11 +180,18 @@
           gender,
           orientation,
           religion,
-          politicalstand
+          politicalstand,
+          interests
         }, ctx)
+
+        $toast.success('Your profile is updated')
       }
 
-      return { profile, profileStore, update }
+      watch(profile, (newValue, oldValue) => {
+        birthday.value = newValue?.birthday && (new Date(newValue?.birthday))?.toLocaleDateString()
+      })
+
+      return { profile, profileStore, update, birthday }
     },
     components: { Button, Textarea, Divider, Calendar,
       'bg-country-selector': CountrySelector,

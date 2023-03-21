@@ -1,3 +1,5 @@
+scalar Date
+
 enum LINK_TYPE {
     youtube
     charity
@@ -164,7 +166,17 @@ type Profile {
     place: PLACE_STATUS
     income: INCOME_STATUS    
     race: RACE
+    citizenship: COUNTRY
+    location: COUNTRY
+    gender: GENDER_OPTION
+    orientation: ORIENTATION_OPTION
+    religion: RELIGION_OPTION    
+    politicalstand: POLITICAL_STAND_OPTION
+    interests: [String]
+    birthday: Date
 }
+
+
 
 input ProfileInput {
     userId: String
@@ -184,6 +196,8 @@ input ProfileInput {
     orientation: ORIENTATION_OPTION
     religion: RELIGION_OPTION
     politicalstand: POLITICAL_STAND_OPTION
+    interests: [String]
+    birthday: Date
 }
 
 enum REPUTATION_OBJECT_TYPE {
@@ -260,20 +274,32 @@ enum RACE {
 }
 
 enum GENDER_OPTION {
-
+    mal #Male
+    fem #Female    
+    nbi #Non-binary
 }
 
 enum ORIENTATION_OPTION {
-    
+    srt #Straight
+    lgb #LGBTQ+
 }
 
 enum RELIGION_OPTION {
-    
+    ath #Atheist
+    agn #Agnostic
+    mus #Muslim
+    chr #Christian
+    bud #Buddist
+    oth #Other
 }
 
 enum POLITICAL_STAND_OPTION {
-    
-}  
+    fl  #Far left
+    lf  #Left
+    ct  #Center
+    rt  #Right
+    fr  #Far right
+}
 
 enum COUNTRY {
     AT

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { countries } from '../countries.js';
 
 const NICKNAME = /^[a-z]{1}[a-z\d]{3,25}$/i
 const INFO = /^[\w\s\d]{0,250}$/i
@@ -10,6 +11,10 @@ const profileSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
     unique: true
+  },
+  birthday: {
+    type : Date, 
+    default: null
   },
   education: {
     type: String,
@@ -62,13 +67,13 @@ const profileSchema = new mongoose.Schema({
   citizenship: {
     type: String,
     required: false,
-    enum: [],
+    enum: countries,
     default: null
   },    
   location: {
     type: String,
     required: false,
-    enum: [],
+    enum: countries,
     default: null
   },    
   gender: {
@@ -80,21 +85,26 @@ const profileSchema = new mongoose.Schema({
   orientation: {
     type: String,
     required: false,
-    enum: [],
+    enum: ['srt', 'lgb'],
     default: null
   },    
   religion: {
     type: String,
     required: false,
-    enum: [],
+    enum: ['ath','agn','mus','chr','bud','oth'],
     default: null
   },
   politicalstand: {
     type: String,
     required: false,
-    enum: [],
+    enum: ['fl','lf','ct','rt','fr'],
     default: null
   },        
+  interests: {
+    type: [String],
+    validator: (tag) => tag && tag.length >= 2 && tag.length <= 30,
+    maxlength: 30
+  },
   nickname: {
     type: String,
     required: true,
