@@ -136,7 +136,6 @@
       let ctx = null;
       onMounted(() => {
         ctx = useContext()
-        console.log(profile.birthday)
         birthday.value = profile?.birthday && (new Date(profile?.birthday))?.toLocaleDateString()
       });
 

@@ -10,6 +10,7 @@
           <bg-personal v-if="active === 1"></bg-personal>
           <bg-setting v-if="active === 2"></bg-setting>
           <bg-security v-if="active === 3"></bg-security>
+          <bg-finance v-if="active === 4"></bg-finance>
         </div>
       </div>
     </div>
@@ -21,6 +22,7 @@ import TabMenu from 'primevue/tabmenu';
 import Personal from '~/components/user/Personal.vue';
 import Settings from '@/components/user/Settings.vue';
 import Security from '@/components/user/Security.vue';
+import Finance from '@/components/user/Finance.vue';
 import CreateProfile from '@/components/user/CreateProfile.vue'
 import { useProfileStore } from '@/store/profiles';
 import { ref, onMounted, computed } from 'vue';
@@ -46,7 +48,8 @@ export default {
       {label: 'Home', icon: 'pi pi-fw pi-home', to: '/'},
       {label: 'Personal', icon: 'pi pi-fw pi-user'},
       {label: 'Settings', icon: 'pi pi-fw pi-cog'},
-      {label: 'Security', icon: 'pi pi-fw pi-shield'}
+      {label: 'Security', icon: 'pi pi-fw pi-shield'},
+      {label: 'Finance', icon: 'pi pi-fw pi-dollar'}
     ]
     return { items, active, profile, 'store': profilesStore }
   },
@@ -54,6 +57,7 @@ export default {
     'bg-personal': Personal,
     'bg-setting': Settings,
     'bg-security': Security,
+    'bg-finance': Finance,
     'bg-create-profile': CreateProfile
   }
 }
