@@ -2,7 +2,7 @@
     <div class="flex-column">
       <h2>Personal</h2>
       <Divider align="left"><h4>Age & Education</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My birthday</div>
           <div>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <Divider align="left"><h4>Family</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Marital status</div>
           <div><bg-marital-status-selector v-model="profile.marital"></bg-marital-status-selector></div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <Divider align="left"><h4>Work</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Position</div>
           <div><bg-work-position-selector v-model="profile.workposition"></bg-work-position-selector></div>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <Divider align="left"><h4>Area & Income</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Polulation of my area</div>
           <div><bg-place-selector v-model="profile.place"></bg-place-selector></div>
@@ -49,12 +49,15 @@
         </div>
       </div>
       <Divider align="left"><h4>Race & Info</h4></Divider>
-      <div class="w-full py-1">Race</div>
-      <bg-race-selector v-model="profile.race" class="p-2"></bg-race-selector>
-      <div class="w-full py-1">I discribe myself as</div>
-      <Textarea v-model="profile.info" :autoResize="true" rows="5" cols="30" class="border-blue-500 w-full"/>
+      <div class="flex flex-wrap px-2">
+        <div class="w-full py-1">Race</div>
+        <bg-race-selector v-model="profile.race" class="p-2"></bg-race-selector>
+        <div class="w-full py-1">I discribe myself as</div>
+        <Textarea v-model="profile.info" :autoResize="true" rows="5" cols="30" class="border-blue-500 w-full"/>
+      </div>
+
       <Divider align="left"><h4>Country & Location</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">My citizenship</div>
           <div><bg-country-selector class="w-12rem h-3rem align-items-center" v-model="profile.citizenship"></bg-country-selector></div>
@@ -65,7 +68,7 @@
         </div>
       </div>
       <Divider align="left"><h4>Sex & Orientation</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Sex</div>
           <div class="w-full p-2"><bg-sex-selector v-model="profile.gender"></bg-sex-selector></div>
@@ -78,7 +81,7 @@
       <Divider align="left"><h4>Interests</h4></Divider>
       <bg-interests-selector v-model="profile.interests"></bg-interests-selector>
       <Divider align="left"><h4>Religion & Politics</h4></Divider>
-      <div class="flex">
+      <div class="flex px-2">
         <div class="col-6 flex flex-wrap">
           <div class="w-full py-1">Religion</div>
           <div class="w-full p-2"><bg-religion-selector v-model="profile.religion"></bg-religion-selector></div>
