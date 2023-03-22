@@ -1,6 +1,6 @@
 <template>
     <div>
-	    <bg-menu/>
+	    <bg-menu class="shadow-1"/>
       <main>
         <Nuxt/>
       </main>
