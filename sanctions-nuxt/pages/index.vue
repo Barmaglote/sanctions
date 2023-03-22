@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-nogutter bg-text-800 p-0">
+  <div class="grid grid-nogutter p-0 bg-white">
     <div class="col-2 sticky border-right-1 border-none border-solid border-300 flex justify-content-end p-3">
         <div class="fixed w-10rem">
           <Button label="Home" class="p-button-link" icon="pi pi-home"/>

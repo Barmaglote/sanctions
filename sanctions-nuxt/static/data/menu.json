@@ -2,7 +2,7 @@
     "data": [
         {
            "label":"Sanctions",
-           "icon":"pi pi-fw pi-circle", 
+           "icon":"pi pi-fw pi-circle",
            "items":[
               {
                  "label":"Persons",
@@ -34,7 +34,7 @@
                "label":"Telegram",
                "icon":"pi pi-fw pi-caret-right",
                "to": "/media/telegram"
-            }            
+            }
             ]
         },
         {
@@ -43,11 +43,16 @@
          "to": "/links/charity"
          },
          {
+          "label":"About",
+          "icon":"pi pi-fw pi-circle",
+          "to": "/about"
+          },
+         {
           "label":"Navalny",
           "icon":"pi pi-fw pi-circle",
           "to": "/navalny"
-          }         
-     ]      
+          }
+     ]
 }
 
 
