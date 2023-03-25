@@ -1,14 +1,14 @@
 <template>
-  <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">        
+  <div class="surface-ground px-1 py-1 md:px-1 lg:px-2">
     <div class="lg:col-3 md:col-3">
       <div class="tags-card" v-if="tags && tags.length > 0">
         <bg-tag-selector :items="tags"/>
       </div>
-    </div>                        
+    </div>
     <div class="lg:col-9 md:col-9 col-12">
-        <bg-organizations :search="search"/>
-    </div>                            
-  </div>              
+        <bg-organizations :search="search" class="shadow-1"/>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,7 +18,7 @@
   import { computed } from 'vue'
   import TAGS_QUERY from '@/queries/tags.gql'
 
-  export default {  
+  export default {
     apollo: {
       tags: {
         prefetch: true,
@@ -27,7 +27,7 @@
           return { area: "organizations" }
         }
       }
-    },        
+    },
     head() {
       return {
         title: process.env.SITE_TITLE + " | Sanctions: Organizations",
@@ -39,10 +39,10 @@
           }
         ]
       }
-	  },     
-    components: { 
-      'bg-organizations': Organizations, 
-      'bg-tag-selector':TagSelector 
+	  },
+    components: {
+      'bg-organizations': Organizations,
+      'bg-tag-selector':TagSelector
     },
     setup() {
       const route = useRoute()
@@ -55,19 +55,19 @@
 
 <style>
   .surface-ground {
-    display: flex;  
+    display: flex;
   }
-  
-  .tags-card {	
+
+  .tags-card {
       position: fixed;
       width: inherit;
       padding: 0 1.5em 0 0 !important;
   }
-  
+
   @media screen and (max-width: 576px) {
-  .tags-card {	
+  .tags-card {
       display: none;
     }
   }
-  
+
   </style>

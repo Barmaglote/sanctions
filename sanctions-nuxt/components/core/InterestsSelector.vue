@@ -2,12 +2,12 @@
   <div class="flex flex-wrap w-full">
     <div>
       <div class="p-inputgroup">
-        <InputText placeholder="Keyword" v-model="tag" :disable="items?.length >= MAX_ARRAY_LENGTH"/>
-        <Button icon="pi pi-plus" class="p-button-warning" label="Add" @click="addItem();$emit('input', items)"/>
+        <InputText placeholder="Keyword" v-model="tag" :disabled="items?.length >= maxArrayLength"/>
+        <Button icon="pi pi-plus" class="p-button-warning" label="Add" :disabled="items?.length >= maxArrayLength" @click="addItem();$emit('input', items)"/>
       </div>
     </div>
     <div class="w-full py-3">
-      <Chip v-for="item, i in items" :key="i" :label="item" class="mr-2 mb-2" removable @remove="remove(item);$emit('input', items)"/>
+      <Chip v-for="item, i in items" :key="item" :label="item" class="mr-2 mb-2" removable @remove="remove(item);$emit('input', items)"/>
     </div>
   </div>
 </template>
@@ -19,11 +19,9 @@
   import Chip from 'primevue/chip';
 
   export default {
-    setup({value}){
+    setup({value, maxArrayLength, maxTagLength}){
 
       const MIN_TAG_LENGTH = 2;
-      const MAX_TAG_LENGTH = 30;
-      const MAX_ARRAY_LENGTH = 30;
 
       const items = ref([])
       const tag = ref(null)
@@ -33,7 +31,11 @@
       });
 
       const addItem = () => {
-        if (!tag?.value || tag?.value?.length > MAX_TAG_LENGTH || tag?.value?.length < MIN_TAG_LENGTH) {
+        if (items?.length >= maxArrayLength) {
+          return;
+        }
+
+        if (!tag?.value || tag?.value?.length > maxTagLength || tag?.value?.length < MIN_TAG_LENGTH) {
           return;
         }
 
@@ -54,10 +56,11 @@
           return;
         }
 
-        items.value = items?.value.filter(x => x !== item)
+
+        items.value = items?.value.filter(x => x != item)
       }
 
-      return { items, addItem, tag, remove, MAX_ARRAY_LENGTH }
+      return { items, addItem, tag, remove, maxArrayLength }
     },
     components: {
       InputText, Button, Chip
@@ -66,6 +69,14 @@
       value: {
         type: [],
         default: []
+      },
+      maxArrayLength: {
+        type: Number,
+        default: 30
+      },
+      maxTagLength: {
+        type: Number,
+        default: 20
       }
     },
   }

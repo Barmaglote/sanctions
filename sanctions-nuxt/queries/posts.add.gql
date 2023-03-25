@@ -1,0 +1,8 @@
+mutation Mutation($postInput: PostInput!) {
+  addPost(postInput: $postInput) {
+    post
+    createdAt
+    authorId
+    tags
+  }
+}

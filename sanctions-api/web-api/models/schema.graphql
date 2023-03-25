@@ -152,6 +152,19 @@ type Mutation {
   addComment(commentInput: CommentInput!): Comment
   addLike(likeInput: LikeInput!): Like
   updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
+  addPost(postInput: PostInput!): Post
+}
+
+type Post {
+    authorId: String
+    post: String
+    tags: [String]
+    createdAt: DateTime
+}
+
+input PostInput {
+    post: String
+    tags: [String]
 }
 
 type Profile {
@@ -175,8 +188,6 @@ type Profile {
     interests: [String]
     birthday: Date
 }
-
-
 
 input ProfileInput {
     userId: String

@@ -57,6 +57,7 @@ export default {
     '@/plugins/local/menu.service.js',
     '@/plugins/webapi/links.service.js',
     '@/plugins/webapi/persons.service.js',
+    '@/plugins/webapi/posts.service.js',
     '@/plugins/webapi/tags.service.js',
     '@/plugins/webapi/organizations.service.js',
     '@/plugins/loginapi/auth.service.js',
@@ -66,7 +67,8 @@ export default {
     '@/plugins/loginapi/login.api.js',
     '@/plugins/graphql/apollo-client.js',
     '@/plugins/filters/numbers.js',
-    '@/plugins/filters/dates.js'
+    '@/plugins/filters/dates.js',
+    /*{src: '@/plugins/editors/quill.js', ssr: false}*/
     /*'~/plugins/graphql/fetch-types.js'*/ /* run it to get new types list for GraphQL*/
   ],
 
@@ -184,7 +186,7 @@ export default {
         type: 'javascript/auto',
       })
     },
-    postcss: null,
+    postcss: null
   },
 
   apollo: {

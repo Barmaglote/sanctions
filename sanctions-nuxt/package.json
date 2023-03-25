@@ -36,6 +36,7 @@
     "primeflex": "^3.3.0",
     "primeicons": "^5.0.0",
     "primevue": "^2.10.0",
+    "quill": "^1.3.7",
     "vue": "^2.7.14",
     "vue-country-flag": "^2.3.2",
     "vue-material-design-icons": "^5.2.0",

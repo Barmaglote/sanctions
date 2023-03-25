@@ -24,6 +24,7 @@ import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuth
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
 import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal, GetSubscribtions } from './controllers/graphql/subscribtions.js';
+import { AddPost, GetPosts, GetPostsTotal } from './controllers/graphql/posts.js'
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -42,15 +43,17 @@ const queriesDefs = `#graphql
     organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int
     profile(nickname: String): Profile        
     person(_id: String!): Person
-    comments(reputationObjectId: String!, lazyLoadEvent: LazyLoadEvent): [Comment],
-    commentsTotal(reputationObjectId: String!): Int,
-    like(reputationObjectId: String!): Like,
-    likes(reputationObjectId: String!): Int,
-    dislikes(reputationObjectId: String!): Int,
-    likesFeed(userId: String!, page: Int): [Like],
+    comments(reputationObjectId: String!, lazyLoadEvent: LazyLoadEvent): [Comment]
+    commentsTotal(reputationObjectId: String!): Int
+    like(reputationObjectId: String!): Like
+    likes(reputationObjectId: String!): Int
+    dislikes(reputationObjectId: String!): Int
+    likesFeed(userId: String!, page: Int): [Like]
     isSubscribed(userId: String!, reputationObjectId: String!): Boolean
     getSubscribersTotal(reputationObjectId: String!): Int
     getSubscribtions(userId: String!): [Subscribtion]
+    posts(userId: String): [Post]
+    postsTotal(authorId: String): Int
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -58,6 +61,7 @@ const queriesDefs = `#graphql
     addComment(commentInput: CommentInput!): Comment
     addLike(likeInput: LikeInput!): Like
     updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
+    addPost(postInput: PostInput!): Post
   }
 `;
 
@@ -67,6 +71,7 @@ const resolvers = {
       links: (_, { type }) => GetLinks(type),      
       tags: (_, { area }) => GetTags(area),
       persons: (_, { lazyLoadEvent }) => GetPersons(lazyLoadEvent),
+      posts: (_, { authorId, lazyLoadEvent }) => GetPosts(authorId, lazyLoadEvent),
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
@@ -74,6 +79,7 @@ const resolvers = {
       person: (_, { _id } ) => GetPerson(_id),
       comments: (_, { reputationObjectId, lazyLoadEvent } ) => GetComments(reputationObjectId, lazyLoadEvent),
       commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),
+      postsTotal: (_, { authorId } ) => GetPostsTotal(authorId),      
       like: (_, { reputationObjectId }, { user } ) => GetLike(reputationObjectId, user?.id),
       likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
@@ -84,6 +90,7 @@ const resolvers = {
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
+      addPost: (_, { postInput }, { user }) => AddPost(user?.id, postInput.post, postInput.tags),      
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
       addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType),
