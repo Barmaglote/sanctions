@@ -1,5 +1,7 @@
 mutation Mutation($postInput: PostInput!) {
   addPost(postInput: $postInput) {
+    title
+    preview
     post
     createdAt
     authorId

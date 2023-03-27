@@ -4,7 +4,7 @@ import getUserById from '../external/users.js'
 
 const STANDARD_PAGE = 50
 
-export async function GetPosts(authorId: string, lazyLoadEvent = null) {
+export async function GetPosts(authorId: string, lazyLoadEvent: any = null) {
   const { first, rows } = lazyLoadEvent || { first: 0, rows: STANDARD_PAGE }
   if (authorId) {
     return await PostsModel.find({authorId}).sort({'createdAt': -1}).skip(first).limit(rows)
@@ -13,7 +13,7 @@ export async function GetPosts(authorId: string, lazyLoadEvent = null) {
   }
 }
 
-export async function GetPostsTotal(authorId: string) {
+export async function GetPostsTotal(authorId: string, lazyLoadEvent: any = null) {
   if (authorId)  {
     return await PostsModel.count({authorId});
   } else {
@@ -21,9 +21,9 @@ export async function GetPostsTotal(authorId: string) {
   }
 }
 
-export async function AddPost(authorId: string, post: string, tags: string[]) {
+export async function AddPost(authorId: string, title: string, preview: string, post: string, tags: string[]) {
 
-  if (!authorId || !post) {
+  if (!authorId || !post || !title || !preview ) {
     throw new GraphQLError('Nothing to add')
   }
 
@@ -34,7 +34,7 @@ export async function AddPost(authorId: string, post: string, tags: string[]) {
 
   try {
     var createdAt = new Date()
-    posts = await PostsModel.create({ authorId, post, tags, createdAt: createdAt.toISOString() })
+    posts = await PostsModel.create({ authorId, title, preview, post, tags, createdAt: createdAt.toISOString() })
     await posts.save()
   } catch (error) {
     throw new GraphQLError('Unable to add post')

@@ -1,0 +1,11 @@
+query GetPosts($authorId: String, $lazyLoadEvent: LazyLoadEvent) {
+  posts(authorId: $authorId, lazyLoadEvent: $lazyLoadEvent) {
+    post
+    preview
+    tags
+    title
+    createdAt
+    authorId
+  }
+  postsTotal(authorId: $authorId, lazyLoadEvent: $lazyLoadEvent)
+}

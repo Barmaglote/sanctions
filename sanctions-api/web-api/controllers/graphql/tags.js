@@ -7,7 +7,7 @@ export async function GetTags(area) {
   if (ALLOWED.indexOf(area) < 0) {
     throw new GraphQLError('Unsupported tag area', {
       extensions: {
-        code: 'BAD_USER_INPUT',
+        code: 'BAD_TAG_FILTER_INPUT',
       },
     })
   }

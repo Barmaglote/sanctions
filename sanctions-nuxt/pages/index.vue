@@ -31,7 +31,7 @@
                 <h1>Persons</h1>
                 <bg-persons class="shadow-1"></bg-persons>
               </template>
-              <template v-if="area === 'organizations' ">
+              <template v-if="area === 'organizations'">
                 <h1>Organizations</h1>
                 <bg-organizations class="shadow-1"></bg-organizations>
               </template>
@@ -41,7 +41,7 @@
               </template>
               <template v-if="area === 'post'">
                 <h1>Post</h1>
-                <bg-post class="shadow-1" @submit="area = 'posts'"></bg-post>
+                <bg-add-post class="shadow-1" @submit="area = 'posts'"></bg-add-post>
               </template>
             </div>
             <div class="col-3">
@@ -57,7 +57,7 @@
 import Button from 'primevue/button';
 import Divider from 'primevue/divider/Divider';
 import Posts from '~/components/posts/Posts.vue';
-import Post from '~/components/posts/Post.vue';
+import AddPost from '~/components/posts/AddPost.vue';
 import Persons from '~/components/sanctions/Persons.vue';
 import Organizations from '~/components/sanctions/Organizations.vue';
 import { ref, computed } from 'vue';
@@ -75,7 +75,7 @@ export default{
     Button,
     Divider,
     'bg-posts': Posts,
-    'bg-post': Post,
+    'bg-add-post': AddPost,
     'bg-persons': Persons,
     'bg-organizations': Organizations
 },

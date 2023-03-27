@@ -157,13 +157,17 @@ type Mutation {
 
 type Post {
     authorId: String
+    title: String
+    preview: String
     post: String
     tags: [String]
     createdAt: DateTime
 }
 
 input PostInput {
-    post: String
+    title: String!
+    preview: String!
+    post: String!
     tags: [String]
 }
 

@@ -10,6 +10,16 @@ export const postsSchema = new mongoose.Schema({
     required: true,
     maxlength: 10000
   },
+  preview: {
+    type: String,
+    required: true,
+    maxlength: 1000
+  },
+  title: {
+    type: String,
+    required: true,
+    maxlength: 500
+  },
   createdAt: {
     type: Date,
     required: false

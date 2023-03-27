@@ -52,8 +52,8 @@ const queriesDefs = `#graphql
     isSubscribed(userId: String!, reputationObjectId: String!): Boolean
     getSubscribersTotal(reputationObjectId: String!): Int
     getSubscribtions(userId: String!): [Subscribtion]
-    posts(userId: String): [Post]
-    postsTotal(authorId: String): Int
+    posts(authorId: String, lazyLoadEvent: LazyLoadEvent): [Post]
+    postsTotal(authorId: String, lazyLoadEvent: LazyLoadEvent): Int
   }
   type Mutation {
     addProfile(nickname: String): Profile
@@ -72,14 +72,14 @@ const resolvers = {
       tags: (_, { area }) => GetTags(area),
       persons: (_, { lazyLoadEvent }) => GetPersons(lazyLoadEvent),
       posts: (_, { authorId, lazyLoadEvent }) => GetPosts(authorId, lazyLoadEvent),
+      postsTotal: (_, { authorId, lazyLoadEvent } ) => GetPostsTotal(authorId, lazyLoadEvent),
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.id),
       person: (_, { _id } ) => GetPerson(_id),
       comments: (_, { reputationObjectId, lazyLoadEvent } ) => GetComments(reputationObjectId, lazyLoadEvent),
-      commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),
-      postsTotal: (_, { authorId } ) => GetPostsTotal(authorId),      
+      commentsTotal: (_, { reputationObjectId } ) => GetCommentsTotal(reputationObjectId),            
       like: (_, { reputationObjectId }, { user } ) => GetLike(reputationObjectId, user?.id),
       likes: (_, { reputationObjectId } ) => GetLikesByReputationObjectId(reputationObjectId),
       dislikes: (_, { reputationObjectId } ) => GetDislikesByReputationObjectId(reputationObjectId),
@@ -90,7 +90,7 @@ const resolvers = {
     },
     Mutation: {
       addProfile: (_, { nickname }, { user }) => AddProfile(nickname, user?.id),
-      addPost: (_, { postInput }, { user }) => AddPost(user?.id, postInput.post, postInput.tags),      
+      addPost: (_, { postInput }, { user }) => AddPost(user?.id, postInput.title, postInput.preview, postInput.post, postInput.tags),      
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
       addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType),

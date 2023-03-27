@@ -4,23 +4,23 @@
 			<template #header>
         <div class="grid grid-nogutter">
           <div class="lg:col-6" style="text-align: left">
-              <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
+            <Dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Evil" @change="onSortChange($event)"/>
           </div>
           <div class="lg:col-6 view-selector" style="text-align: right;">
-              <DataViewLayoutOptions v-model="layout" />
+            <DataViewLayoutOptions v-model="layout" />
           </div>
         </div>
 			</template>
 
 			<template #list="slotProps">
 				<div class="col-12">
-					<bg-person :person="slotProps.data" view="item"></bg-person>
+					<bg-post :post="slotProps.data" view="item" :isLikingLocked="true"></bg-post>
 				</div>
 			</template>
 
 			<template #grid="slotProps">
-				<nuxt-link :to="{ path: `/reputation/person/${slotProps.data._id}` }" class="col-12 md:col-4">
-					<bg-person :person="slotProps.data" view="card" :isLikingLocked="true"></bg-person>
+				<nuxt-link :to="{ path: `/comments/${slotProps.data._id}` }" class="col-12 md:col-4">
+					<bg-post :person="slotProps.data" view="card" :isLikingLocked="true"></bg-post>
 				</nuxt-link>
 			</template>
 		</DataView>
@@ -32,24 +32,24 @@
   import Rating from 'primevue/rating'
   import Dropdown from 'primevue/dropdown'
   import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
-  import IconGender from "@/components/icons/IconGender.vue"
-  import { useTagsStore } from '@/store/tags'
-  import { computed, onMounted, ref, watch } from 'vue'
-  import TagHelper from '@/models/tag.helper'
+  import { onMounted, ref, watch } from 'vue'
   import { useContext } from '@nuxtjs/composition-api'
-  import Person from "@/components/persons/Person.vue"
+  import Post from "@/components/posts/Post.vue"
 
   export default {
-	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender, 'bg-person': Person },
+	components: { DataView, Rating, Dropdown, DataViewLayoutOptions, 'bg-post': Post },
     props: {
       search: {
         type: String,
         default: null,
+      },
+      authorId: {
+        type: String,
+        default: null
       }
     },
     setup(props) {
-		const { $fetchPersons } = useContext()
-		const tagsStore = useTagsStore();
+		const { $getPosts } = useContext()
 		const sortKey = ref(null)
 		const sortOrder = ref('desc')
 		const sortField = ref('rating')
@@ -68,29 +68,20 @@
     })
 
 		const table = ref(null)
-		const tagHelper = ref(null)
-
 		// TODO: regex against INJECTIONS
 
 		if (props.search) {
 			filters.value.title = props.search
 		}
 
-		const lazyLoadPersons = () => {
+		const lazyLoadPosts = () => {
 			loading.value = true;
-
-			filters.value.tags.value = ''
-			const tags = tagsStore.Selected.map(x => x.key)
-
-			if (tags && tags.length > 0) {
-				filters.value.tags.value = tags;
-			}
-
 			lazyParams.value.filters = filters.value
 
-			$fetchPersons(lazyParams).then(data => {
-				items.value = data.data.result
-				totalRecords.value = data.data.total
+			$getPosts(props.authorId, lazyParams.value).then(data => {
+        console.log(data)
+				items.value = data.data.posts
+				totalRecords.value = data.data.postsTotal
 				loading.value = false
 			})
 		}
@@ -100,7 +91,7 @@
 			lazyParams.value.sortField = sortField.value
 			lazyParams.value.sortOrder = sortOrder.value
 
-      lazyLoadPersons();
+      lazyLoadPosts();
     }
 
 		onMounted(() => {
@@ -112,37 +103,23 @@
         filters: filters.value
       };
 
-			tagHelper.value = new TagHelper(tagsStore.tags)
-			lazyLoadPersons();
+			lazyLoadPosts();
     });
 
     const onSortChange = (event) => {
 		  lazyParams.value.sortOrder = event.value.value
 		  sortOrder.value = event.value.value
-		  lazyLoadPersons();
+		  lazyLoadPosts();
     }
-
-		const getTagNames = (keys) => {
-			return tagHelper.value.getTagNames(keys)
-		}
-
-		const WEB_STATIC_FILES = computed(() => {
-			return process.env.WEB_STATIC_FILES
-		})
-
-		tagsStore.$subscribe(() => {
-			if (loading.value) return;
-			lazyLoadPersons()
-		})
 
 		watch(() => props.search, (newValue, oldValue) => {
       if (newValue != oldValue) {
 				filters.value.title = props.search
-				lazyLoadPersons()
+				lazyLoadPosts()
 			}
     });
 
-		return { items, tagsStore, table, totalRecords, loading, onPage, onSortChange, getTagNames, WEB_STATIC_FILES, sortKey, sortOrder, sortField, layout, sortOptions }
+		return { items, table, totalRecords, loading, onPage, onSortChange, sortKey, sortOrder, sortField, layout, sortOptions }
     },
 	watchQuery: true
   }
@@ -150,6 +127,7 @@
 
 
 <style lang="scss" scoped>
+/*
 .p-dataview-layout-options {
 	box-shadow: none;
 }
@@ -273,6 +251,7 @@
 		}
 	}
 }
+*/
 </style>
 
 
