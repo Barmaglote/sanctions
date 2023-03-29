@@ -16,7 +16,7 @@ export default ({ app }, inject) => {
                     "first": first,
                     "rows": rows,
                     "sortField": sortField,
-                    "sortOrder": sortOrder.toString()
+                    "sortOrder": sortOrder?.toString()
                 }
             }
         });

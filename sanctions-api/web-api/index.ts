@@ -24,7 +24,7 @@ import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuth
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
 import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal, GetSubscribtions } from './controllers/graphql/subscribtions.js';
-import { AddPost, GetPosts, GetPostsTotal } from './controllers/graphql/posts.js'
+import { AddPost, GetPost, GetPosts, GetPostsTotal } from './controllers/graphql/posts.js'
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -53,6 +53,7 @@ const queriesDefs = `#graphql
     getSubscribersTotal(reputationObjectId: String!): Int
     getSubscribtions(userId: String!): [Subscribtion]
     posts(authorId: String, lazyLoadEvent: LazyLoadEvent): [Post]
+    post(_id: String!): Post
     postsTotal(authorId: String, lazyLoadEvent: LazyLoadEvent): Int
   }
   type Mutation {
@@ -72,6 +73,7 @@ const resolvers = {
       tags: (_, { area }) => GetTags(area),
       persons: (_, { lazyLoadEvent }) => GetPersons(lazyLoadEvent),
       posts: (_, { authorId, lazyLoadEvent }) => GetPosts(authorId, lazyLoadEvent),
+      post: (_, { _id }) => GetPost(_id),      
       postsTotal: (_, { authorId, lazyLoadEvent } ) => GetPostsTotal(authorId, lazyLoadEvent),
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
@@ -98,6 +100,9 @@ const resolvers = {
     },
     Person: {
       tags: ComputeTags,
+      commentsTotal: GetCommentsTotalForParent
+    },
+    Post: {
       commentsTotal: GetCommentsTotalForParent
     },
     Organization: {

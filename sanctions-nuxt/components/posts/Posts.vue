@@ -14,7 +14,7 @@
 
 			<template #list="slotProps">
 				<div class="col-12">
-					<bg-post :post="slotProps.data" view="item" :isLikingLocked="true"></bg-post>
+					<bg-post :post="slotProps.data" view="item" :isLikingLocked="true" :view="'preview'"></bg-post>
 				</div>
 			</template>
 

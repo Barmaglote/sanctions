@@ -1,0 +1,12 @@
+query GetPost($_id: String!) {
+  post(_id: $_id) {
+    post
+    preview
+    tags
+    title
+    createdAt
+    authorId
+    _id
+    commentsTotal
+  }
+}

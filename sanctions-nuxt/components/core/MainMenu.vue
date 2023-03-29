@@ -2,9 +2,9 @@
     <div class="menu-bar">
 		<menu-bar :model="items">
 			<template #start>
-                <nuxt-link no-prefetch to="/">
-                    <img alt="logo" src="/fotos/logo.png" height="40" class="mr-1">
-                </nuxt-link>
+        <nuxt-link no-prefetch to="/">
+          <img alt="logo" src="/fotos/logo.png" height="40" class="mr-1">
+        </nuxt-link>
 			</template>
 			<template #end>
         <div class="menu-end-container">

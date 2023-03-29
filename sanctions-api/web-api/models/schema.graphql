@@ -156,12 +156,14 @@ type Mutation {
 }
 
 type Post {
+    _id: String!
     authorId: String
     title: String
     preview: String
     post: String
     tags: [String]
     createdAt: DateTime
+    commentsTotal: Int!
 }
 
 input PostInput {

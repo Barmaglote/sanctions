@@ -6,6 +6,8 @@ query GetPosts($authorId: String, $lazyLoadEvent: LazyLoadEvent) {
     title
     createdAt
     authorId
+    _id
+    commentsTotal
   }
   postsTotal(authorId: $authorId, lazyLoadEvent: $lazyLoadEvent)
 }

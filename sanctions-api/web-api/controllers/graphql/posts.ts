@@ -4,6 +4,10 @@ import getUserById from '../external/users.js'
 
 const STANDARD_PAGE = 50
 
+export async function GetPost(_id) {
+  return await PostsModel.findOne({ _id })
+}
+
 export async function GetPosts(authorId: string, lazyLoadEvent: any = null) {
   const { first, rows } = lazyLoadEvent || { first: 0, rows: STANDARD_PAGE }
   if (authorId) {
