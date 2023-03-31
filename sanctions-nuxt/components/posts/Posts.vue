@@ -79,7 +79,6 @@
 			lazyParams.value.filters = filters.value
 
 			$getPosts(props.authorId, lazyParams.value).then(data => {
-        console.log(data)
 				items.value = data.data.posts
 				totalRecords.value = data.data.postsTotal
 				loading.value = false

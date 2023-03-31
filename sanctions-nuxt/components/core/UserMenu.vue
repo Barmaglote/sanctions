@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SplitButton icon="pi pi-user" class="mx-2 bg-primary border-round" :model="items" @click="goToProfile"></SplitButton>  
+    <SplitButton icon="pi pi-user" class="mx-2 bg-primary border-round" :model="items" @click="goToProfile"></SplitButton>
   </div>
 </template>
 
@@ -46,14 +46,22 @@ export default {
 					}
 				}]
 
-        if ($auth.loggedIn) { 
+        if ($auth.loggedIn) {
           menuItems.push({
 				    label:  'Change password',
 				    icon: 'pi pi-user-edit',
 				    command: () => {
               router.push('/auth/changepassword');
 				    }
-			   })
+			    });
+
+          menuItems.push({
+					  label: 'My page',
+					  icon: 'pi pi-user',
+					  command: () => {
+						  router.push('/user/profiles/'+ $auth.user.id)
+					  }
+			    });
         }
 
         return menuItems
@@ -61,7 +69,7 @@ export default {
 
     const goToProfile = () => {
       router.push('/user/profile')
-    }    
+    }
 
     return { router, items, goToProfile }
   }

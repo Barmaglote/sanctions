@@ -1,16 +1,32 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
     <div class="col-12 md:col-6 md:col-offset-3">
-      <bg-person :person="person" class="border-1 border-300 card p-5 my-1" :tags="tags" :reputation-object-id="id" ></bg-person>
-      <bg-comments
-        :comments="comments"
-        class="border-1 border-300 card p-5 my-1"
-        v-if="comments && comments?.length > 0"
-        :total="commentsTotal"
-        @submit="refetch"
-        :reputation-object-id="id">
-      </bg-comments>
-      <bg-add-comment class="border-1 border-300 card p-5 my-1 pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
+      <bg-person :person="person" class="shadow-1 card p-5 mt-1" :tags="tags" :reputation-object-id="id" ></bg-person>
+      <div class="shadow-1">
+        <TabView>
+	        <TabPanel header="Likes">
+		        <bg-likes-feed :user-id="id" v-if="id"/>
+	        </TabPanel>
+	        <TabPanel header="Comments">
+            <bg-comments
+              :comments="comments"
+              class=""
+              v-if="comments && comments?.length > 0"
+              :total="commentsTotal"
+              @submit="refetch"
+              :reputation-object-id="id">
+            </bg-comments>
+            <bg-add-comment class="border-1 border-300 card p-5 my-1 pt-6" v-if="isLogged" :reputation-object-id="id" @submit="refetch"></bg-add-comment>
+	        </TabPanel>
+	        <TabPanel header="Post">
+            <bg-posts :authorId="id"></bg-posts>
+	        </TabPanel>
+	        <TabPanel header="Subscribtions">
+		        <bg-subscribtions-feed class="my-1" :user-id="id"></bg-subscribtions-feed>
+	        </TabPanel>
+        </TabView>
+      </div>
+
     </div>
   </div>
 </template>
@@ -25,6 +41,11 @@
   import TAGS_QUERY from '@/queries/tags.gql'
   import COMMENTS_QUERY from '@/queries/comments.gql'
   import { useContext } from '@nuxtjs/composition-api'
+  import TabView from 'primevue/tabview'
+  import TabPanel from 'primevue/tabpanel'
+  import LikesFeed from '@/components/user/LikesFeed.vue'
+  import SubscribtionsFeed from '~/components/user/SubcribtionsFeed.vue'
+  import Posts from '~/components/posts/Posts.vue';
 
   export default {
     apollo: {
@@ -86,7 +107,11 @@
     components: {
       'bg-person': Person,
       'bg-comments': Comments,
-      'bg-add-comment': AddComment
+      'bg-add-comment': AddComment,
+      'bg-likes-feed': LikesFeed,
+      'bg-subscribtions-feed': SubscribtionsFeed,
+      'bg-posts': Posts,
+      TabView, TabPanel,
     },
     setup() {
       const route = useRoute()

@@ -1,6 +1,6 @@
 <template>
-    <div style="width: 100%">
-      <div class="card person-list-item mb-1 p-0" v-if="!person?.titleeng">
+    <div class="w-full">
+      <div class="card person-list-item mb-1 p-0 w-full" v-if="!person?.titleeng">
         <div class="col-2 flex justify-content-center">
           <Skeleton shape="circle" size="50px" class="photo-list photo-default" />
         </div>
@@ -10,7 +10,7 @@
           <Skeleton height="4rem" class="mb-2"></Skeleton>
         </div>
       </div>
-      <div class="card person-list-item mb-1 p-0" v-if="person && view === 'item'">
+      <div class="card person-list-item mb-1 p-0 flex" v-if="person && view === 'item'">
         <div class="col-2 flex justify-content-center flex-column">
           <div class="flex justify-content-center">
           <ImagePreview :preview="true" v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"></ImagePreview>
@@ -19,7 +19,7 @@
           <div class="flex justify-content-center"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
           <bg-subcribers-total :reputation-object-id="person._id"></bg-subcribers-total>
         </div>
-        <div class="col-10 flex justify-content-start">
+        <div class="col-10 flex justify-content-start flex-wrap">
 	        <div class="person-list-detail">
             <div class="flex">
               <div class="col-9 px-0 align-content-start">
@@ -46,6 +46,7 @@
 	        </div>
         </div>
       </div>
+
 		  <div class="person-grid-item card"  v-if="person && view !== 'item'">
 		  	<div class="person-grid-item-top">
 		  		<div>
@@ -87,7 +88,8 @@ export default {
     ImagePreview,
     'bg-subcribe-button': SubcribeButton,
     'bg-subcribers-total': SubscribersTotal,
-    'bg-comment-info': CommentInfo },
+    'bg-comment-info': CommentInfo
+  },
 	setup({ tags }){
     const tagHelper = ref(null)
     const tagsStore = useTagsStore()

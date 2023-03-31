@@ -15,7 +15,7 @@
           </div>
           <Divider></Divider>
             <div class="px-3">
-              <Button label="Post" class="p-button w-full" @click="area = 'post'" v-if="isLogged"/>
+              <SplitButton :label="postType" class="w-full" :model="postItems" v-if="isLogged" @click="create()"></SplitButton>
             </div>
         </div>
     </div>
@@ -37,11 +37,16 @@
               </template>
               <template v-if="area === 'events'">
                 <h1>Events</h1>
-
               </template>
-              <template v-if="area === 'post'">
+              <template v-if="area === 'post' && isLogged">
                 <h1>Post</h1>
                 <bg-add-post class="shadow-1" @submit="area = 'posts'"></bg-add-post>
+              </template>
+              <template v-if="area === 'comment' && isLogged">
+                <h1>Comment</h1>
+                <div class="p-4 shadow-2 bg-white">
+                  <bg-add-comment :reputation-object-id="userId" @submit=""></bg-add-comment>
+                </div>
               </template>
             </div>
             <div class="col-3">
@@ -62,6 +67,8 @@ import Persons from '~/components/sanctions/Persons.vue';
 import Organizations from '~/components/sanctions/Organizations.vue';
 import { ref, computed } from 'vue';
 import { useContext } from '@nuxtjs/composition-api'
+import SplitButton from 'primevue/splitbutton';
+import AddComment from '~/components/comments/AddComment.vue';
 
 export default{
   name: 'index',
@@ -69,15 +76,44 @@ export default{
     const area = ref('posts');
     const { $auth } = useContext()
    	const isLogged = computed(() => $auth.loggedIn )
-    return { area, isLogged }
+    const userId = computed(() => $auth.user?.id)
+    const postType = ref('Post');
+
+    const postItems = [
+				{
+					label: 'Post',
+          id: 'Post',
+					icon: 'pi pi-pencil',
+					command: () => {
+            postType.value = 'Post';
+						area.value = 'post'
+					}
+				},
+				{
+					label: 'Comment',
+          id: 'Comment',
+					icon: 'pi pi-pencil',
+					command: () => {
+            postType.value = 'Comment';
+						area.value = 'comment'
+					}
+				}
+    ];
+
+    const create = () => {
+      postItems.filter(x => x.id == postType.value).forEach(x => x.command());
+    }
+
+    return { area, isLogged, postItems, postType, create, userId }
   },
   components: {
     Button,
-    Divider,
+    Divider, SplitButton,
     'bg-posts': Posts,
     'bg-add-post': AddPost,
     'bg-persons': Persons,
-    'bg-organizations': Organizations
+    'bg-organizations': Organizations,
+    'bg-add-comment': AddComment
 },
 }
 </script>

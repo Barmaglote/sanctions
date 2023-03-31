@@ -8,7 +8,6 @@
 			</template>
 			<template #end>
         <div class="menu-end-container">
-          <bg-post-button v-if="isLogged"/>
           <bg-user-menu/>
 		      <bg-search-input/>
         </div>
@@ -23,7 +22,6 @@ import { onMounted, ref, computed } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
 import SearchInput from '@/components/core/SearchInput.vue'
 import UserMenu from '@/components/core/UserMenu.vue';
-import PostButton from '../comments/PostButton.vue';
 
 export default {
     setup() {
@@ -45,8 +43,7 @@ export default {
     components: {
         "menu-bar": Menubar,
         "bg-search-input": SearchInput,
-        "bg-user-menu": UserMenu,
-        "bg-post-button": PostButton
+        "bg-user-menu": UserMenu
     }
 }
 </script>
