@@ -1,1 +1,1 @@
-npm run apollo
+npm run dev

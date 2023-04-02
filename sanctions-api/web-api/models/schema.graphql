@@ -44,6 +44,7 @@ interface ReputationObject {
     foto: String
     country: COUNTRY
     commentsTotal: Int!
+    postsTotal: Int!
 }
 
 type UserInfo {
@@ -75,9 +76,10 @@ type Person implements ReputationObject {
     gender: String
     country: COUNTRY
     commentsTotal: Int!
+    postsTotal: Int!
 }
 
-type Organization {
+type Organization implements ReputationObject {
     _id: String!
     titlerus: String
     titleeng: String!
@@ -88,6 +90,7 @@ type Organization {
     foto: String
     country: COUNTRY
     commentsTotal: Int!
+    postsTotal: Int!
 }
 
 union CommentOrOrganizationOrPersons = Comment | Organization | Person

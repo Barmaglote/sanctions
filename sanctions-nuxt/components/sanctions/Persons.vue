@@ -1,6 +1,6 @@
 <template>
 	<div class="card">
-    	<DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="50" :totalRecords="totalRecords" :loading="loading">
+    <DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="50" :totalRecords="totalRecords" :loading="loading">
 			<template #header>
         <div class="grid grid-nogutter">
           <div class="lg:col-6" style="text-align: left">
@@ -13,7 +13,7 @@
 			</template>
 
 			<template #list="slotProps">
-				<div class="col-12">
+				<div class="flex w-full">
 					<bg-person :person="slotProps.data" view="item"></bg-person>
 				</div>
 			</template>

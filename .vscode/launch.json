@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
       "name": "LOG-SEQ",
       "type": "clr",
@@ -28,6 +29,15 @@
       "console": "externalTerminal",
       "env": {}
     },
+    {
+      "name": "Telemetry-Prometheus",
+      "type": "clr",
+      "request": "launch",
+      "program": "${workspaceFolder}/sanctions-monitor/prometheus/start-prometheus.cmd",
+      "cwd": "${workspaceFolder}/sanctions-monitor/prometheus",
+      "console": "externalTerminal",
+      "env": {}
+    },    
     {
       "name": "API-Login-Rest",
       "type": "clr",
@@ -85,7 +95,8 @@
         "API-Login-gRPC",
         "API-Web",
         "API-Mail",
-        "FRONT-Nuxt"
+        "FRONT-Nuxt",
+        "Telemetry-Prometheus"
       ]
     }
   ]

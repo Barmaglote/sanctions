@@ -17,7 +17,6 @@
 	        <img v-else :src="'/fotos/'+ person.gender + '-user-icon.png'" :alt="person.titleeng" class="photo-list photo-default" />
           </div>
           <div class="flex justify-content-center"><country-flag :country="person.country" size='normal' v-if="person.country"/></div>
-          <bg-subcribers-total :reputation-object-id="person._id"></bg-subcribers-total>
         </div>
         <div class="col-10 flex justify-content-start flex-wrap">
 	        <div class="person-list-detail">
@@ -28,7 +27,7 @@
                 </nuxt-link>
               </div>
               <div class="col-3 px-0 flex justify-content-end">
-                <bg-subcribe-button class="ml-2" :reputation-object-id="person._id" :reputation-object-type="'per'"></bg-subcribe-button>
+                <bg-subscribe-button class="ml-2" :reputation-object-id="person._id" :reputation-object-type="'per'"></bg-subscribe-button>
               </div>
             </div>
 	          <div class="person-name-rus">{{person.titlerus}}</div>
@@ -36,14 +35,18 @@
             <div class="flex justify-content-between flex-wrap">
               <div class="flex">
                 <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'per'"></bg-likes>
-                <bg-comment-info :total="person.commentsTotal" class="ml-2"></bg-comment-info>
+                <bg-comment-info :total="person.commentsTotal" class="ml-3"></bg-comment-info>
+                <bg-post-info :total="person.postsTotal" class="ml-3"></bg-post-info>
+                <bg-subscribers-total :reputation-object-id="person._id" class="ml-3"></bg-subscribers-total>
               </div>
               <div class="flex justify-content-end">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
               </div>
             </div>
-	          <i class="pi pi-tag person-category-icon"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
-	        </div>
+            <div v-if="tags">
+	            <i class="pi pi-tag person-category-icon" v-if="person?.tag && getTagNames(person.tag)"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -77,6 +80,7 @@ import CountryFlag from 'vue-country-flag'
 import Skeleton from 'primevue/skeleton';
 import ImagePreview from 'primevue/imagepreview';
 import CommentInfo from '@/components/comments/CommentInfo.vue';
+import PostInfo from '@/components/posts/PostInfo.vue';
 import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
 import SubscribersTotal from '@/components/subscribes/SubscribersTotal.vue';
 
@@ -86,9 +90,10 @@ export default {
     CountryFlag,
     Skeleton,
     ImagePreview,
-    'bg-subcribe-button': SubcribeButton,
-    'bg-subcribers-total': SubscribersTotal,
-    'bg-comment-info': CommentInfo
+    'bg-subscribe-button': SubcribeButton,
+    'bg-subscribers-total': SubscribersTotal,
+    'bg-comment-info': CommentInfo,
+    'bg-post-info': PostInfo,
   },
 	setup({ tags }){
     const tagHelper = ref(null)
@@ -111,7 +116,7 @@ export default {
 			return process.env.WEB_STATIC_FILES
 		})
 
-    return { getTagNames, WEB_STATIC_FILES, loading }
+    return { getTagNames, WEB_STATIC_FILES, loading, tags: tagsStore.tags }
   },
   props: {
     person: {

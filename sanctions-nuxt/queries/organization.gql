@@ -1,0 +1,19 @@
+query GetOrganization($_id: String!) {
+  organization(_id: $_id) {
+    _id
+    description
+    foto
+    rating
+    tag
+    tags {
+      area
+      data
+      icon
+      key
+      label
+    }
+    titleeng
+    titlerus
+    country
+  }
+}

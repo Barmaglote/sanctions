@@ -25,5 +25,6 @@ query GetPerson($_id: String!) {
     titlerus
     country
     commentsTotal
+    postsTotal
   }
 }

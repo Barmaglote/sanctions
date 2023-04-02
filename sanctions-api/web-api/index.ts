@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import cors from 'cors'
-import express from 'express'
+import express, { Response, Request } from 'express'
 import corsOptionsDelegate from './helpers/cors.js'
 import { createLogger } from './helpers/logger.js'
 import { ApolloServer } from '@apollo/server';
@@ -11,7 +11,7 @@ import { connectDB } from './models/db.js'
 import { GetLinks } from './controllers/graphql/links.js'
 import { GetTags, ComputeTags } from './controllers/graphql/tags.js'
 import { GetPerson, GetPersons, GetPersonsTotal } from './controllers/graphql/persons.js'
-import { GetOrganizations, GetOrganizationsTotal } from './controllers/graphql/organizations.js'
+import { GetOrganization, GetOrganizations, GetOrganizationsTotal } from './controllers/graphql/organizations.js'
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
 import { expressMiddleware } from '@apollo/server/express4'
@@ -24,7 +24,9 @@ import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuth
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
 import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal, GetSubscribtions } from './controllers/graphql/subscribtions.js';
-import { AddPost, GetPost, GetPosts, GetPostsTotal } from './controllers/graphql/posts.js'
+import { AddPost, GetPost, GetPosts, GetPostsTotal, GetPostsTotalForParent } from './controllers/graphql/posts.js'
+import { restResponseTimeHistogram, startMetricsServer, restRequestsCounter } from './utils/metrics.js'
+import responseTime from 'response-time'
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -39,6 +41,7 @@ const queriesDefs = `#graphql
     tags(area: String): [Tag]
     persons(lazyLoadEvent: LazyLoadEvent): [Person]  
     personsTotal(lazyLoadEvent: LazyLoadEvent): Int  
+    organization(_id: String!): Organization
     organizations(lazyLoadEvent: LazyLoadEvent): [Organization]  
     organizationsTotal(lazyLoadEvent: LazyLoadEvent): Int
     profile(nickname: String): Profile        
@@ -77,6 +80,7 @@ const resolvers = {
       postsTotal: (_, { authorId, lazyLoadEvent } ) => GetPostsTotal(authorId, lazyLoadEvent),
       personsTotal: (_, { lazyLoadEvent }) => GetPersonsTotal(lazyLoadEvent),
       organizations: (_, { lazyLoadEvent }) => GetOrganizations(lazyLoadEvent),
+      organization: (_, { _id } ) => GetOrganization(_id),
       organizationsTotal: (_, { lazyLoadEvent }) => GetOrganizationsTotal(lazyLoadEvent),      
       profile: (_, { nickname }, { user } ) => GetProfile(nickname, user?.id),
       person: (_, { _id } ) => GetPerson(_id),
@@ -100,13 +104,15 @@ const resolvers = {
     },
     Person: {
       tags: ComputeTags,
-      commentsTotal: GetCommentsTotalForParent
+      commentsTotal: GetCommentsTotalForParent,
+      postsTotal: GetPostsTotalForParent
     },
     Post: {
       commentsTotal: GetCommentsTotalForParent
     },
     Organization: {
-      tags: ComputeTags
+      tags: ComputeTags,
+      commentsTotal: GetCommentsTotalForParent
     },
     Comment: {
       comments: ComputeComments,
@@ -166,6 +172,18 @@ app.use(express.json())
 app.use(cors(corsOptionsDelegate))
 app.use('/graphql', cors<cors.CorsRequest>(process.env.CORS_DOMAINS), express.json(), expressMiddleware(server, { context: GetContext }))
 app.use('/static', express.static('public'))
+app.use(responseTime((req: Request, res: Response, time: number) => {
+  if (req?.route?.path) {
+    restResponseTimeHistogram.observe({
+      method: req.method,
+      route: req.route.path,
+      status_code: res.statusCode
+    }, time * 1000)
+  }
+}))
+
 app.listen(process.env.PORT, () => {
   logger.info(`🚀 WebAPI Server is started, port: ${process.env.PORT}`)
 })
+
+startMetricsServer();

@@ -1,16 +1,16 @@
 <template>
   <div class="flex">
-    <div class="likes w-1rem text-base font-semibold text-green-300">
+    <div class="likes w-1rem text-base font-semibold text-600">
       {{ state?.likes | shortNumber }}
     </div>
-    <Button class="p-button-text py-0 px-2" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
+    <Button class="p-button-text py-0 px-0" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
       <thumb-up v-if="state.like && state.like.isPositive === true"/>
       <thumb-up-outline v-else/>
     </Button>
-    <div class="likes w-1rem text-base font-semibold text-red-300 ml-2">
+    <div class="likes w-1rem text-base font-semibold ml-2 text-600">
       {{ state?.dislikes | shortNumber }}
     </div>
-    <Button class="p-button-text py-0 px-2" @click="handleSubmit(false)" :disabled="state.like != null || !isLogged || isLikingLocked">
+    <Button class="p-button-text py-0 px-0" @click="handleSubmit(false)" :disabled="state.like != null || !isLogged || isLikingLocked">
       <thumb-down v-if="state.like && state.like.isPositive === false"/>
       <thumb-down-outline v-else/>
     </Button>

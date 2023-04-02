@@ -1,8 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import { GraphQLError } from 'graphql'
 import PostsModel from '../../models/posts/model.js'
+import { databaseResponseTimeHistogram } from '../../utils/metrics.js'
 import getUserById from '../external/users.js'
+import { createLogger } from '../../helpers/logger.js'
 
 const STANDARD_PAGE = 50
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 export async function GetPost(_id) {
   return await PostsModel.findOne({ _id })
@@ -10,10 +15,17 @@ export async function GetPost(_id) {
 
 export async function GetPosts(authorId: string, lazyLoadEvent: any = null) {
   const { first, rows } = lazyLoadEvent || { first: 0, rows: STANDARD_PAGE }
-  if (authorId) {
-    return await PostsModel.find({authorId}).sort({'createdAt': -1}).skip(first).limit(rows)
-  } else {
-    return await PostsModel.find().sort({'createdAt': -1}).skip(first).limit(rows)
+
+  const metricsLabel = { operation: 'GetPosts' }
+  const timer = databaseResponseTimeHistogram.startTimer()
+
+  try {
+    const result = PostsModel.find(authorId ? {authorId} : {}).sort({'createdAt': -1}).skip(first).limit(rows)
+    timer({...metricsLabel, success: "true"})
+    return result;
+  } catch(e) {
+    timer({...metricsLabel, success: "false"})
+    logger.error(e);
   }
 }
 
@@ -23,6 +35,10 @@ export async function GetPostsTotal(authorId: string, lazyLoadEvent: any = null)
   } else {
     return await PostsModel.count();
   }
+}
+
+export async function GetPostsTotalForParent(parent) {
+  return GetPostsTotal(parent._id, false);
 }
 
 export async function AddPost(authorId: string, title: string, preview: string, post: string, tags: string[]) {

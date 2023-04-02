@@ -20,6 +20,10 @@ export async function GetOrganizations(lazyLoadEvent) {
   return await OrganizationsModel.find(filter).sort(sorting).skip(first).limit(rows)
 }
 
+export async function GetOrganization(_id) {
+  return await OrganizationsModel.findOne({ _id })
+}
+
 export async function GetOrganizationsTotal(lazyLoadEvent) {
 
   const { sortField, sortOrder } = lazyLoadEvent || { sortField: 'id', sortOrder: '-1' }

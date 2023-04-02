@@ -1,5 +1,5 @@
 <template>
-	<div class="card">
+	<div class="card p-4">
 		<DataView :value="items" @page="onPage($event)" ref="table" :layout="layout" :paginator="true" :lazy="true" :rows="5" :totalRecords="totalRecords" :loading="loading">
 		   <template #header>
 			   <div class="grid grid-nogutter">
@@ -13,30 +13,9 @@
 		   </template>
 
 		   <template #list="slotProps">
-				  <div class="flex w-full">
-            <div class="col-1 flex flex-wrap justify-content-center align-items-center">
-					   <img v-if="slotProps.data.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps.data.foto}`" class="photo-list max-w-5rem max-h-5rem" :alt="slotProps.data.titleeng"/>
-					   <img v-else src="/fotos/firma.png" :alt="slotProps.data.titleeng" class="photo-list photo-default max-w-5rem max-h-5rem"/>
-            </div>
-            <div class="col-11">
-					    <div class="element-list-detail w-full">
-                <div class="flex w-full">
-                  <div class="col-10">
-						        <div class="element-name">{{slotProps.data.titleeng}}</div>
-						        <div class="element-name-rus">{{slotProps.data.titlerus}}</div>
-                  </div>
-                  <div class="col-2">
-                    <bg-subscribe-button class="ml-2" :reputation-object-id="slotProps.data._id" :reputation-object-type="'org'"></bg-subscribe-button>
-                  </div>
-                </div>
-                <div class="col-12 flex flex-wrap w-full flex-column">
-						      <div class="element-description">{{slotProps.data.description}}</div>
-						      <div><Rating v-model="slotProps.data.rating" :readonly="true" :cancel="false"></Rating></div>
-                  <div><i class="pi pi-tag element-category-icon"></i><span class="element-category">{{getTagNames(slotProps.data.tag)}}</span></div>
-                </div>
-					    </div>
-            </div>
-				  </div>
+        <div class="flex w-full p-1">
+          <bg-organization :organization="slotProps.data" view="item"></bg-organization>
+        </div>
 		   </template>
 
 		   <template #grid="slotProps">
@@ -77,10 +56,12 @@
   import TagHelper from '@/models/tag.helper'
   import { useContext } from '@nuxtjs/composition-api'
   import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
+  import Organization from '@/components/organizations/Organization.vue'
 
   export default {
 	  components: { DataView, Rating, Dropdown, DataViewLayoutOptions, IconGender,
-      'bg-subscribe-button': SubcribeButton
+      'bg-subscribe-button': SubcribeButton,
+      'bg-organization': Organization
     },
     props: {
       search: {
@@ -101,13 +82,14 @@
 		const lazyParams = ref({})
 
 		const sortOptions = ref([
-            {label: 'Evil High to Low', value: -1},
-            {label: 'Evil Low to High', value: 1},
-        ])
+      {label: 'Evil High to Low', value: -1},
+      {label: 'Evil Low to High', value: 1},
+    ])
+
 		const filters = ref({
-            'title': {value: '', matchMode: 'contains'},
+      'title': {value: '', matchMode: 'contains'},
 			'tags': {value: '', matchMode: 'in'},
-        })
+    })
 
 		const table = ref(null)
 		const tagHelper = ref(null)
@@ -137,12 +119,12 @@
 		}
 
 		const onPage = (event) => {
-            lazyParams.value = event;
+      lazyParams.value = event;
 			lazyParams.value.sortField = sortField.value
 			lazyParams.value.sortOrder = sortOrder.value
 
-            lazyLoadOrganizations();
-        }
+      lazyLoadOrganizations();
+    }
 
 		onMounted(() => {
 			lazyParams.value = {
@@ -157,12 +139,11 @@
 			lazyLoadOrganizations();
 		});
 
-        const onSortChange = (event) => {
-			lazyParams.value.sortOrder = event.value.value
-			sortOrder.value = event.value.value
-
-			lazyLoadOrganizations()
-        }
+    const onSortChange = (event) => {
+		  lazyParams.value.sortOrder = event.value.value
+		  sortOrder.value = event.value.value
+		  lazyLoadOrganizations()
+    }
 
 		const getTagNames = (keys) => {
 			return tagHelper.value.getTagNames(keys)
@@ -184,7 +165,7 @@
 			}
     	});
 
-		return { items, tagsStore, table, totalRecords, loading, onPage, onSortChange, getTagNames, WEB_STATIC_FILES, sortKey, sortOrder, sortField, layout, sortOptions }
+		return { tags: tagsStore.tags, items, tagsStore, table, totalRecords, loading, onPage, onSortChange, getTagNames, WEB_STATIC_FILES, sortKey, sortOrder, sortField, layout, sortOptions }
     },
   }
 </script>
