@@ -10,7 +10,10 @@ const STANDARD_PAGE = 50
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 export async function GetPost(_id) {
-  return await PostsModel.findOne({ _id })
+  var post = await PostsModel.findOne({ _id })
+  post.viewed++
+  post.save()
+  return post
 }
 
 export async function GetPosts(authorId: string, lazyLoadEvent: any = null) {

@@ -24,6 +24,11 @@ export const postsSchema = new mongoose.Schema({
     type: Date,
     required: false
   },
+  viewed: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   tags: {
     type: [String],
     validator: (tag) => tag && tag.length >= 2 && tag.length <= 15,

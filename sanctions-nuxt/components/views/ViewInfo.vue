@@ -1,15 +1,15 @@
 <template>
   <div class="flex justify-content-center cursor-pointer" @click="$emit('click')" >
     <div class="w-1rem text-base font-semibold text-600">{{ total | shortNumber }}</div>
-    <note-outline fillColor="#2196F3"></note-outline>
+    <eye-outline fillColor="#2196F3"></eye-outline>
   </div>
 </template>
 
 <script>
-  import NoteOutline from 'vue-material-design-icons/NoteOutline.vue';
+  import EyeOutline from 'vue-material-design-icons/EyeOutline.vue';
 
   export default {
-    components: { NoteOutline },
+    components: { EyeOutline },
     props: {
       total: {
         type: Number,

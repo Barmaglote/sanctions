@@ -167,6 +167,7 @@ type Post {
     tags: [String]
     createdAt: DateTime
     commentsTotal: Int!
+    viewed: Int!
 }
 
 input PostInput {

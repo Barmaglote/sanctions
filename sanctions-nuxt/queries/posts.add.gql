@@ -6,5 +6,6 @@ mutation Mutation($postInput: PostInput!) {
     createdAt
     authorId
     tags
+    viewed
   }
 }

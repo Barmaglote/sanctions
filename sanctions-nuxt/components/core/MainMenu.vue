@@ -1,5 +1,5 @@
 <template>
-    <div class="menu-bar">
+  <div class="menu-bar">
 		<menu-bar :model="items">
 			<template #start>
         <nuxt-link no-prefetch to="/">

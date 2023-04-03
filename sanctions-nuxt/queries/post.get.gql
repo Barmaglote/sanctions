@@ -8,5 +8,6 @@ query GetPost($_id: String!) {
     authorId
     _id
     commentsTotal
+    viewed
   }
 }

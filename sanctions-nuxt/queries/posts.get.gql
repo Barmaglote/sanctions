@@ -8,6 +8,7 @@ query GetPosts($authorId: String, $lazyLoadEvent: LazyLoadEvent) {
     authorId
     _id
     commentsTotal
+    viewed
   }
   postsTotal(authorId: $authorId, lazyLoadEvent: $lazyLoadEvent)
 }
