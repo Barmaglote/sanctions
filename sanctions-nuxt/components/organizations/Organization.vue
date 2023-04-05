@@ -24,7 +24,7 @@
               </nuxt-link>
 		          <div class="text-xl text-semibold">{{organization?.titlerus}}</div>
             </div>
-            <div class="col-3">
+            <div class="col-3 flex justify-content-end">
               <bg-subscribe-button class="ml-2" :reputation-object-id="organization._id" :reputation-object-type="'org'"></bg-subscribe-button>
             </div>
           </div>
@@ -36,6 +36,7 @@
                 <bg-likes :reputation-object-id="organization?._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'org'"></bg-likes>
                 <bg-comment-info :total="organization.commentsTotal" class="ml-3"></bg-comment-info>
                 <bg-subscribers-total :reputation-object-id="organization._id" class="ml-3"></bg-subscribers-total>
+                <bg-view-info :total="organization.viewed" class="ml-2"></bg-view-info>
               </div>
               <div class="flex justify-content-end">
                 <Rating v-model="organization.rating" :readonly="true" :cancel="false"></Rating>
@@ -45,10 +46,8 @@
               <i class="pi pi-tag element-category-icon"></i>
               <span class="element-category">{{getTagNames(organization.tag)}}</span>
             </div>
-
           </div>
 	      </div>
-
       </div>
     </div>
 	</div>
@@ -66,6 +65,7 @@ import ImagePreview from 'primevue/imagepreview';
 import CommentInfo from '@/components/comments/CommentInfo.vue';
 import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
 import SubscribersTotal from '@/components/subscribes/SubscribersTotal.vue';
+import ViewInfo from '@/components/views/ViewInfo.vue';
 
 export default {
 	components: { Rating,
@@ -75,7 +75,8 @@ export default {
     ImagePreview,
     'bg-subscribe-button': SubcribeButton,
     'bg-subscribers-total': SubscribersTotal,
-    'bg-comment-info': CommentInfo
+    'bg-comment-info': CommentInfo,
+    'bg-view-info': ViewInfo
   },
 	setup({ tags }){
     const tagHelper = ref(null)

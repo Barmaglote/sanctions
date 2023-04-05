@@ -26,5 +26,6 @@ query GetPerson($_id: String!) {
     country
     commentsTotal
     postsTotal
+    viewed
   }
 }

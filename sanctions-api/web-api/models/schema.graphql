@@ -45,6 +45,7 @@ interface ReputationObject {
     country: COUNTRY
     commentsTotal: Int!
     postsTotal: Int!
+    viewed: Int!
 }
 
 type UserInfo {
@@ -77,6 +78,7 @@ type Person implements ReputationObject {
     country: COUNTRY
     commentsTotal: Int!
     postsTotal: Int!
+    viewed: Int!
 }
 
 type Organization implements ReputationObject {
@@ -91,6 +93,7 @@ type Organization implements ReputationObject {
     country: COUNTRY
     commentsTotal: Int!
     postsTotal: Int!
+    viewed: Int!
 }
 
 union CommentOrOrganizationOrPersons = Comment | Organization | Person

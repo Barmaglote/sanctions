@@ -5,13 +5,15 @@
     </div>
     <div v-if="profile?.userId" class="h-full">
       <TabMenu :model="items" :activeIndex.sync="active" class="fixed w-full z-5"/>
-      <div class="p-grid h-full py-7">
+      <div class="p-grid h-full py-7" v-if="active < 4">
         <div class="md:col-6 col-12 md:col-offset-3 surface-0 p-5 shadow-1">
           <bg-personal v-if="active === 1"></bg-personal>
           <bg-setting v-if="active === 2"></bg-setting>
           <bg-security v-if="active === 3"></bg-security>
-          <bg-finance v-if="active === 4"></bg-finance>
         </div>
+      </div>
+      <div v-if="active >= 4" class="p-8">
+        <bg-finance v-if="active === 4"></bg-finance>
       </div>
     </div>
   </div>

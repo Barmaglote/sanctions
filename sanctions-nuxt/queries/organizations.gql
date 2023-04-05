@@ -15,6 +15,7 @@ query GetOrganizations($lazyLoadEvent: LazyLoadEvent) {
     titleeng
     titlerus
     country
+    viewed
   }
   organizationsTotal(lazyLoadEvent: $lazyLoadEvent)
 }

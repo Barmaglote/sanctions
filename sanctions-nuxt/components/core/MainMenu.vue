@@ -51,8 +51,9 @@ export default {
 <style scoped>
 
 .p-menubar{
-   border: none !important;
-   border-radius: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: var(--surface-0);
 }
 
 .menu-bar{

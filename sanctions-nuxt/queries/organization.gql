@@ -15,5 +15,6 @@ query GetOrganization($_id: String!) {
     titleeng
     titlerus
     country
+    viewed
   }
 }

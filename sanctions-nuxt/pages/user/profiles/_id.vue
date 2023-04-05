@@ -1,6 +1,6 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
-    <div class="col-12 md:col-6 md:col-offset-3">
+    <div class="col-12 md:col-6 md:col-offset-3" v-id="id || userid">
       <bg-user-header :user-id="id || userid" v-if="(id || userid) != null"></bg-user-header>
       <div class="shadow-1">
         <TabView>

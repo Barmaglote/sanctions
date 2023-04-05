@@ -1,11 +1,13 @@
 <template>
     <div class="p-0 p-flex justify-content-center card-container_horizontal_center">
-      <bg-profile class="card_shadow shadow-1"/>
+      <bg-profile class="shadow-1"/>
+      <bg-redirect class="shadow-0 m-2"></bg-redirect>
     </div>
 </template>
 
 <script>
   import Profile from "@/components/auth/Profile.vue";
+  import Redirect from "@/components/redirect/Redirect.vue";
 
   export default {
     head() {
@@ -21,6 +23,6 @@
       }
 	  },
     layout: 'auth',
-    components: { 'bg-profile': Profile },
+    components: { 'bg-profile': Profile, 'bg-redirect': Redirect },
   }
 </script>

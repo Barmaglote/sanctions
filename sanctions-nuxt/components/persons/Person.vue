@@ -38,6 +38,7 @@
                 <bg-comment-info :total="person.commentsTotal" class="ml-3"></bg-comment-info>
                 <bg-post-info :total="person.postsTotal" class="ml-3"></bg-post-info>
                 <bg-subscribers-total :reputation-object-id="person._id" class="ml-3"></bg-subscribers-total>
+                <bg-view-info :total="person.viewed" class="ml-2"></bg-view-info>
               </div>
               <div class="flex justify-content-end">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
@@ -83,6 +84,7 @@ import CommentInfo from '@/components/comments/CommentInfo.vue';
 import PostInfo from '@/components/posts/PostInfo.vue';
 import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
 import SubscribersTotal from '@/components/subscribes/SubscribersTotal.vue';
+import ViewInfo from '@/components/views/ViewInfo.vue';
 
 export default {
 	components: { Rating,
@@ -94,6 +96,7 @@ export default {
     'bg-subscribers-total': SubscribersTotal,
     'bg-comment-info': CommentInfo,
     'bg-post-info': PostInfo,
+    'bg-view-info': ViewInfo
   },
 	setup({ tags }){
     const tagHelper = ref(null)

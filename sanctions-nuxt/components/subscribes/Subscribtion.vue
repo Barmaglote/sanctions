@@ -11,7 +11,7 @@
         </nuxt-link></div>
       <div class="text-sm w-full">{{ subscribtion.reputationObject?.description }}</div>
     </div>
-    <div class="col-3">
+    <div class="col-3 flex justify-content-end">
       <bg-subcribe-button class="ml-2" :reputation-object-id="subscribtion.reputationObject._id" :reputation-object-type="subscribtion.objectType"></bg-subcribe-button>
     </div>
   </div>

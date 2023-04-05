@@ -16,6 +16,10 @@ export async function GetReputationObject(parent) {
   if (parent.reputationObjectType === 'com') {
     reputationObject = await CommentsModel.findOne({ _id: parent.reputationObjectId })
   }
+
+  if (parent.reputationObjectType === 'org') {
+    reputationObject = await OrganizationsModel.findOne({ _id: parent.reputationObjectId })
+  }  
     
   return reputationObject
 }

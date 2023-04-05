@@ -26,6 +26,11 @@ const organizationsSchema = new mongoose.Schema({
     max: 5,
     min: 1
   },
+  viewed: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   foto: {
     type: String,
     required: true,

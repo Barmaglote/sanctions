@@ -90,10 +90,6 @@ $bgColor: #111;
   }
 }
 
-.mainbackground{
-  height: 100vh !important;
-}
-
 @media screen and (max-width: 600px) {
   .photo-container {
     visibility: hidden;

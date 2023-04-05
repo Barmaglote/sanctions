@@ -16,8 +16,9 @@ query GetPersons($lazyLoadEvent: LazyLoadEvent) {
     }
     titleeng
     titlerus
-    country,
+    country
     commentsTotal
+    viewed
   }
   personsTotal(lazyLoadEvent: $lazyLoadEvent)
 }

@@ -21,7 +21,10 @@ export async function GetOrganizations(lazyLoadEvent) {
 }
 
 export async function GetOrganization(_id) {
-  return await OrganizationsModel.findOne({ _id })
+  var organization = await OrganizationsModel.findOne({ _id })
+  organization.viewed++
+  organization.save()
+  return organization
 }
 
 export async function GetOrganizationsTotal(lazyLoadEvent) {

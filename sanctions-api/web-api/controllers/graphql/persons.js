@@ -21,7 +21,13 @@ export async function GetPersons(lazyLoadEvent) {
 }
 
 export async function GetPerson(_id) {
-  return await PersonsModel.findOne({ _id })
+  var person = await PersonsModel.findOne({ _id })
+  if (!person) {
+    return null;
+  }
+  person.viewed++
+  person.save()
+  return person
 }
 
 export async function GetPersonsTotal(lazyLoadEvent) {

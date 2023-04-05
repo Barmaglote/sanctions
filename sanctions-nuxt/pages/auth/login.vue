@@ -24,6 +24,12 @@
     components: {
       'bg-login': Login
     },
+    beforeRouteEnter(to, from, next) {
+      if (from && to && to.path !== from.path && !from.path.startsWith('/auth')) {
+        localStorage.setItem('back', from.path)
+      }
+      next()
+    },
   }
 </script>
 
