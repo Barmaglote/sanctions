@@ -10,10 +10,19 @@ const STANDARD_PAGE = 50
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 export async function GetPost(_id) {
-  var post = await PostsModel.findOne({ _id })
-  post.viewed++
-  post.save()
-  return post
+  const metricsLabel = { operation: 'GetPost' }
+  const timer = databaseResponseTimeHistogram.startTimer()
+
+  try {
+    const post = await PostsModel.findOne({ _id })
+    timer({...metricsLabel, success: "true"})
+    post.viewed++
+    post.save()
+    return post
+  } catch(e) {
+    timer({...metricsLabel, success: "false"})
+    logger.error(e);
+  }
 }
 
 export async function GetPosts(authorId: string, lazyLoadEvent: any = null) {

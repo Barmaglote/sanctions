@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express';
 import client from 'prom-client'
+import { createLogger } from '../helpers/logger';
 
 const metricsApp = express()
 
@@ -28,6 +29,8 @@ export const requestDurationHistogram = new client.Histogram({
     buckets: [1, 2, 5, 6, 10]
   });
 
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
+
 export function startMetricsServer() {
     const collectDefaultMetrics = client.collectDefaultMetrics;
     collectDefaultMetrics();
@@ -39,6 +42,6 @@ export function startMetricsServer() {
     });
 
     metricsApp.listen(process.env.PROM_CLIENT_PORT, () => {
-        console.log(`Metrics server started at localhost:${process.env.PROM_CLIENT_PORT}`)        
+        logger.info(`🚀 Metrics Server is started, port: ${process.env.PORT}/metrics`) 
     });
 }

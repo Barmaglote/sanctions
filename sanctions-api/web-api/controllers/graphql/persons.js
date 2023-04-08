@@ -1,4 +1,10 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import PersonsModel from '../../models/persons/model.js'
+import { databaseResponseTimeHistogram } from '../../utils/metrics.js'
+import { createLogger } from '../../helpers/logger.js'
+
+const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
 export async function GetPersons(lazyLoadEvent) {
 
@@ -17,18 +23,35 @@ export async function GetPersons(lazyLoadEvent) {
     filter.$or = [{ titlerus: new RegExp(filters.title, 'i') }, { titleeng: new RegExp(filters.title, 'i') }]
   }
 
-  return await PersonsModel.find(filter).sort(sorting).skip(first).limit(rows)
+  const metricsLabel = { operation: 'GetPersons' }
+  const timer = databaseResponseTimeHistogram.startTimer()
+
+  try {
+    const result = await PersonsModel.find(filter).sort(sorting).skip(first).limit(rows)
+    timer({...metricsLabel, success: "true"})
+    return result;
+  } catch(e) {
+    timer({...metricsLabel, success: "false"})
+    logger.error(e);
+    return null;
+  }
 }
 
 export async function GetPerson(_id) {
-  var person = await PersonsModel.findOne({ _id })
-  if (!person) {
-    return {};
-  }
+  const metricsLabel = { operation: 'GetPerson' }
+  const timer = databaseResponseTimeHistogram.startTimer()
 
-  person.viewed++
-  person.save()
-  return person
+  try {
+    let person = await PersonsModel.findOne({ _id })
+    timer({...metricsLabel, success: "true"})
+    person.viewed++
+    person.save()
+    return person
+  } catch(e) {
+    timer({...metricsLabel, success: "false"})
+    logger.error(e);
+    return null;
+  }
 }
 
 export async function GetPersonsTotal(lazyLoadEvent) {

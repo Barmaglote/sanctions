@@ -33,7 +33,7 @@ const organizationsSchema = new mongoose.Schema({
   },
   foto: {
     type: String,
-    required: true,
+    required: false,
     maxlength: 100
   }
 })

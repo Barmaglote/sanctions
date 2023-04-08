@@ -22,13 +22,13 @@ const personsSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    required: true,
+    required: false,
     max: 5,
     min: 1
   },
   foto: {
     type: String,
-    required: true,
+    required: false,
     maxlength: 100
   },
   dob: {

@@ -24,9 +24,10 @@ import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuth
 import { dateTimeScalar } from './models/datetimescalar.js';
 import { AddLike, GetDislikesByReputationObjectId, GetLike, GetLikesByReputationObjectId, GetLikesFeed } from './controllers/graphql/likes.js'
 import { UpdateSubscribtion, IsSubscribed, GetSubscribersTotal, GetSubscribtions } from './controllers/graphql/subscribtions.js';
-import { AddPost, GetPost, GetPosts, GetPostsTotal, GetPostsTotalForParent } from './controllers/graphql/posts.js'
-import { restResponseTimeHistogram, startMetricsServer, restRequestsCounter } from './utils/metrics.js'
-import responseTime from 'response-time'
+import { AddPost, GetPost, GetPosts, GetPostsTotal, GetPostsTotalForParent } from './controllers/graphql/posts.js';
+import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
+import { restResponseTimeHistogram, startMetricsServer, restRequestsCounter } from './utils/metrics.js';
+import responseTime from 'response-time';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -141,7 +142,7 @@ const resolvers = {
 
 const app = express();
 
-const server = new ApolloServer<ApolloContext>({
+const apollorServer = new ApolloServer<ApolloContext>({
     typeDefs: [schema, queriesDefs],
     resolvers,
     formatError: (formattedError, error) => {
@@ -158,20 +159,27 @@ const server = new ApolloServer<ApolloContext>({
     plugins: [
       process.env.PRODUCTION === 'true'
         ? ApolloServerPluginLandingPageProductionDefault()
-        : ApolloServerPluginLandingPageLocalDefault({ embed: true })       
-    ],
+        : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+      ApolloServerPluginCacheControl({
+        // Cache everything for 1 second by default.
+        defaultMaxAge: 1,
+        // Don't send the `cache-control` response header.
+        calculateHttpHeaders: false,
+      }),              
+    ], 
     cache: new InMemoryLRUCache({
       maxSize: Math.pow(2, 20) * 100, // ~100MiB
       ttl: 300_000, // 5 minutes (in milliseconds)
     }),
 });
   
-await server.start();
+await apollorServer.start();
 
 app.use(express.json())
 app.use(cors(corsOptionsDelegate))
-app.use('/graphql', cors<cors.CorsRequest>(process.env.CORS_DOMAINS), express.json(), expressMiddleware(server, { context: GetContext }))
+app.use('/graphql', cors<cors.CorsRequest>(process.env.CORS_DOMAINS), express.json(), expressMiddleware(apollorServer, { context: GetContext }))
 app.use('/static', express.static('public'))
+
 app.use(responseTime((req: Request, res: Response, time: number) => {
   if (req?.route?.path) {
     restResponseTimeHistogram.observe({
