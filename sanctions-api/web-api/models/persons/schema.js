@@ -46,6 +46,7 @@ const personsSchema = new mongoose.Schema({
   country: {
     type: String,
     enum : [
+    null,      
     'AT',
     'AU',
     'AZ',
@@ -297,7 +298,8 @@ const personsSchema = new mongoose.Schema({
     'JM',
     'JP'
     ],
-    default: null
+    default: null,
+    required: false
   }
 })
 

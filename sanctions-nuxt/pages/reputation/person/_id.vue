@@ -1,6 +1,6 @@
 <template>
   <div class="surface-ground px-1 py-1 md:px-1 lg:px-2 p-grid">
-    <div class="col-12 md:col-6 md:col-offset-3">
+    <div class="col-12 md:col-6 md:col-offset-3" v-if="person">
       <bg-person :person="person" class="shadow-1 card p-5 mt-1" :tags="tags" :reputation-object-id="id" ></bg-person>
       <div class="shadow-1">
         <TabView>

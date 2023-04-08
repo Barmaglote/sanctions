@@ -32,14 +32,15 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition).login;
 var loginService = protoDescriptor.LoginService;
 
 const getUser = async (call, callback) => {
-  const id = call.request.id
+  const id = call.request?.id
+
   if (!id) {
     callback(null, { id: null, login: null, username: null});  
   };
 
   const user = await User.findOne({ _id: new ObjectId(id) }).exec()
 
-  callback(null, {id: user.id, login: user.login, username: user.username});
+  callback(null, {id: user?.id, login: user?.login, username: user?.username});
 }
 
 const getGrpcServer = () => {

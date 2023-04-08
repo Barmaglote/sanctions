@@ -23,8 +23,9 @@ export async function GetPersons(lazyLoadEvent) {
 export async function GetPerson(_id) {
   var person = await PersonsModel.findOne({ _id })
   if (!person) {
-    return null;
+    return {};
   }
+
   person.viewed++
   person.save()
   return person
