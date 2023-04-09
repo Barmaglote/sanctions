@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { linkSchema } from '../link/schema'
 
 const personsSchema = new mongoose.Schema({
   titlerus: {
@@ -42,6 +43,11 @@ const personsSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  links: {
+    type: [linkSchema],
+    required: false,
+    maxlength: 5
   },
   country: {
     type: String,

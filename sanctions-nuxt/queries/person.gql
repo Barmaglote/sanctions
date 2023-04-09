@@ -27,5 +27,9 @@ query GetPerson($_id: String!) {
     commentsTotal
     postsTotal
     viewed
+    links {
+      type
+      url
+    }
   }
 }

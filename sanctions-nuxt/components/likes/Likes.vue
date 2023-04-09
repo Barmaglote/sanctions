@@ -1,19 +1,21 @@
 <template>
   <div class="flex">
-    <div class="likes w-1rem text-base font-semibold text-600">
-      {{ state?.likes | shortNumber }}
-    </div>
-    <Button class="p-button-text py-0 px-0" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
-      <thumb-up v-if="state.like && state.like.isPositive === true"/>
-      <thumb-up-outline v-else/>
-    </Button>
-    <div class="likes w-1rem text-base font-semibold ml-2 text-600">
-      {{ state?.dislikes | shortNumber }}
-    </div>
-    <Button class="p-button-text py-0 px-0" @click="handleSubmit(false)" :disabled="state.like != null || !isLogged || isLikingLocked">
-      <thumb-down v-if="state.like && state.like.isPositive === false"/>
-      <thumb-down-outline v-else/>
-    </Button>
+    <span class="p-buttonset h-3rem flex border-round-2xl bg-gray-100">
+      <Button class="p-button-outlined m-0 border-0" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
+        <div class="likes w-1rem text-base font-semibold text-600 mx-2">
+          {{ state?.likes | shortNumber }}
+        </div>
+        <thumb-up v-if="state.like && state.like.isPositive === true" class="flex flex-wrap align-items-center"/>
+        <thumb-up-outline v-else class="flex flex-wrap align-items-center"/>
+      </Button>
+      <Button class="p-button-outlined m-0 border-0" @click="handleSubmit(false)" :disabled="state.like != null || !isLogged || isLikingLocked">
+        <div class="likes w-1rem text-base font-semibold ml-2 text-600 mx-2">
+          {{ state?.dislikes | shortNumber }}
+        </div>
+        <thumb-down v-if="state.like && state.like.isPositive === false" class="flex flex-wrap align-items-center"/>
+        <thumb-down-outline v-else class="flex flex-wrap align-items-center"/>
+      </Button>
+    </span>
   </div>
 </template>
 

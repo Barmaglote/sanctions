@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { linkSchema } from '../link/schema'
 
 const organizationsSchema = new mongoose.Schema({
   titlerus: {
@@ -26,6 +27,11 @@ const organizationsSchema = new mongoose.Schema({
     max: 5,
     min: 1
   },
+  links: {
+    type: [linkSchema],
+    required: false,
+    maxlength: 5
+  },  
   viewed: {
     type: Number,
     required: true,

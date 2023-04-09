@@ -7,9 +7,23 @@ enum LINK_TYPE {
     telegram
 }
 
+enum LINK_SHORT_TYPE {
+    wk   # Wikipedia     
+    fb   # Facebook
+    tw   # Twitter
+    in   # Instagram
+    tg   # Telegram channel
+    yt   # Youtube
+}
+
 enum AREA_TYPE {
     organizations
     persons
+}
+
+type LinkShort {
+    type: LINK_SHORT_TYPE!
+    url: String!
 }
 
 type Link {
@@ -46,6 +60,7 @@ interface ReputationObject {
     commentsTotal: Int!
     postsTotal: Int!
     viewed: Int!
+    links: [LinkShort]
 }
 
 type UserInfo {
@@ -79,6 +94,7 @@ type Person implements ReputationObject {
     commentsTotal: Int!
     postsTotal: Int!
     viewed: Int!
+    links: [LinkShort]
 }
 
 type Organization implements ReputationObject {
@@ -94,6 +110,7 @@ type Organization implements ReputationObject {
     commentsTotal: Int!
     postsTotal: Int!
     viewed: Int!
+    links: [LinkShort]    
 }
 
 union CommentOrOrganizationOrPersons = Comment | Organization | Person

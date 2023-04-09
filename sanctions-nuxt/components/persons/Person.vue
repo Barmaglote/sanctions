@@ -10,7 +10,7 @@
           <Skeleton height="4rem" class="mb-2"></Skeleton>
         </div>
       </div>
-      <div class="card person-list-item mb-1 p-0 flex" v-if="person && view === 'item'">
+      <div class="card person-list-item mb-1 p-0 flex flex-wrap" v-if="person && view === 'item'">
         <div class="col-2 flex justify-content-center flex-column">
           <div class="flex justify-content-center">
           <ImagePreview :preview="true" v-if="person?.foto" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${person?.foto}`" class="photo-list" :alt="person.titleeng"></ImagePreview>
@@ -32,20 +32,23 @@
             </div>
 	          <div class="person-name-rus">{{person.titlerus}}</div>
 	          <div class="person-description">{{person.description}}</div>
-            <div class="flex justify-content-between flex-wrap">
+            <div class="flex justify-content-between flex-wrap align-items-center">
               <div class="flex">
                 <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'per'"></bg-likes>
                 <bg-comment-info :total="person.commentsTotal" class="ml-3"></bg-comment-info>
                 <bg-post-info :total="person.postsTotal" class="ml-3"></bg-post-info>
                 <bg-subscribers-total :reputation-object-id="person._id" class="ml-3"></bg-subscribers-total>
-                <bg-view-info :total="person.viewed" class="ml-2"></bg-view-info>
+                <bg-view-info :total="person.viewed" class="ml-3"></bg-view-info>
               </div>
-              <div class="flex justify-content-end">
+              <div class="flex justify-content-end flex-wrap align-items-center">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
               </div>
             </div>
             <div v-if="tags">
 	            <i class="pi pi-tag person-category-icon" v-if="person?.tag && getTagNames(person.tag)"></i><span class="person-category" v-if="person?.tag">{{getTagNames(person.tag)}}</span>
+            </div>
+            <div class="w-full my-3" v-if="person.links && person.links.length > 0">
+              <bg-short-links :links="person.links"></bg-short-links>
             </div>
           </div>
         </div>
@@ -85,6 +88,7 @@ import PostInfo from '@/components/posts/PostInfo.vue';
 import SubcribeButton from '@/components/subscribes/SubcribeButton.vue';
 import SubscribersTotal from '@/components/subscribes/SubscribersTotal.vue';
 import ViewInfo from '@/components/views/ViewInfo.vue';
+import ShortLinks from '../links/ShortLinks.vue'
 
 export default {
 	components: { Rating,
@@ -96,7 +100,8 @@ export default {
     'bg-subscribers-total': SubscribersTotal,
     'bg-comment-info': CommentInfo,
     'bg-post-info': PostInfo,
-    'bg-view-info': ViewInfo
+    'bg-view-info': ViewInfo,
+    'bg-short-links': ShortLinks
   },
 	setup({ tags }){
     const tagHelper = ref(null)

@@ -4,9 +4,6 @@
       <bg-person :person="person" class="shadow-1 card p-5 mt-1" :tags="tags" :reputation-object-id="id" ></bg-person>
       <div class="shadow-1">
         <TabView>
-	        <TabPanel header="Likes">
-		        <bg-likes-feed :user-id="id" v-if="id"/>
-	        </TabPanel>
 	        <TabPanel header="Comments">
             <bg-comments
               :comments="comments"
@@ -20,6 +17,9 @@
 	        </TabPanel>
 	        <TabPanel header="Post">
             <bg-posts :authorId="id"></bg-posts>
+	        </TabPanel>
+	        <TabPanel header="Likes">
+		        <bg-likes-feed :user-id="id" v-if="id"/>
 	        </TabPanel>
 	        <TabPanel header="Subscribtions">
 		        <bg-subscribtions-feed class="my-1" :user-id="id"></bg-subscribtions-feed>

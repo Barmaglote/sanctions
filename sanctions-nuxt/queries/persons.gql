@@ -19,6 +19,10 @@ query GetPersons($lazyLoadEvent: LazyLoadEvent) {
     country
     commentsTotal
     viewed
+    links {
+      type
+      url
+    }
   }
   personsTotal(lazyLoadEvent: $lazyLoadEvent)
 }
