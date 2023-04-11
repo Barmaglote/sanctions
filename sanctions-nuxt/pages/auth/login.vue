@@ -6,6 +6,7 @@
 
 <script>
   import Login from "@/components/auth/Login";
+import CountrySelector from "~/components/core/CountrySelector.vue";
 
   export default {
     head() {
@@ -25,7 +26,7 @@
       'bg-login': Login
     },
     beforeRouteEnter(to, from, next) {
-      if (from && to && to.path !== from.path && !from.path.startsWith('/auth')) {
+      if (process.client && localStorage !== undefined && localStorage != null && from && to && to.path !== from.path && !from.path.startsWith('/auth')) {
         localStorage.setItem('back', from.path)
       }
       next()

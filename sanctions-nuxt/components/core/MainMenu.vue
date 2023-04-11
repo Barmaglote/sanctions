@@ -1,10 +1,17 @@
 <template>
   <div class="menu-bar">
+    <div class="w-full h-1rem text-center bg-blue-300 flex justify-content-center align-items-center text-200">
+      <nuxt-link no-prefetch to="/upgrade">
+        Get more. Upgrage your plan
+      </nuxt-link>
+    </div>
 		<menu-bar :model="items">
 			<template #start>
-        <nuxt-link no-prefetch to="/">
-          <img alt="logo" src="/fotos/logo.png" height="40" class="mr-1">
-        </nuxt-link>
+        <div class="flex flex-wrap align-items-center">
+          <nuxt-link no-prefetch to="/">
+            <img alt="logo" src="/fotos/logo.png" height="40" class="mr-1">
+          </nuxt-link>
+        </div>
 			</template>
 			<template #end>
         <div class="menu-end-container">
@@ -22,6 +29,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useContext } from '@nuxtjs/composition-api'
 import SearchInput from '@/components/core/SearchInput.vue'
 import UserMenu from '@/components/core/UserMenu.vue';
+import Button from 'primevue/button/Button';
 
 export default {
     setup() {
@@ -43,7 +51,8 @@ export default {
     components: {
         "menu-bar": Menubar,
         "bg-search-input": SearchInput,
-        "bg-user-menu": UserMenu
+        "bg-user-menu": UserMenu,
+        Button
     }
 }
 </script>

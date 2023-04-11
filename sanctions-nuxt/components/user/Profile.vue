@@ -5,15 +5,13 @@
     </div>
     <div v-if="profile?.userId" class="h-full">
       <TabMenu :model="items" :activeIndex.sync="active" class="fixed w-full z-5"/>
-      <div class="p-grid h-full py-7" v-if="active < 4">
+      <div class="p-grid h-full py-7">
         <div class="md:col-6 col-12 md:col-offset-3 surface-0 p-5 shadow-1">
           <bg-personal v-if="active === 1"></bg-personal>
           <bg-setting v-if="active === 2"></bg-setting>
           <bg-security v-if="active === 3"></bg-security>
+          <bg-association v-if="active === 4"></bg-association>
         </div>
-      </div>
-      <div v-if="active >= 4" class="p-8">
-        <bg-finance v-if="active === 4"></bg-finance>
       </div>
     </div>
   </div>
@@ -24,7 +22,7 @@ import TabMenu from 'primevue/tabmenu';
 import Personal from '~/components/user/Personal.vue';
 import Settings from '@/components/user/Settings.vue';
 import Security from '@/components/user/Security.vue';
-import Finance from '@/components/user/Finance.vue';
+import Association from '@/components/user/Association.vue';
 import CreateProfile from '@/components/user/CreateProfile.vue'
 import { useProfileStore } from '@/store/profiles';
 import { ref, onMounted, computed } from 'vue';
@@ -51,7 +49,7 @@ export default {
       {label: 'Personal', icon: 'pi pi-fw pi-user'},
       {label: 'Settings', icon: 'pi pi-fw pi-cog'},
       {label: 'Security', icon: 'pi pi-fw pi-shield'},
-      {label: 'Finance', icon: 'pi pi-fw pi-dollar'}
+      {label: 'Association', icon: 'pi pi-fw pi-box'}
     ]
     return { items, active, profile, 'store': profilesStore }
   },
@@ -59,7 +57,7 @@ export default {
     'bg-personal': Personal,
     'bg-setting': Settings,
     'bg-security': Security,
-    'bg-finance': Finance,
+    'bg-association': Association,
     'bg-create-profile': CreateProfile
   }
 }

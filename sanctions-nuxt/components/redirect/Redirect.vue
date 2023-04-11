@@ -10,7 +10,7 @@
   import { useRouter } from '@nuxtjs/composition-api'
   export default {
     setup(){
-      const back = localStorage.getItem('back');
+      const back = localStorage?.getItem('back');
       const isRedirect = back && !back.toLocaleLowerCase().startsWith('/auth')
       const router = useRouter()
 
