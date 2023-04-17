@@ -1,43 +1,30 @@
 <template>
-  <div class="stepsdemo-content">
-    <Card>
-      <template #title>
-          Identification
+  <div class="w-full">
+    <div class="w-full">
+      Please, provide documents confirming your authentity
+     </div>
+    <FileUpload name="files[]" url="./upload" :maxFileSize="1000000" :fileLimit="3" @select="fileSelected">
+      <template #empty>
+        <p>Drag and drop files to here to upload.</p>
       </template>
-      <template #subtitle>
-          Enter your personal information
-      </template>
-      <template #content>
-        <div class="p-fluid">
-          temp
-        </div>
-      </template>
-      <template #footer>
-        <div class="grid grid-nogutter justify-content-between">
-          <i></i>
-          <Button label="Next" @click="nextPage(!$v.$invalid)" icon="pi pi-angle-right" iconPos="right" />
-        </div>
-      </template>
-    </Card>
+    </FileUpload>
   </div>
 </template>
 
 <script>
-import Card from 'primevue/card';
+import FileUpload from 'primevue/fileupload';
 import Button from 'primevue/button/Button';
 
 export default {
-  components: {
-    Card, Button
-  },
-  methods: {
-    nextPage(isFormValid) {
-      this.submitted = true;
-      if (!isFormValid) {
-          return;
-      }
-      this.$emit('nextPage', {formData: {firstname: this.firstname, lastname: this.lastname, age: this.age}, pageIndex: 0});
+  setup(_,{emit}){
+    const fileSelected = () => {
+      emit('updateStatus', { files });
     }
+
+    return { fileSelected }
+  },
+  components: {
+    FileUpload, Button
   }
 }
 </script>
