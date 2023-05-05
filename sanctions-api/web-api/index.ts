@@ -28,6 +28,8 @@ import { AddPost, GetPost, GetPosts, GetPostsTotal, GetPostsTotalForParent } fro
 import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 import { restResponseTimeHistogram, startMetricsServer, restRequestsCounter } from './utils/metrics.js';
 import responseTime from 'response-time';
+import { AddAssociation } from './controllers/graphql/associations.js'
+import api from './controllers/rest/api';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
 
@@ -66,7 +68,8 @@ const queriesDefs = `#graphql
     addComment(commentInput: CommentInput!): Comment
     addLike(likeInput: LikeInput!): Like
     updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
-    addPost(postInput: PostInput!): Post
+    addPost(postInput: PostInput!): Post 
+    addAssociation(associationRequest: AssociationRequest!): Association
   }
 `;
 
@@ -101,7 +104,8 @@ const resolvers = {
       updateProfile: (_, { profile }, { user }) => UpdateProfile(profile, user?.id),
       addComment: (_, { commentInput }, { user }) => AddComment(commentInput.reputationObjectId, commentInput.parentId, commentInput.comment, user?.id),
       addLike: (_, { likeInput }, { user }) => AddLike(likeInput.reputationObjectId, likeInput.isPositive, user?.id, likeInput.reputationObjectType),
-      updateSubscribtion: (_, { subscribtionInput }, { user }) => UpdateSubscribtion(subscribtionInput, user?.id)
+      updateSubscribtion: (_, { subscribtionInput }, { user }) => UpdateSubscribtion(subscribtionInput, user?.id),
+      addAssociation: (_, { associationRequest }, { user }) => AddAssociation(associationRequest, user?.id)
     },
     Person: {
       tags: ComputeTags,
@@ -179,6 +183,7 @@ app.use(express.json())
 app.use(cors(corsOptionsDelegate))
 app.use('/graphql', cors<cors.CorsRequest>(process.env.CORS_DOMAINS), express.json(), expressMiddleware(apollorServer, { context: GetContext }))
 app.use('/static', express.static('public'))
+app.use('/api', api);
 
 app.use(responseTime((req: Request, res: Response, time: number) => {
   if (req?.route?.path) {

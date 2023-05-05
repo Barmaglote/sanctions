@@ -129,13 +129,15 @@ input LazyLoadEvent {
     rows: Int!
 }
 
+input reputationObjectShort {
+    titleeng: String
+    _id: String
+}
+
 input AssociationRequest {
     type: AREA_TYPE
     isNew: Boolean
-    reputationObject: {
-        titleeng: String
-        _id: String
-    }
+    reputationObject: reputationObjectShort
     confirmed: Boolean
 }
 
@@ -197,6 +199,7 @@ type Mutation {
   addLike(likeInput: LikeInput!): Like
   updateSubscribtion(subscribtionInput: SubscribtionInput!): Boolean
   addPost(postInput: PostInput!): Post
+  addAssociation(associationRequest: AssociationRequest!): Association
 }
 
 type Post {

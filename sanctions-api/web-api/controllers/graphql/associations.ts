@@ -8,7 +8,6 @@ const EMPTY_ASSOCIATION = {
 }
 
 export async function AddAssociation(reputationObjectId: String, userId: String) {
-
   if (!reputationObjectId || !userId) {
     return EMPTY_ASSOCIATION
   }

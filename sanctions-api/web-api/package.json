@@ -38,6 +38,7 @@
     "grpc": "^1.24.11",
     "log4js": "^6.6.1",
     "mongoose": "^6.8.3",
+    "multer": "*",
     "prom-client": "^14.2.0",
     "redis-om": "^0.3.6",
     "response-time": "^2.3.2",
