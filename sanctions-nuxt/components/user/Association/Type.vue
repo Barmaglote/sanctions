@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-wrap">
-    <div class="w-full flex justify-content-around flex-wrap gap-6 p-3">
+    <div class="w-full flex justify-content-around flex-wrap gap-4 p-3">
       <div class="w-full flex justify-content-around">
         <Card :class="{'w-20rem border-1': true, 'border-blue-400': currentType == 'person' && currentIsNew, 'border-gray-100' : currentType !== 'person' || !currentIsNew }">
           <template #header>

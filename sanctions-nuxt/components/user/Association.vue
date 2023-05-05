@@ -15,6 +15,10 @@
     Confirmation
   }
 
+  const sendRequest = () => {
+    console.log(state.value);
+  }
+
   const changeStep = (event) => {
     if (!nextIsAvailable) return;
 
@@ -30,6 +34,10 @@
       case 'Identification':
         current.value = 'Confirmation'
         break;
+
+      case 'Confirmation':
+        sendRequest();
+        break;
     }
   }
 
@@ -44,7 +52,9 @@
 
   const nextIsAvailable = computed(() => {
     if (current.value === 'Type' && state.value.type) return true;
-    if (current.value === 'Object' && state.value.reputationObject) return true;
+    if (current.value === 'Object' && state.value.reputationObject && state.value.reputationObject.titleeng) return true;
+    if (current.value === 'Identification' && state.value.files && state.value.files.length > 0 && state.value.files.length < 4) return true;
+    if (current.value === 'Confirmation' && state.value.confirmed === true) return true;
     return false;
   })
 

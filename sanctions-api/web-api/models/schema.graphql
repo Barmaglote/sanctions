@@ -129,6 +129,27 @@ input LazyLoadEvent {
     rows: Int!
 }
 
+input AssociationRequest {
+    type: AREA_TYPE
+    isNew: Boolean
+    reputationObject: {
+        titleeng: String
+        _id: String
+    }
+    confirmed: Boolean
+}
+
+type UserInfo {
+  userId: String!
+  createdAt: DateTime!
+}
+
+type Association {
+    reputationObjectId: String!
+    owner: UserInfo
+    assitants: [UserInfo]
+}
+
 type Like {
     reputationObjectId: String!
     authorId: String!

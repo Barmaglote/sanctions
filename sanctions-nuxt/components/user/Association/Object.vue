@@ -5,7 +5,7 @@
       <h2 v-if="state.type === 'organization'">Organization</h2>
     </div>
     <div class="w-full" v-if="state.isNew">
-      <InputText type="text" v-model="titleeng" placeholder="Title" />
+      <InputText type="text" v-model="titleeng" placeholder="Title" @change="changeTitle($event)"/>
     </div>
     <div class="w-full" v-if="!state.isNew">
       <div class="w-full">
@@ -132,7 +132,11 @@ export default {
       emit('updateStatus', {reputationObject: event.value});
     }
 
-    return { state, selectedObject, filteredObjects, search, WEB_STATIC_FILES, itemSelect, titleeng }
+    const changeTitle = (event) => {
+      emit('updateStatus', {reputationObject: {titleeng: titleeng.value}});
+    }
+
+    return { state, selectedObject, filteredObjects, search, WEB_STATIC_FILES, itemSelect, titleeng, changeTitle }
   },
   props: {
     state: {
