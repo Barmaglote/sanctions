@@ -11,7 +11,7 @@
       <div class="w-full">
         <AutoComplete v-model="selectedObject" :suggestions="filteredObjects" @complete="search($event)" field="titleeng" class="w-full" :scrollHeight="'600px'" @item-select="itemSelect($event)">
           <template #item="slotProps">
-            <div class="grid p-2 flex border-1 border-100 w-full">
+            <div class="grid p-2 flex border-0 border-100 w-full">
               <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="slotProps?.item?.foto">
 		            <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
                 <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="w-full" v-if="selectedObject">
-      <div class="p-2 flex border-1 border-400 mt-5">
+      <div class="p-2 flex border-0 border-400 mt-5">
         <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="selectedObject.foto">
 		      <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
           <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
