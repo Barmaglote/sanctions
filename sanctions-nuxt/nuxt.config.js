@@ -68,6 +68,7 @@ export default {
     '@/plugins/graphql/apollo-client.js',
     '@/plugins/filters/numbers.js',
     '@/plugins/filters/dates.js',
+    '@/plugins/webapi/association.service.js'
     /*{src: '@/plugins/editors/quill.js', ssr: false}*/
     /*'~/plugins/graphql/fetch-types.js'*/ /* run it to get new types list for GraphQL*/
   ],

@@ -1,23 +1,24 @@
-import ASSOCIATION_ADD_QUERY from '@/queries/association.add'
+import ASSOCIATION_ADD_QUERY from '@/queries/associations.add'
 
 export default ({ app }, inject) => {
     inject('requestAssociation', async (request) => {
-
-        const { first, rows, sortField, sortOrder, filters } = lazyParams.value;
-
-        const { data } = await app.apolloProvider.defaultClient.query({
-            query: ASSOCIATION_ADD_QUERY,
+        const { data } = await app.apolloProvider.defaultClient.mutate({
+            mutation: ASSOCIATION_ADD_QUERY,
             variables: {
-                "lazyLoadEvent": {
-                    "filters": {
-                        "tags": filters?.tags?.value || null,
-                        "title": filters?.title?.value === "" ? null : filters?.title || null
-                    },
-                    "first": first,
-                    "rows": rows,
-                    "sortField": sortField,
-                    "sortOrder": sortOrder.toString()
-                }
+              associationRequest: {
+                type: request.reputationObjectType,
+                reputationObject: {
+                  titleeng: request.reputationObject.titleeng,
+                  _id: request.reputationObject._id
+                },
+                isNew: request.isNew,
+                confirmed: request.confirmed
+              }
+            },
+            context: {
+              headers: {
+                Authorization: app.$auth.strategy.token.get()
+              }
             }
         });
 

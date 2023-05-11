@@ -1,36 +1,46 @@
 import { GraphQLError } from 'graphql'
 import AssociationsModel from '../../models/associations/model.js'
+import { AssociationRequest } from '../../models/associations/AssociationRequest';
+
+console.log("AddAssociation")
 
 const EMPTY_ASSOCIATION = {
   reputationObjectId: null,
-  mainUser: null,
-  assistants: []
+  reputationObjectType: null,
+  owner: null,
+  assistants: [],
+  isConfirmed: false
 }
 
-export async function AddAssociation(reputationObjectId: String, userId: String) {
-  if (!reputationObjectId || !userId) {
+export async function AddAssociation(request: AssociationRequest, userId: String) {
+  if (!request || !userId) {
     return EMPTY_ASSOCIATION
   }
 
   userId = userId.trim()
-  reputationObjectId = reputationObjectId.trim()
 
-  let association = await AssociationsModel.findOne({ reputationObjectId })
-  if (association && association.reputationObjectId === reputationObjectId) {
+  if (!request.confirmed) { throw new GraphQLError('Request is not confirmed') }
+
+  let association = await AssociationsModel.findOne({ reputationObjectId: request.reputationObject._id })
+
+  if (association && association.reputationObjectId === request.reputationObject._id) {
+    // Association exists already, no need to create new
     return association
   }
   
   try {
     let createdAt = new Date()
-    association = await AssociationsModel.create({ 
-      reputationObjectId, 
-      owner: { 
+    association = await AssociationsModel.create({
+      reputationObjectId: request.reputationObject._id,
+      reputationObjectType: request.type,
+      owner: {
         userId: userId,
-        createdAt: createdAt.toISOString()
-      } 
+        createdAt: createdAt.toISOString(),
+        isApproved: false
+      }
     })
     await association.save()
-  } catch (error) {  
+  } catch (error) {
     throw new GraphQLError('Unable to create association')
   }
 

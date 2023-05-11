@@ -112,7 +112,7 @@ export default {
     const setState = (type, isNew) => {
       currentType.value = type;
       currentIsNew.value = isNew;
-      emit('updateStatus', {type, isNew});
+      emit('updateStatus', {reputationObjectType: type, isNew});
     }
     return { setState, currentType, currentIsNew }
   },

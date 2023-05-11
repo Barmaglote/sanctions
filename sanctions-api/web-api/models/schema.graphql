@@ -16,6 +16,11 @@ enum LINK_SHORT_TYPE {
     yt   # Youtube
 }
 
+enum AREA_TYPE_SINGLE {
+    organization
+    person
+}
+
 enum AREA_TYPE {
     organizations
     persons
@@ -135,7 +140,7 @@ input reputationObjectShort {
 }
 
 input AssociationRequest {
-    type: AREA_TYPE
+    type: AREA_TYPE_SINGLE
     isNew: Boolean
     reputationObject: reputationObjectShort
     confirmed: Boolean
@@ -148,8 +153,10 @@ type UserInfo {
 
 type Association {
     reputationObjectId: String!
+    reputationObjectType: String!
     owner: UserInfo
     assitants: [UserInfo]
+    isConfirmed: Boolean    
 }
 
 type Like {

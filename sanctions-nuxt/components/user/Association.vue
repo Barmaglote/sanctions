@@ -5,9 +5,11 @@
   import Confirmation from '@/components/user/Association/Confirmation.vue'
   import Avatar from 'primevue/avatar';
   import Button from 'primevue/button/Button';
+  import { useContext } from '@nuxtjs/composition-api'
   import { computed, ref } from 'vue';
 
   const current = ref('Type')
+  const { $requestAssociation, $toast } = useContext()
   const steps = {
     Type,
     Object,
@@ -16,7 +18,18 @@
   }
 
   const sendRequest = () => {
-    console.log(state.value);
+    $requestAssociation(state.value).then(() => {
+        $toast.success('Your request is sent');
+        //state.value = null;
+        ctx.emit('submit');
+      },
+      () => {
+        $toast.error("Unable to send request")
+      },
+      () => {
+        console.log('finished');
+      }
+    );
   }
 
   const changeStep = (event) => {
@@ -51,7 +64,7 @@
   }
 
   const nextIsAvailable = computed(() => {
-    if (current.value === 'Type' && state.value.type) return true;
+    if (current.value === 'Type' && state.value.reputationObjectType) return true;
     if (current.value === 'Object' && state.value.reputationObject && state.value.reputationObject.titleeng) return true;
     if (current.value === 'Identification' && state.value.isUploaded) return true;
     if (current.value === 'Confirmation' && state.value.confirmed === true) return true;

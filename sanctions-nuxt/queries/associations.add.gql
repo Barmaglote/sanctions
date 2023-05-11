@@ -1,0 +1,15 @@
+mutation Mutation($associationRequest: AssociationRequest!) {
+  addAssociation(associationRequest: $associationRequest) {
+    reputationObjectId
+    reputationObjectType
+    owner {
+      userId
+      createdAt
+    }
+    assitants {
+      userId
+      createdAt
+    }
+    isConfirmed
+  }
+}

@@ -18,6 +18,11 @@ const associationsSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
+  reputationObjectType: {
+    type: String,
+    required: true,
+    maxlength: 10
+  },  
   owner: {
     type: userInfoSchema,
     required: false

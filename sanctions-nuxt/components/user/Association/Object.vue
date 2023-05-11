@@ -1,8 +1,8 @@
 <template>
   <div class="w-full">
     <div class="w-full">
-      <h2 v-if="state.type === 'person'">Person</h2>
-      <h2 v-if="state.type === 'organization'">Organization</h2>
+      <h2 v-if="state.reputationObjectType === 'person'">Person</h2>
+      <h2 v-if="state.reputationObjectType === 'organization'">Organization</h2>
     </div>
     <div class="w-full" v-if="state.isNew">
       <InputText type="text" v-model="titleeng" placeholder="Title" @change="changeTitle($event)"/>
@@ -13,12 +13,12 @@
           <template #item="slotProps">
             <div class="grid p-2 flex border-0 border-100 w-full">
               <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="slotProps?.item?.foto">
-		            <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
-                <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
+		            <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'person'"/>
+                <img :alt="slotProps.item.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${slotProps?.item.foto}`" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'organization'"/>
               </div>
               <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="!slotProps?.item?.foto">
-                <img :src="'/fotos/'+ slotProps?.item?.gender + '-user-icon.png'" :alt="slotProps?.item?.titleeng" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
-                <img :src="'/fotos/firma.png'" :alt="slotProps?.item?.titleeng" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
+                <img :src="'/fotos/'+ slotProps?.item?.gender + '-user-icon.png'" :alt="slotProps?.item?.titleeng" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'person'"/>
+                <img :src="'/fotos/firma.png'" :alt="slotProps?.item?.titleeng" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'organization'"/>
               </div>
               <div class="col-10 flex flex-wrap align-content-center">
                 <div class="flex flex-wrap w-full font-semibold">{{slotProps.item.titleeng}}</div>
@@ -32,12 +32,12 @@
     <div class="w-full" v-if="selectedObject">
       <div class="p-2 flex border-0 border-400 mt-5">
         <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="selectedObject.foto">
-		      <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
-          <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
+		      <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/persons/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'person'"/>
+          <img :alt="selectedObject.titleeng" :src="`${WEB_STATIC_FILES}/fotos/sanctions/organizations/${selectedObject.foto}`" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'organization'"/>
         </div>
         <div class="col-2 flex flex-wrap justify-content-center align-content-center" v-if="!selectedObject.foto">
-          <img :src="'/fotos/'+ selectedObject.gender + '-user-icon.png'" :alt="selectedObject.titleeng" class="w-5rem h-5rem" v-if="state.type === 'person'"/>
-          <img :src="'/fotos/firma.png'" :alt="selectedObject.titleeng" class="w-5rem h-5rem" v-if="state.type === 'organization'"/>
+          <img :src="'/fotos/'+ selectedObject.gender + '-user-icon.png'" :alt="selectedObject.titleeng" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'person'"/>
+          <img :src="'/fotos/firma.png'" :alt="selectedObject.titleeng" class="w-5rem h-5rem" v-if="state.reputationObjectType === 'organization'"/>
         </div>
         <div class="col-10 flex flex-wrap align-content-center">
           <div class="flex flex-wrap w-full font-semibold">{{selectedObject.titleeng}}</div>
@@ -115,11 +115,14 @@ export default {
 		}
 
 		const search = (event) => {
-      if (state.type === 'person') {
+
+      console.log(state.reputationObjectType)
+
+      if (state.reputationObjectType === 'person') {
         filterPersons(event.query);
       }
 
-      if (state.type === 'organization') {
+      if (state.reputationObjectType === 'organization') {
         filterOrganizations(event.query);
       }
 		}
