@@ -4,8 +4,6 @@ import OrganizationsModel from '../../models/organizations/model.js'
 
 export async function GetReputationObject(parent) {
 
-  console.log("GetReputationObject 01")
-
   if (!parent || !parent?.reputationObjectId) {
     return null;
   }
@@ -23,8 +21,6 @@ export async function GetReputationObject(parent) {
   if (parent.reputationObjectType === 'org') {
     reputationObject = await OrganizationsModel.findOne({ _id: parent.reputationObjectId })
   }  
-
-  console.log("GetReputationObject 02", reputationObject)
     
   return reputationObject
 }

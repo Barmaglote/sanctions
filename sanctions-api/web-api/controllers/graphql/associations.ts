@@ -17,8 +17,6 @@ const EMPTY_ASSOCIATION = {
 
 export async function AddAssociation(request: AssociationRequest, userId: String) {
 
-  console.log("Was ist das?")
-
   if (!request || !userId) {
     return EMPTY_ASSOCIATION
   }
@@ -37,8 +35,6 @@ export async function AddAssociation(request: AssociationRequest, userId: String
     return association
   }
 
-  console.log("Save 01", request.reputationObject)
-
   try {
     let createdAt = new Date()
     association = await AssociationsModel.create({
@@ -51,12 +47,9 @@ export async function AddAssociation(request: AssociationRequest, userId: String
       }
     })
 
-    console.log("Save 02", association)
-
     await association.save()
   } catch (error) {
-    logger.error("Ma che tu fai?")
-    logger.error("FGDE?", error)
+    logger.error(error)
     throw new GraphQLError('Unable to create association')
   }
 
@@ -64,7 +57,8 @@ export async function AddAssociation(request: AssociationRequest, userId: String
 }
 
 export async function GetAssociation(parent) {
-  let associations = await AssociationsModel.find({ "owner.userId": parent.userId })  
+  let associations = await AssociationsModel.find({ $and: [{ "owner.userId": parent.userId }, { "owner.isApproved": true }] })
+
   if (associations) { return [...associations]; }
 
   return []
