@@ -32,13 +32,13 @@
           <div class="col-12 flex flex-wrap w-full flex-column">
 		    <div class="w-full py-1">{{organization?.description}}</div>
             <div class="flex justify-content-between flex-wrap">
-              <div class="flex">
+              <div class="flex w-full">
                 <bg-likes :reputation-object-id="organization?._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'org'"></bg-likes>
                 <bg-comment-info :total="organization.commentsTotal" class="ml-3"></bg-comment-info>
                 <bg-subscribers-total :reputation-object-id="organization._id" class="ml-3"></bg-subscribers-total>
                 <bg-view-info :total="organization.viewed" class="ml-2"></bg-view-info>
               </div>
-              <div class="flex justify-content-end">
+              <div class="flex w-full py-2">
                 <Rating v-model="organization.rating" :readonly="true" :cancel="false"></Rating>
               </div>
             </div>

@@ -149,14 +149,16 @@ input AssociationRequest {
 type UserInfo {
   userId: String!
   createdAt: DateTime!
+  profile: Profile
 }
 
 type Association {
     reputationObjectId: String!
     reputationObjectType: String!
     owner: UserInfo
-    assitants: [UserInfo]
+    assistants: [UserInfo]
     isConfirmed: Boolean    
+    reputationObject: ReputationObject
 }
 
 type Like {
@@ -248,6 +250,7 @@ type Profile {
     politicalstand: POLITICAL_STAND_OPTION
     interests: [String]
     birthday: Date
+    associations: [Association]
 }
 
 input ProfileInput {

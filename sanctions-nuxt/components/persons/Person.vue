@@ -32,15 +32,15 @@
             </div>
 	          <div class="person-name-rus">{{person.titlerus}}</div>
 	          <div class="person-description">{{person.description}}</div>
-            <div class="flex justify-content-between flex-wrap align-items-center">
-              <div class="flex">
+            <div class="flex justify-content-between flex-wrap align-items-center flex-wrap">
+              <div class="flex w-full">
                 <bg-likes :reputation-object-id="person._id" :isLikingLocked="isLikingLocked" :reputation-object-type="'per'"></bg-likes>
                 <bg-comment-info :total="person.commentsTotal" class="ml-3"></bg-comment-info>
                 <bg-post-info :total="person.postsTotal" class="ml-3"></bg-post-info>
                 <bg-subscribers-total :reputation-object-id="person._id" class="ml-3"></bg-subscribers-total>
                 <bg-view-info :total="person.viewed" class="ml-3"></bg-view-info>
               </div>
-              <div class="flex justify-content-end flex-wrap align-items-center">
+              <div class="flex flex-wrap align-items-center w-full py-3">
                 <Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
               </div>
             </div>
@@ -68,7 +68,9 @@
 		  		<div class="person-name">{{person?.titleeng}}</div>
 		  		<div class="person-name-rus">{{person?.titlerus}}</div>
 		  		<div class="person-description">{{person?.description}}</div>
-		  		<Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
+          <div class="w-full">
+		  	  	<Rating v-model="person.rating" :readonly="true" :cancel="false"></Rating>
+          </div>
 		  	</div>
 		  </div>
     </div>

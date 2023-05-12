@@ -2,7 +2,7 @@
   <div class="flex">
     <span class="p-buttonset h-3rem flex border-round-2xl bg-gray-100">
       <Button class="p-button-outlined m-0 border-0" @click="handleSubmit(true)" :disabled="state.like != null || !isLogged || isLikingLocked">
-        <div class="likes w-1rem text-base font-semibold text-600 mx-2">
+        <div class="likes w-1rem text-base font-semibold text-600 mx-1">
           {{ state?.likes | shortNumber }}
         </div>
         <thumb-up v-if="state.like && state.like.isPositive === true" class="flex flex-wrap align-items-center"/>

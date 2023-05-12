@@ -6,7 +6,7 @@ mutation Mutation($associationRequest: AssociationRequest!) {
       userId
       createdAt
     }
-    assitants {
+    assistants {
       userId
       createdAt
     }

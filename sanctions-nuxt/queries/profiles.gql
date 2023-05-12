@@ -19,5 +19,35 @@ query GetProfile($nickname: String) {
     religion
     politicalstand
     interests
+    associations {
+      reputationObjectId
+      reputationObjectType
+      owner {
+        userId
+        createdAt
+        profile {
+          userId
+          nickname
+        }
+      }
+      assistants {
+        userId
+        createdAt
+        profile {
+          userId
+          nickname
+        }
+      }
+      isConfirmed
+      reputationObject {
+        _id
+        description
+        foto
+        tag
+        titleeng
+        titlerus
+        country
+      }
+    }
   }
 }

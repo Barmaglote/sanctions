@@ -17,7 +17,7 @@ import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloContext } from './models/apollo-context'
 import { GetContext } from './helpers/context.js'
-import { GetProfile, AddProfile, UpdateProfile } from './controllers/graphql/profiles.js'
+import { GetProfile, AddProfile, UpdateProfile, GetProfileForUserInfo } from './controllers/graphql/profiles.js'
 import { GetReputationObject, GetReputationObjectForSubscribtion } from './controllers/graphql/reputation.js'
 import { ApolloServerErrorCode } from '@apollo/server/errors'
 import { GetComments, AddComment, GetCommentsTotal, ComputeComments, ComputeAuthor, GetCommentsTotalForParent } from './controllers/graphql/comments.js'
@@ -28,7 +28,7 @@ import { AddPost, GetPost, GetPosts, GetPostsTotal, GetPostsTotalForParent } fro
 import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 import { restResponseTimeHistogram, startMetricsServer, restRequestsCounter } from './utils/metrics.js';
 import responseTime from 'response-time';
-import { AddAssociation } from './controllers/graphql/associations.js'
+import { AddAssociation, GetAssociation } from './controllers/graphql/associations.js'
 import api from './controllers/rest/api';
 
 const logger = createLogger(process.env.SEQ_LOG_ADDR, process.env.SEQ_LOG_KEY);
@@ -126,6 +126,15 @@ const resolvers = {
     Subscribtion: {
       reputationObject: GetReputationObjectForSubscribtion
     },
+    UserInfo: {
+      profile: GetProfileForUserInfo
+    },
+    Profile: {
+      associations: GetAssociation,      
+    },
+    Association: {
+      reputationObject: GetReputationObject
+    },
     Like: {
       reputationObject: GetReputationObject
     },
@@ -135,6 +144,12 @@ const resolvers = {
         return "Organization";
       }
     },
+    ReputationObject: {
+      __resolveType: obj => {
+        if (obj.gender) return "Person";
+        return "Organization";
+      }
+    },    
     CommentOrOrganizationOrPersons: {
       __resolveType: obj => {
         if (obj.gender) return "Person";

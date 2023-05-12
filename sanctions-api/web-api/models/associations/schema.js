@@ -10,6 +10,10 @@ const userInfoSchema = new mongoose.Schema({
     type: Date,
     required: false
   },
+  isApproved: {
+    type: Boolean,
+    required: true
+  },
 })
 
 const associationsSchema = new mongoose.Schema({
@@ -21,7 +25,11 @@ const associationsSchema = new mongoose.Schema({
   reputationObjectType: {
     type: String,
     required: true,
-    maxlength: 10
+    maxlength: 10,
+    validate: {
+      validator: v => ['per','org'].indexOf(v) > 0,
+      message: props => `${props.value} is not correct url`
+    }
   },  
   owner: {
     type: userInfoSchema,

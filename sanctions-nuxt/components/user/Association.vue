@@ -1,130 +1,64 @@
 <script setup>
-  import Type from '@/components/user/Association/Type.vue'
-  import Identification from '@/components/user/Association/Identification.vue'
-  import Object from '@/components/user/Association/Object.vue'
-  import Confirmation from '@/components/user/Association/Confirmation.vue'
-  import Avatar from 'primevue/avatar';
+  import Person from '@/components/persons/Person.vue'
+  import Organization from '@/components/organizations/Organization.vue'
   import Button from 'primevue/button/Button';
-  import { useContext } from '@nuxtjs/composition-api'
-  import { computed, ref } from 'vue';
+  import { computed, onMounted } from 'vue';
+  import { useProfileStore } from '@/store/profiles';
 
-  const current = ref('Type')
-  const { $requestAssociation, $toast } = useContext()
-  const steps = {
-    Type,
-    Object,
-    Identification,
-    Confirmation
-  }
+  const profilesStore = useProfileStore();
 
-  const sendRequest = () => {
-    $requestAssociation(state.value).then(() => {
-        $toast.success('Your request is sent');
-        //state.value = null;
-        ctx.emit('submit');
-      },
-      () => {
-        $toast.error("Unable to send request")
-      },
-      () => {
-        console.log('finished');
-      }
-    );
-  }
-
-  const changeStep = (event) => {
-    if (!nextIsAvailable) return;
-
-    switch (current.value) {
-      case 'Type':
-        current.value = 'Object'
-        break;
-
-      case 'Object':
-        current.value = 'Identification'
-        break;
-
-      case 'Identification':
-        current.value = 'Confirmation'
-        break;
-
-      case 'Confirmation':
-        sendRequest();
-        break;
+  onMounted(() => {
+    if (!profilesStore?._id) {
+      profilesStore.fetchPrivateProfile();
     }
-  }
+  });
 
-  const state = ref({})
-
-  const updateStatus = (event) => {
-    state.value = {
-      ...state.value,
-      ...event
-    }
-  }
-
-  const nextIsAvailable = computed(() => {
-    if (current.value === 'Type' && state.value.reputationObjectType) return true;
-    if (current.value === 'Object' && state.value.reputationObject && state.value.reputationObject.titleeng) return true;
-    if (current.value === 'Identification' && state.value.isUploaded) return true;
-    if (current.value === 'Confirmation' && state.value.confirmed === true) return true;
-    return false;
-  })
-
-  const cancel = () => {
-    if (current.value === 'Type') {
-      state.value.type = null;
-    }
-
-    if (current.value === 'Object') {
-      state.value.reputationObject = null;
-      current.value = 'Type'
-    }
-
-    if (current.value === 'Identification') {
-      state.value.reputationObject = null;
-      current.value = 'Object'
-    }
-
-    if (current.value === 'Confirmation') {
-      state.value.reputationObject = null;
-      current.value = 'Identification'
-    }
-  }
+  const profile = computed(() => {
+    return profilesStore?.Profile;
+  });
 
 </script>
 <template>
-  <div class="flex-row flex p-0 align-content-center flex-wrap justify-content-center">
-    <div class="w-full h-auto flex justify-content-around">
-      <div class="flex align-items-center flex-wrap flex-column gap-2">
-        <div class=""><Avatar label="1" size="large" shape="circle" :class="{'bg-blue-300 text-100' : current ==='Type'}"></Avatar></div>
-        <div :class="{ 'font-semibold': current ==='Type' }">Type</div>
-      </div>
-      <div class="flex align-items-center flex-wrap flex-column gap-2">
-        <div class=""><Avatar label="2" size="large" shape="circle" :class="{'bg-blue-300 text-100' : current ==='Object'}"></Avatar></div>
-        <div :class="{ 'font-semibold': current ==='Object' }">Object</div>
-      </div>
-      <div class="flex align-items-center flex-wrap flex-column gap-2">
-        <div class=""><Avatar label="3" size="large" shape="circle" :class="{'bg-blue-300 text-100' : current ==='Identification'}"></Avatar></div>
-        <div :class="{ 'font-semibold': current ==='Identification' }">Identity</div>
-      </div>
-      <div class="flex align-items-center flex-wrap flex-column gap-2">
-        <div class=""><Avatar label="4" size="large" shape="circle" :class="{'bg-blue-300 text-100' : current ==='Confirmation'}"></Avatar></div>
-        <div :class="{ 'font-semibold': current ==='Confirmation' }">Confirm</div>
-      </div>
+  <div class="w-full flex flex-wrap">
+    <div class="">
+      <nuxt-link target="_blank" :to="'/user/association'">
+        <Button label="New" class="p-button-raised p-button-rounded p-button-success" />
+      </nuxt-link>
     </div>
-    <div class="py-2 w-full">
-      <hr/>
-    </div>
-    <div class="w-full min-h-40rem h-40rem">
-      <component :is="steps[current]" @updateStatus="updateStatus($event)" :state="state"></component>
-    </div>
-    <div class="py-2 w-full">
-      <hr/>
-    </div>
-    <div class="w-full flex justify-content-end">
-      <Button label="Cancel" class="p-button-text mx-2" @click="cancel()"/>
-      <Button label="Next" @click="changeStep" :disabled="!nextIsAvailable"></Button>
+    <div v-for="association in profile.associations" :key="association.reputationObject._id" class="w-full flex border-1 border-200 my-2 p-2">
+      <div class="w-full flex">
+        <div class="col-9">
+          <div class="p-0" v-if="association.reputationObjectType === 'per'">
+			      <Person :person="association.reputationObject" view="item" :isLikingLocked="true"></Person>
+          </div>
+          <div class="p-0" v-if="association.reputationObjectType === 'org'">
+			        <Organization :organization="association.reputationObject" view="card" :isLikingLocked="true"></Organization>
+          </div>
+        </div>
+        <div class="col-3 align-content-between flex-wrap flex border-200 border-1">
+          <div class="flex w-full flex-wrap flex-column h-20rem">
+            <div>
+              <h3>Owner</h3>
+            </div>
+            <div>
+              <nuxt-link target="_blank" :to="'/user/profiles/' + association.owner.profile.userId" class="p-button p-button-raised p-button-rounded">{{ association.owner.profile.nickname }}</nuxt-link>
+            </div>
+            <div>
+              <h3>Assistants</h3>
+            </div>
+            <div v-for="assistant in association.assistants" :key="assistant.userId" class="w-full flex">
+              <nuxt-link target="_blank" :to="'/user/profiles/' + association.owner.profile.userId" class="p-button p-button-raised p-button-rounded">{{ association.owner.profile.nickname }}</nuxt-link>
+            </div>
+            <div v-if="!association.assistants || association.assistants.length === 0" class="w-full flex">
+              Empty
+            </div>
+          </div>
+          <div class="flex justify-content-end gap-2 w-full">
+            <Button icon="pi pi-check" label="Save" />
+            <Button icon="pi pi-times" label="Cancel" class="p-button-secondary" style="margin-: .5em" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

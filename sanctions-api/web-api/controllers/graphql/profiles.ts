@@ -9,6 +9,16 @@ const EMPTY_PROFILE = {
   info: null
 }
 
+export async function GetProfileForUserInfo(parent) {
+  let profile = EMPTY_PROFILE
+
+  if (parent.userId) {
+    profile = await ProfileModel.findOne({ "userId": parent.userId.trim() })
+  }
+
+  return profile
+}
+
 export async function GetProfile(userId: String, currentUserId: String) {
   let profile = EMPTY_PROFILE
 
