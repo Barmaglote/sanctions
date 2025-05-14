@@ -16,7 +16,8 @@
       "http://localhost:80",
       "https://localhost:443",
       "http://localhost:5341",
-      "https://localhost:45341"
+      "https://localhost:45341",
+	  "https://localhost:4000"
     ],
     "redirectHttpToHttps": false,
     "minRequestBodyDataRateBytesPerSecond": 240.0,
